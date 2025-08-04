@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+
+/* testimonials.component.css */
+
+.gradient-bg {
+    background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+  }
+  
+  .testimonial-card {
+    /* Default width for very small screens, increased from 90% */
+    width: 95%;
+    /* Increased max-width for larger screens */
+    max-width: 850px; /* Adjust this value to your preference (e.g., 900px, 1000px) */
+    margin: 0 auto; /* Center the card */
+    min-height: 250px; /* Keep consistent height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Responsive adjustments - increase widths for different breakpoints */
+  @media (min-width: 640px) { /* Small screens and up */
+    .testimonial-card {
+      width: 90%; /* Increased from 80% */
+    }
+  }
+  
+  @media (min-width: 768px) { /* Medium screens and up */
+    .testimonial-card {
+      width: 80%; /* Increased from 70% */
+    }
+  }
+  
+  @media (min-width: 1024px) { /* Large screens and up */
+    .testimonial-card {
+      width: 70%; /* Increased from 60% */
+      /* You can add an even larger max-width here for very large screens if needed */
+      /* max-width: 1200px; */
+    }
+  }
+  
+  /* Keep other styles as they were, or add more as needed */
+  .w-16 {
+    width: 64px; /* Default Tailwind w-16 */
+  }
+  .h-16 {
+    height: 64px; /* Default Tailwind h-16 */
+  }
+  .rounded-full {
+    border-radius: 9999px;
+  }
+  .object-cover {
+    object-fit: cover;
+  }
+  .border-2 {
+    border-width: 2px;
+  }
+  .border-indigo-500 {
+    border-color: #6366f1;
+  }
+  .mr-4 {
+    margin-right: 1rem; /* Default Tailwind mr-4 */
+  }
+  .font-bold {
+    font-weight: 700;
+  }
+  .text-gray-800 {
+    color: #1f2937;
+  }
+  .text-lg {
+    font-size: 1.125rem; /* 18px */
+  }
+  .text-gray-600 {
+    color: #4b5563;
+  }
+  .text-sm {
+    font-size: 0.875rem; /* 14px */
+  }
+  .text-gray-700 {
+    color: #374151;
+  }
+  .leading-relaxed {
+    line-height: 1.625;
+  }
+  .mb-4 {
+    margin-bottom: 1rem; /* Default Tailwind mb-4 */
+  }
+  .text-base {
+    font-size: 1rem; /* 16px */
+  }
+  .flex {
+    display: flex;
+  }
+  .text-yellow-500 {
+    color: #f59e0b;
+  }
+  .fas {
+    /* Ensure Font Awesome base styles are applied */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+  }

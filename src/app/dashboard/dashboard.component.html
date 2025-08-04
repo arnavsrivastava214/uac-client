@@ -1,0 +1,328 @@
+<app-header></app-header>
+
+<!-- Hero Section -->
+<section id="home" class="pt-20 min-h-screen gradient-bg flex items-center">
+    <div class="container mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="text-white slide-up">
+                <h1 class="text-5xl lg:text-7xl font-bold mb-6 leading-tight">
+                    Transform Your
+                    <span class="text-yellow-300">Life</span>
+                    Today
+                </h1>
+                <p class="text-xl lg:text-2xl mb-8 text-gray-200 leading-relaxed">
+                    Unlock your potential with personalized coaching that delivers real results.
+                    Join thousands who have transformed their lives.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button
+                        class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105" routerLink="/contact">
+                        Start Your Journey
+                    </button>
+
+                    <button
+                        class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300">
+                        <a href="https://www.youtube.com/@Sonusrivastava_uac" target="_blank">
+                            Watch Demo on Youtube
+                        </a>
+                    </button>
+                </div>
+            </div>
+            <div class="bounce-in">
+                <div class="relative">
+                    <div class="floating">
+                        <!-- <img src="https://cdn.vectorstock.com/i/1000v/49/44/teacher-icon-male-person-with-book-and-pointer-vector-19974944.jpg" 
+                 alt="Professional Coach" height="200" width="200"
+                 class="rounded-4xl shadow-2xl"> -->
+                    </div>
+                    <div class="absolute -top-6 -right-6 bg-yellow-400 text-purple-800 p-4 rounded-full shadow-lg floating"
+                        style="animation-delay: 1s;">
+                        <i class="fas fa-trophy text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            <div *ngFor="let stat of stats; let i = index" class="text-center slide-up"
+                [style.animation-delay]="(i * 0.2) + 's'">
+                <div class="text-4xl lg:text-5xl font-bold text-purple-600 mb-2">{{stat.number}}</div>
+                <div class="text-gray-600 font-medium">{{stat.label}}</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16 slide-up">
+            <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">Our Coaching Services</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Discover our comprehensive coaching programs designed to help you achieve your goals
+                and unlock your full potential.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div *ngFor="let service of services; let i = index"
+                class="bg-white rounded-2xl p-8 shadow-lg card-hover bounce-in"
+                [style.animation-delay]="(i * 0.2) + 's'">
+                <div class="mb-6">
+                    <div class="w-16 h-16 bg-gradient-to-r rounded-2xl flex items-center justify-center mb-4"
+                        [ngClass]="service.color">
+                        <i [class]="service.icon + ' text-white text-2xl'"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">{{service.title}}</h3>
+                    <p class="text-gray-600 leading-relaxed">{{service.description}}</p>
+                </div>
+                <button
+                    class="w-full bg-gray-100 text-gray-800 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors duration-300">
+                    Learn More
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<app-review></app-review>
+
+<!-- About Section -->
+<section id="about" class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <div class="slide-up">
+                <img src="/placeholder.svg?height=600&width=600" alt="About Us" class="rounded-2xl shadow-2xl">
+            </div>
+            <div class="slide-up" style="animation-delay: 0.3s;">
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-8">
+                    Meet Your
+                    <span class="text-purple-600">Success Partner</span>
+                </h2>
+                <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                    With over 10 years of experience in personal and professional development,
+                    I've helped hundreds of individuals and teams achieve breakthrough results.
+                </p>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    My approach combines proven methodologies with personalized strategies
+                    tailored to your unique goals and challenges.
+                </p>
+
+                <div class="space-y-4 mb-8">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-white text-sm"></i>
+                        </div>
+                        <span class="text-gray-700 font-medium">Certified Professional Coach (ICF)</span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-white text-sm"></i>
+                        </div>
+                        <span class="text-gray-700 font-medium">10+ Years of Coaching Experience</span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-white text-sm"></i>
+                        </div>
+                        <span class="text-gray-700 font-medium">500+ Successful Transformations</span>
+                    </div>
+                </div>
+
+                <button
+                    class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-lg transition-all duration-300 hover:scale-105">
+                    Schedule a Consultation
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<!-- <section class="py-20 gradient-bg">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16 slide-up">
+            <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">What Our Clients Say</h2>
+            <p class="text-xl text-gray-200 max-w-3xl mx-auto">
+                Real stories from real people who have transformed their lives through our coaching programs.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <div *ngFor="let testimonial of testimonials; let i = index"
+                class="bg-white rounded-2xl p-8 shadow-lg card-hover bounce-in"
+                [style.animation-delay]="(i * 0.2) + 's'">
+                <div class="flex items-center mb-6">
+                    <img [src]="testimonial.image" [alt]="testimonial.name" class="w-15 h-15 rounded-full mr-4">
+                    <div>
+                        <h4 class="font-bold text-gray-800">{{testimonial.name}}</h4>
+                        <p class="text-gray-600">{{testimonial.position}}</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    {{testimonial.content}}
+                </p>
+                <div class="flex text-yellow-400">
+                    <i *ngFor="let star of getStarArray(testimonial.rating)" class="fas fa-star"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+<app-review-carousel></app-review-carousel>
+
+<!-- Contact Section -->
+<section id="contact" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16 slide-up">
+            <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">Ready to Get Started?</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Take the first step towards transforming your life. Schedule a free consultation today.
+            </p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-16">
+            <div class="slide-up">
+                <div class="bg-white rounded-2xl p-8 shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Get in Touch</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-phone text-purple-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-800">Phone</p>
+                                <p class="text-gray-600">+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-envelope text-purple-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-800">Email</p>
+                                <p class="text-gray-600">helloelitecoaching.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt text-purple-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-800">Location</p>
+                                <p class="text-gray-600">New York, NY</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-up" style="animation-delay: 0.3s;">
+                <div class="bg-white rounded-2xl p-8 shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Send a Message</h3>
+                    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-6">
+                        <div>
+                            <input type="text" placeholder="Your Name" formControlName="name"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                [class.border-red-500]="name?.invalid && name?.touched">
+                            <div *ngIf="name?.invalid && name?.touched" class="text-red-500 text-sm mt-1">
+                                <span *ngIf="name?.errors?.['required']">Name is required</span>
+                                <span *ngIf="name?.errors?.['minlength']">Name must be at least 2 characters</span>
+                            </div>
+                        </div>
+                        <div>
+                            <input type="email" placeholder="Your Email" formControlName="email"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                [class.border-red-500]="email?.invalid && email?.touched">
+                            <div *ngIf="email?.invalid && email?.touched" class="text-red-500 text-sm mt-1">
+                                <span *ngIf="email?.errors?.['required']">Email is required</span>
+                                <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+                            </div>
+                        </div>
+                        <div>
+                            <textarea placeholder="Your Message" rows="4" formControlName="message"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                                [class.border-red-500]="message?.invalid && message?.touched"></textarea>
+                            <div *ngIf="message?.invalid && message?.touched" class="text-red-500 text-sm mt-1">
+                                <span *ngIf="message?.errors?.['required']">Message is required</span>
+                                <span *ngIf="message?.errors?.['minlength']">Message must be at least 10
+                                    characters</span>
+                            </div>
+                        </div>
+                        <button type="submit" [disabled]="contactForm.invalid"
+                            class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-6">
+        <div class="grid md:grid-cols-4 gap-8">
+            <div>
+                <div class="flex items-center space-x-2 mb-4">
+                    <div class="w-8 h-8 gradient-bg rounded-full flex items-center justify-center">
+                        <i class="fas fa-star text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold">Unstoppable Academic Classes</span>
+                </div>
+                <p class="text-gray-400">
+                    Transforming lives through personalized coaching and proven strategies.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Services</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Life Coaching</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Career Coaching</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Wellness Coaching</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Team Coaching</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Company</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="#" class="hover:text-white transition-colors">About</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Follow Us</h4>
+                <div class="flex space-x-4">
+                    <a href="#"
+                        class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 Unstoppable Academic Classes. All rights reserved.</p>
+        </div>
+    </div>
+</footer>

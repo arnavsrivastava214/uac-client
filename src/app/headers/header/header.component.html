@@ -1,0 +1,29 @@
+<header class="header flex items-center justify-between px-4 py-2 shadow-md bg-white fixed w-full z-30">
+    <div class="flex items-center space-x-3">
+      <img src="assets/myallimages/IMG-20250801-WA0044.jpg" alt="Coaching Logo" class="h-15 w-15 object-cover rounded-full" />
+      <a routerLink="/" class="logo text-2xl font-bold">UAC</a>
+    </div>
+  
+    <!-- Hamburger toggle checkbox -->
+    <input id="menu-btn" type="checkbox" class="menu-btn peer hidden" />
+  
+    <!-- Hamburger icon -->
+    <label for="menu-btn" class="menu-icon block cursor-pointer md:hidden">
+      <span class="navicon block bg-gray-800 h-1 w-6 my-1"></span>
+      <span class="navicon block bg-gray-800 h-1 w-6 my-1"></span>
+      <span class="navicon block bg-gray-800 h-1 w-6 my-1"></span>
+    </label>
+  
+    <!-- Nav menu -->
+    <ul class="menu absolute top-full right-4 w-64 bg-white flex-col items-start px-4 py-2 space-y-2 shadow-md hidden peer-checked:flex md:flex md:relative md:flex-row md:space-x-4 md:space-y-0 md:w-auto">
+        <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100 w-full text-left">HOME</a></li>
+        <li><a routerLink="/notes" class="block px-4 py-2 hover:bg-gray-100 w-full text-left">NOTES</a></li>
+        <li><a routerLink="/gallery" class="block px-4 py-2 hover:bg-gray-100 w-full text-left">Gallery</a></li>
+        <li><a routerLink="/result" class="block px-4 py-2 hover:bg-gray-100 w-full text-left">Result</a></li>
+        <li><a routerLink="/contact" class="block px-4 py-2 hover:bg-gray-100 w-full text-left">Contact</a></li>
+      </ul>
+      
+      
+      
+  </header>
+  

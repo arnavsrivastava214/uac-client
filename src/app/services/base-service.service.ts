@@ -28,7 +28,7 @@ export class BaseServiceService {
 
   }
 
-  apiUrl:any='http://localhost:3000';
+  apiUrl: any = 'https://uac-server-ukgd.vercel.app';
 
   
   getData(d: any, url: any, callback: any) {

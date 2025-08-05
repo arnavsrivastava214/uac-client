@@ -1,10 +1,13 @@
 import { CommonModule, NgClass } from '@angular/common';
 import { Component, type OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ReviewComponent } from '../reviews/review/review.component';
 import { HeaderComponent } from '../headers/header/header.component';
 import { ReviewCarouselComponent } from "../carousel/review-carousel/review-carousel.component";
+import { ApplicationServiceService } from '../services/application-service.service';
+import { AlertService } from '../services/alert.service';
+import { Subject } from 'rxjs';
 
 interface Stat {
   number: any
@@ -43,11 +46,16 @@ export class DashboardComponent {
   gameDisabled: boolean = false;
   isMenuOpen = false
   contactForm: FormGroup;
+  uacOfficialMail: string = 'unstoppableacademicclassess@gmail.com';
+  copied: boolean = false; // New state for "Copied!" message
 
-  constructor(private fb: FormBuilder) {
+
+
+  constructor(private fb: FormBuilder, private router:Router,private service:ApplicationServiceService, private alert:AlertService) {
     this.contactForm = this.fb.group({
       name: ["", [Validators.required, Validators.minLength(2)]],
       email: ["", [Validators.required, Validators.email]],
+      Subject: ["", [Validators.required]],
       message: ["", [Validators.required, Validators.minLength(10)]],
     })
   }
@@ -133,13 +141,24 @@ export class DashboardComponent {
 
   onSubmit(): void {
     if (this.contactForm.valid) {
-      console.log("Form submitted:", this.contactForm.value)
-      alert("Message sent successfully!")
-      this.contactForm.reset()
+      this.service.sendRequest(this.contactForm.value, (res: any) => {
+        if(res.status==200){
+          this.alert.success(res.message);
+          this.contactForm.reset()
+        }else{
+          this.alert.error(res.message);
+        }
+      })
     } else {
       console.log("Form is invalid")
     }
   }
+
+
+
+
+
+
 
   getStarArray(rating: number): number[] {
     return Array(rating).fill(0)
@@ -150,6 +169,9 @@ export class DashboardComponent {
   }
   get email() {
     return this.contactForm.get("email")
+  }
+  get subject() {
+    return this.contactForm.get("subject")
   }
   get message() {
     return this.contactForm.get("message")
@@ -193,6 +215,7 @@ export class DashboardComponent {
     if (confettiContainer) {
       confettiContainer.innerHTML = '';
     }
+
   }
   
   runConfettiAnimation() {
@@ -210,5 +233,40 @@ export class DashboardComponent {
     setTimeout(() => {
       confettiContainer.innerHTML = '';
     }, 4000);
+  }
+
+
+  // @param text The text to copy.
+  //  *
+  copyToClipboard(text: string): void {
+    // Use document.execCommand('copy') for better compatibility in iframes
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed'; // Prevent scrolling to bottom of page in some browsers
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      this.copied = true; // Show "Copied!" message
+      setTimeout(() => {
+        this.copied = false; // Hide message after a short delay
+      }, 1500);
+      console.log('Text copied to clipboard:', text);
+    } catch (err) {
+      console.error('Failed to copy text:', err);
+      // Fallback for older browsers or specific environments
+      alert('Could not copy text. Please copy manually: ' + text);
+    } finally {
+      document.body.removeChild(textarea);
+    }
+  }
+
+  /**
+   * Initiates a phone call using the 'tel:' protocol.
+   * @param phoneNumber The phone number to call.
+   */
+  callNumber(phoneNumber: string): void {
+    window.location.href = `tel:${phoneNumber}`;
+    console.log('Attempting to call:', phoneNumber);
   }
 }

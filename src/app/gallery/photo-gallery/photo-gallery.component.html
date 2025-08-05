@@ -1,6 +1,5 @@
 <app-header></app-header>
-
-<div class="relative min-h-screen bg-gradient-to-br from-gray-900 to-indigo-900 text-white p-4 sm:p-8 lg:p-12" style="padding: 90px;">
+<div class="relative min-h-screen bg-gradient-to-br from-gray-900 to-indigo-900 text-white p-4 sm:p-8 lg:p-12" style="padding-top: 90px;">
 
   <header class="text-center mb-16 pt-8">
     <h1 class="text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 drop-shadow-lg animate-fade-in-down">
@@ -11,27 +10,27 @@
   <div class="container mx-auto">
     <div class="flex flex-wrap justify-center -mx-3">
       <div *ngFor="let image of displayedImages; let i = index"
-           class="custom-gallery-item w-1/4 px-3 mb-6
-                  relative overflow-hidden rounded-xl shadow-2xl group cursor-pointer
-                  transform transition-all duration-500 ease-in-out
-                  hover:scale-[1.03] hover:shadow-xl hover:shadow-blue-500/30"
-           [ngClass]="image.gridHeightClass || 'h-72'"
-           (click)="openLightbox(i)">
-  
+          class="custom-gallery-item w-1/4 px-3 mb-6
+               relative overflow-hidden rounded-xl shadow-2xl group cursor-pointer
+               transform transition-all duration-500 ease-in-out
+               hover:scale-[1.03] hover:shadow-xl hover:shadow-blue-500/30"
+          [ngClass]="image.gridHeightClass || 'h-72'"
+          (click)="openLightbox(i)">
+
         <img [src]="image.url" [alt]="image.alt" loading="lazy"
-             class="w-full h-full object-cover object-center
+            class="w-full h-full object-cover object-center
                    transition-transform duration-500 ease-in-out group-hover:scale-110 group-hover:blur-[1px]">
-  
+
         <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black via-black/80 to-transparent
-                    transform translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100
-                    transition-all duration-300 ease-out flex flex-col justify-end">
+                     transform translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100
+                     transition-all duration-300 ease-out flex flex-col justify-end">
           <h3 class="text-2xl font-bold text-white mb-1 truncate">{{ image.title || image.alt }}</h3>
           <p class="text-sm text-gray-300 line-clamp-2">{{ image.description }}</p>
         </div>
-  
+
         <div class="absolute inset-0 flex items-center justify-center
-                 bg-opacity-40 opacity-0 group-hover:opacity-100
-                 transition-opacity duration-300 ease-out">
+                   bg-opacity-40 opacity-0 group-hover:opacity-100
+                   transition-opacity duration-300 ease-out">
           <svg class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -39,7 +38,7 @@
         </div>
       </div>
     </div>
-  
+
     <div *ngIf="hasMoreImages()" class="flex justify-center mt-12 mb-8">
       <button (click)="loadMoreImages()"
               class="px-8 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-lg
@@ -49,15 +48,15 @@
       </button>
     </div>
   </div>
-  
+
 </div>
 
 <div *ngIf="isLightboxOpen"
-     class="fixed inset-0 z-[999] flex items-center justify-center
-            bg-black bg-opacity-90 backdrop-blur-lg
-            transition-opacity duration-300 ease-in-out"
-     [ngClass]="{'opacity-100': isLightboxOpen, 'opacity-0': !isLightboxOpen}"
-     (click)="closeLightbox()">
+    class="fixed inset-0 z-[999] flex items-center justify-center
+           bg-black bg-opacity-90 backdrop-blur-lg
+           transition-opacity duration-300 ease-in-out"
+    [ngClass]="{'opacity-100': isLightboxOpen, 'opacity-0': !isLightboxOpen}"
+    (click)="closeLightbox()">
 
   <div class="relative w-full max-w-6xl max-h-[95vh] mx-auto p-4 md:p-8 rounded-xl shadow-2xl bg-gray-900/80
               flex flex-col items-center justify-between
@@ -72,15 +71,15 @@
 
     <div class="relative w-full flex-grow flex items-center justify-center rounded-lg overflow-hidden mb-6">
       <div *ngIf="isLightboxImageLoading"
-           class="absolute inset-0 flex items-center justify-center bg-gray-800 rounded-lg">
-           <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
+          class="absolute inset-0 flex items-center justify-center bg-gray-800 rounded-lg">
+          <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
       </div>
 
       <img [src]="selectedImage?.url" [alt]="selectedImage?.alt"
-           class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-xl
-                  transition-opacity duration-300 ease-in-out"
-           [ngClass]="{'opacity-0': isLightboxImageLoading, 'opacity-100': !isLightboxImageLoading}"
-           (load)="onImageLoad()">
+          class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-xl
+                 transition-opacity duration-300 ease-in-out"
+          [ngClass]="{'opacity-0': isLightboxImageLoading, 'opacity-100': !isLightboxImageLoading}"
+          (load)="onImageLoad()">
     </div>
 
     <div class="w-full text-white text-center px-4 mb-6">
@@ -110,20 +109,19 @@
 
       <div class="w-full max-w-lg flex justify-center gap-4 px-4 overflow-x-auto pb-2 scrollbar-hide">
           <div *ngFor="let item of getFilmstripImages()"
-               class="relative flex-shrink-0 w-24 h-24 rounded-md overflow-hidden cursor-pointer
-                      transition-all duration-300 ease-in-out border-2 border-gray-700"
-               [ngClass]="{
-                   'border-blue-500 scale-105 shadow-md shadow-blue-500/50': item.index === currentImageIndex,
-                   'hover:scale-105 hover:border-gray-500': item.index !== currentImageIndex
-               }"
-               (click)="goToImage(item.index)">
-              <img [src]="item.image.url" [alt]="item.image.alt"
-                   class="w-full h-full object-cover object-center">
-              <div *ngIf="item.index !== currentImageIndex"
-                   class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              class="relative flex-shrink-0 w-24 h-24 rounded-md overflow-hidden cursor-pointer
+                     transition-all duration-300 ease-in-out border-2 border-gray-700"
+              [ngClass]="{
+                  'border-blue-500 scale-105 shadow-md shadow-blue-500/50': item.index === currentImageIndex,
+                  'hover:scale-105 hover:border-gray-500': item.index !== currentImageIndex
+              }"
+              (click)="goToImage(item.index)">
+                <img [src]="item.image.url" [alt]="item.image.alt"
+                    class="w-full h-full object-cover object-center">
+                <div *ngIf="item.index !== currentImageIndex"
+                    class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
           </div>
       </div>
     </div>
-
   </div>
 </div>

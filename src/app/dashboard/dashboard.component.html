@@ -98,7 +98,7 @@
                                         Consultation!</p>
                                 </div>
                                 <button (click)="closeGame()"
-                                    class="bg-purple-600 text-white py-3 px-8 rounded-full font-semibold text-lg hover:bg-purple-700 transition-colors">
+                                    class="bg-purple-600 text-white py-3 px-8 rounded-full font-semibold text-lg hover:bg-purple-700 transition-colors" routerLink="/contact">
                                     Claim Your Prize
                                 </button>
                                 <div id="confetti-container" class="absolute inset-0 pointer-events-none"></div>
@@ -262,10 +262,17 @@
                             <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
                                 <i class="fas fa-phone text-purple-600"></i>
                             </div>
-                            <div>
-                                <p class="font-semibold text-gray-800">Phone</p>
-                                <p class="text-gray-600">+1 (555) 123-4567</p>
-                            </div>
+                            <div class="relative">
+                                <div class="flex items-center cursor-pointer group" (click)="callNumber('+919792629116')">
+                                  <i class="fas fa-phone-alt text-xl mr-3 group-hover:text-blue-200 transition-colors duration-200"></i>
+                                  <span class="font-semibold group-hover:underline transition-all duration-200">+919792629116</span>
+                                  <button (click)="$event.stopPropagation(); copyToClipboard('+919792629116')"
+                                    class="ml-3 px-2 py-1 bg-blue-500 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-sm hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                    Copy
+                                  </button>
+                                </div>
+                                <span *ngIf="copied" class="absolute -top-6 left-1/2 -translate-x-1/2 bg-green-500 text-white text-xs px-2 py-1 rounded animate-fade-in-up">Copied!</span>
+                              </div>
                         </div>
                         <div class="flex items-center space-x-4">
                             <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
@@ -273,7 +280,7 @@
                             </div>
                             <div>
                                 <p class="font-semibold text-gray-800">Email</p>
-                                <p class="text-gray-600">helloelitecoaching.com</p>
+                                <p class="text-gray-600">{{uacOfficialMail}}</p>
                             </div>
                         </div>
                         <div class="flex items-center space-x-4">
@@ -282,8 +289,16 @@
                             </div>
                             <div>
                                 <p class="font-semibold text-gray-800">Location</p>
-                                <p class="text-gray-600">New York, NY</p>
-                            </div>
+                                <div class="flex items-center">
+                                    <span>
+                                      📍 Our institute is located right <strong>behind V-Mart</strong> —
+                                      <a href="https://www.google.com/maps/place/UNSTOPPABLE+ACADEMIC+CLASSES/@26.2240609,81.2425932,448m/data=!3m1!1e3!4m14..."
+                                        target="_blank" rel="noopener noreferrer"
+                                        class="font-semibold underline hover:text-blue-300">
+                                        Click here to view us on Google Maps
+                                      </a>
+                                    </span>
+                                  </div>                            </div>
                         </div>
                     </div>
                 </div>
@@ -309,6 +324,15 @@
                             <div *ngIf="email?.invalid && email?.touched" class="text-red-500 text-sm mt-1">
                                 <span *ngIf="email?.errors?.['required']">Email is required</span>
                                 <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+                            </div>
+                        </div>
+                        <div>
+                            <input type="email" placeholder=" Enter Your Subject" formControlName="subject"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                [class.border-red-500]="subject?.invalid && subject?.touched">
+                            <div *ngIf="subject?.invalid && subject?.touched" class="text-red-500 text-sm mt-1">
+                                <span *ngIf="subject?.errors?.['required']">Subject is required</span>
+                                <span *ngIf="subject?.errors?.['email']">Please enter a valid Subject</span>
                             </div>
                         </div>
                         <div>

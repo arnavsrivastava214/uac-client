@@ -1,105 +1,106 @@
 <app-header></app-header>
 
-<div class="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4 sm:p-6 lg:p-8 font-sans" style="padding: 95px;">
+<div class="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4 sm:p-6 md:p-10 lg:p-16 font-sans" style="padding-top: 90px;">
 
-    <div class="bg-white rounded-xl shadow-2xl overflow-hidden max-w-4xl w-full flex flex-col md:flex-row animate-fade-in">
-  
-      <!-- Left Section: Contact Info & Animations -->
-      <div class="md:w-1/2 p-8 lg:p-12 flex flex-col justify-center items-center text-center bg-gradient-to-br from-blue-600 to-purple-700 text-white relative">
-        <h2 class="text-3xl sm:text-4xl font-bold mb-4 animate-slide-in-left">Get in Touch!</h2>
-        <p class="text-lg mb-6 opacity-90 animate-slide-in-left animation-delay-200">
-          We'd love to hear from you. Send us a message or find us using the details below.
-        </p>
-        <div class="space-y-4 text-left w-full max-w-xs animate-slide-in-left animation-delay-400">
-          <div class="flex items-center">
-            <i class="fas fa-envelope text-xl mr-3"></i>
-            <span>{{uacOfficialMail}}</span>
-          </div>
-          
-          <!-- Phone Number Section with Copy and Call -->
-          <div class="relative">
-            <div class="flex items-center cursor-pointer group" (click)="callNumber('+919792629116')">
-              <i class="fas fa-phone-alt text-xl mr-3 group-hover:text-blue-200 transition-colors duration-200"></i>
-              <span class="font-semibold group-hover:underline transition-all duration-200">+919792629116</span>
-              <button (click)="$event.stopPropagation(); copyToClipboard('+919792629116')"
-                      class="ml-3 px-2 py-1 bg-blue-500 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-sm hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300">
-                Copy
-              </button>
-            </div>
-            <span *ngIf="copied" class="absolute -top-6 left-1/2 -translate-x-1/2 bg-green-500 text-white text-xs px-2 py-1 rounded animate-fade-in-up">Copied!</span>
-          </div>
-  
-          <div class="flex items-center">
-            <i class="fas fa-map-marker-alt text-xl mr-3"></i>
-            <span>
-              📍 Our institute is located right **behind V-Mart** — 
-              <a href="https://www.google.com/maps/place/UNSTOPPABLE+ACADEMIC+CLASSES/@26.2240609,81.2425932,448m/data=!3m1!1e3!4m14!1m7!3m6!1s0x399ba1c2a52189a3:0x4df83d45c6dc339e!2sUNSTOPPABLE+ACADEMIC+CLASSES!8m2!3d26.2239615!4d81.242426!16s%2Fg%2F11fmqb4hcq!3m5!1s0x399ba1c2a52189a3:0x4df83d45c6dc339e!8m2!3d26.2239615!4d81.242426!16s%2Fg%2F11fmqb4hcq?entry=ttu"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 class="text-white-600 font-semibold underline hover:text-blue-800">
-                Click here to view us on Google Maps
-              </a>
-            </span>
-                      </div>
+  <div class="bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-7xl flex flex-col md:flex-row animate-fade-in">
+
+    <!-- Left Section -->
+    <div class="w-full md:w-1/2 p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-center items-center text-center bg-gradient-to-br from-blue-600 to-purple-700 text-white relative">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 animate-slide-in-left">Get in Touch!</h2>
+      <p class="text-base sm:text-lg mb-6 opacity-90 animate-slide-in-left animation-delay-200">
+        We'd love to hear from you. Send us a message or find us using the details below.
+      </p>
+
+      <div class="space-y-4 text-left w-full max-w-sm animate-slide-in-left animation-delay-400 break-words">
+        <div class="flex items-center">
+          <i class="fas fa-envelope text-xl mr-3"></i>
+          <span>{{uacOfficialMail}}</span>
         </div>
-        
-        <svg class="absolute bottom-0 right-0 opacity-10" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L2 22l1.7-4.4A8.38 8.38 0 0 1 2 11.5a8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 7.6 4.7 8.38 8.38 0 0 1 .9 3.8z"></path>
-        </svg>
+
+        <!-- Phone with Copy/Call -->
+        <div class="relative">
+          <div class="flex items-center cursor-pointer group" (click)="callNumber('+919792629116')">
+            <i class="fas fa-phone-alt text-xl mr-3 group-hover:text-blue-200 transition-colors duration-200"></i>
+            <span class="font-semibold group-hover:underline transition-all duration-200">+919792629116</span>
+            <button (click)="$event.stopPropagation(); copyToClipboard('+919792629116')"
+              class="ml-3 px-2 py-1 bg-blue-500 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-sm hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300">
+              Copy
+            </button>
+          </div>
+          <span *ngIf="copied" class="absolute -top-6 left-1/2 -translate-x-1/2 bg-green-500 text-white text-xs px-2 py-1 rounded animate-fade-in-up">Copied!</span>
+        </div>
+
+        <div class="flex items-center">
+          <i class="fas fa-map-marker-alt text-xl mr-3"></i>
+          <span>
+            📍 Our institute is located right <strong>behind V-Mart</strong> —
+            <a href="https://www.google.com/maps/place/UNSTOPPABLE+ACADEMIC+CLASSES/@26.2240609,81.2425932,448m/data=!3m1!1e3!4m14..."
+              target="_blank" rel="noopener noreferrer"
+              class="font-semibold underline hover:text-blue-300">
+              Click here to view us on Google Maps
+            </a>
+          </span>
+        </div>
       </div>
-  
-      <!-- Right Section: Contact Form -->
-      <div class="md:w-1/2 p-8 lg:p-12 animate-fade-in animation-delay-600">
-        <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
-          <div class="mb-6">
-            <label for="name" class="block text-gray-700 text-sm font-semibold mb-2">Your Name</label>
-            <input type="text" id="name" name="name"
-                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105"
-                   [(ngModel)]="formData.name" required #nameField="ngModel">
-            <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="text-red-500 text-xs mt-1">
-              Name is required.
-            </div>
-          </div>
-  
-          <div class="mb-6">
-            <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Your Email</label>
-            <input type="email" id="email" name="email"
-                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105"
-                   [(ngModel)]="formData.email" required email #emailField="ngModel">
-            <div *ngIf="emailField.invalid && (emailField.dirty || emailField.touched)" class="text-red-500 text-xs mt-1">
-              <span *ngIf="emailField.errors?.['required']">Email is required.</span>
-              <span *ngIf="emailField.errors?.['email']">Enter a valid email address.</span>
-            </div>
-          </div>
-  
-          <div class="mb-6">
-            <label for="subject" class="block text-gray-700 text-sm font-semibold mb-2">Subject</label>
-            <input type="text" id="subject" name="subject"
-                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105"
-                   [(ngModel)]="formData.subject">
-          </div>
-  
-          <div class="mb-8">
-            <label for="message" class="block text-gray-700 text-sm font-semibold mb-2">Your Message</label>
-            <textarea id="message" name="message" rows="5"
-                      class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105 resize-y"
-                      [(ngModel)]="formData.message" required #messageField="ngModel"></textarea>
-            <div *ngIf="messageField.invalid && (messageField.dirty || messageField.touched)" class="text-red-500 text-xs mt-1">
-              Message is required.
-            </div>
-          </div>
-  
-          <button type="submit"
-                  class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-1"
-                  [disabled]="!contactForm.form.valid">
-            Send Message
-            <i class="fas fa-paper-plane ml-2"></i>
-          </button>
-  
-          <div *ngIf="formSubmitted" class="mt-4 p-3 bg-green-100 text-green-700 rounded-lg text-center animate-fade-in">
-            Thank you for your message! We'll get back to you soon.
-          </div>
-        </form>
-      </div>
+
+      <svg class="absolute bottom-0 right-0 opacity-10" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L2 22l1.7-4.4A8.38 8.38 0 0 1 2 11.5a8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 7.6 4.7 8.38 8.38 0 0 1 .9 3.8z"></path>
+      </svg>
     </div>
+
+    <!-- Right Section -->
+    <div class="w-full md:w-1/2 p-6 sm:p-8 md:p-10 lg:p-12 animate-fade-in animation-delay-600">
+      <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+        <div class="mb-6">
+          <label for="name" class="block text-gray-700 text-sm font-semibold mb-2">Your Name</label>
+          <input type="text" id="name" name="name"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105"
+            [(ngModel)]="formData.name" required #nameField="ngModel">
+          <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="text-red-500 text-xs mt-1">
+            Name is required.
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Your Email</label>
+          <input type="email" id="email" name="email"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105"
+            [(ngModel)]="formData.email" required email #emailField="ngModel">
+          <div *ngIf="emailField.invalid && (emailField.dirty || emailField.touched)" class="text-red-500 text-xs mt-1">
+            <span *ngIf="emailField.errors?.['required']">Email is required.</span>
+            <span *ngIf="emailField.errors?.['email']">Enter a valid email address.</span>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label for="subject" class="block text-gray-700 text-sm font-semibold mb-2">Subject</label>
+          <input type="text" id="subject" name="subject"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105"
+            [(ngModel)]="formData.subject">
+        </div>
+
+        <div class="mb-8">
+          <label for="message" class="block text-gray-700 text-sm font-semibold mb-2">Your Message</label>
+          <textarea id="message" name="message" rows="5"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 resize-y"
+            [(ngModel)]="formData.message" required #messageField="ngModel"></textarea>
+          <div *ngIf="messageField.invalid && (messageField.dirty || messageField.touched)" class="text-red-500 text-xs mt-1">
+            Message is required.
+          </div>
+        </div>
+
+        <button type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1"
+          [disabled]="!contactForm.form.valid">
+          Send Message
+          <i class="fas fa-paper-plane ml-2"></i>
+        </button>
+
+        <div *ngIf="formSubmitted" class="mt-4 p-3 bg-green-100 text-green-700 rounded-lg text-center animate-fade-in">
+          Thank you for your message! We'll get back to you soon.
+        </div>
+      </form>
+    </div>
+
   </div>
+</div>

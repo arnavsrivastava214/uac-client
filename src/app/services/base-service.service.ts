@@ -28,7 +28,7 @@ export class BaseServiceService {
 
   }
 
-  apiUrl: any = 'https://uac-server-ukgd.vercel.app';
+  apiUrl: any = 'https://uac-server.onrender.com';
 
   
   getData(d: any, url: any, callback: any) {

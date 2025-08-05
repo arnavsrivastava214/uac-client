@@ -16,7 +16,8 @@
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4">
                     <button
-                        class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105" routerLink="/contact">
+                        class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105"
+                        routerLink="/contact">
                         Start Your Journey
                     </button>
 
@@ -35,9 +36,74 @@
                  alt="Professional Coach" height="200" width="200"
                  class="rounded-4xl shadow-2xl"> -->
                     </div>
-                    <div class="absolute -top-6 -right-6 bg-yellow-400 text-purple-800 p-4 rounded-full shadow-lg floating"
-                        style="animation-delay: 1s;">
-                        <i class="fas fa-trophy text-2xl"></i>
+                    <div class="bounce-in">
+                        <div class="relative">
+                            <div class="floating">
+                            </div>
+                            <div class="absolute -top-6 -right-6 bg-yellow-400 text-purple-800 p-4 rounded-full shadow-lg floating cursor-pointer"
+                                style="animation-delay: 1s;" (click)="startGame()">
+                                <i class="fas fa-trophy text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isGameVisible"
+                        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+                        <div class="bg-white rounded-2xl p-8 shadow-2xl relative max-w-lg w-full text-center">
+                            <button (click)="closeGame()"
+                                class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
+                                <i class="fas fa-times text-2xl"></i>
+                            </button>
+
+                            <div *ngIf="!gameWinner" class="game-container">
+                                <h3 class="text-3xl font-bold text-purple-600 mb-6">Find the Prize!</h3>
+                                <p class="text-gray-700 text-lg mb-8">Choose one of the three cards to find the hidden
+                                    prize and win!</p>
+
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="card" [ngClass]="{'revealed': showAllCards}" (click)="selectCard(0)">
+                                        <i *ngIf="!showAllCards" class="fas fa-question text-white text-4xl"></i>
+                                        <i *ngIf="showAllCards && prizeCardIndex === 0"
+                                            class="fas fa-trophy text-yellow-400 text-4xl"></i>
+                                        <i *ngIf="showAllCards && prizeCardIndex !== 0"
+                                            class="fas fa-times text-gray-400 text-4xl"></i>
+                                    </div>
+                                    <div class="card" [ngClass]="{'revealed': showAllCards}" (click)="selectCard(1)">
+                                        <i *ngIf="!showAllCards" class="fas fa-question text-white text-4xl"></i>
+                                        <i *ngIf="showAllCards && prizeCardIndex === 1"
+                                            class="fas fa-trophy text-yellow-400 text-4xl"></i>
+                                        <i *ngIf="showAllCards && prizeCardIndex !== 1"
+                                            class="fas fa-times text-gray-400 text-4xl"></i>
+                                    </div>
+                                    <div class="card" [ngClass]="{'revealed': showAllCards}" (click)="selectCard(2)">
+                                        <i *ngIf="!showAllCards" class="fas fa-question text-white text-4xl"></i>
+                                        <i *ngIf="showAllCards && prizeCardIndex === 2"
+                                            class="fas fa-trophy text-yellow-400 text-4xl"></i>
+                                        <i *ngIf="showAllCards && prizeCardIndex !== 2"
+                                            class="fas fa-times text-gray-400 text-4xl"></i>
+                                    </div>
+                                </div>
+
+                                <p *ngIf="gameMessage" class="mt-8 text-lg font-medium"
+                                    [ngClass]="{'text-green-500': gameWinner, 'text-red-500': !gameWinner}">
+                                    {{ gameMessage }}
+                                </p>
+                            </div>
+
+                            <div *ngIf="gameWinner" class="winner-container">
+                                <h3 class="text-4xl font-bold text-green-600 mb-4 animate-pulse">🎉 Congratulations! 🎉
+                                </h3>
+                                <p class="text-xl text-gray-800 mb-6">You found the prize!</p>
+                                <div class="p-6 bg-yellow-100 rounded-xl mb-6">
+                                    <p class="text-2xl font-bold text-yellow-800">You've won a FREE 15-Minute
+                                        Consultation!</p>
+                                </div>
+                                <button (click)="closeGame()"
+                                    class="bg-purple-600 text-white py-3 px-8 rounded-full font-semibold text-lg hover:bg-purple-700 transition-colors">
+                                    Claim Your Prize
+                                </button>
+                                <div id="confetti-container" class="absolute inset-0 pointer-events-none"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

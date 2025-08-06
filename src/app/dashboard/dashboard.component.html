@@ -256,69 +256,60 @@
         <div class="grid lg:grid-cols-2 gap-8 sm:gap-12 max-w-full overflow-x-hidden">
             <!-- Contact Info Section -->
             <div class="slide-up">
-              <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg">
-                <h3 class="text-2xl font-bold text-gray-800 mb-6">Get in Touch</h3>
-                <div class="space-y-6">
-                  <!-- Phone -->
-                  <div class="flex flex-wrap items-center gap-4">
-                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                      <i class="fas fa-phone text-purple-600"></i>
-                    </div>
-                    <div class="relative">
-                      <div class="flex items-center flex-wrap gap-2 cursor-pointer group" (click)="callNumber('+919792629116')">
-                        <i class="fas fa-phone-alt text-xl group-hover:text-blue-200 transition-colors duration-200"></i>
-                        <span class="font-semibold group-hover:underline transition-all duration-200 break-words">
-                          +919792629116
-                        </span>
-                        <button
-                          (click)="$event.stopPropagation(); copyToClipboard('+919792629116')"
-                          class="px-2 py-1 bg-blue-500 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-sm hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                        >
-                          Copy
-                        </button>
+                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg w-full">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Get in Touch</h3>
+                    <div class="space-y-6">
+                  
+                      <!-- Phone -->
+                      <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                          <i class="fas fa-phone text-purple-600 text-lg"></i>
+                        </div>
+                        <div>
+                          <p class="text-sm font-semibold text-gray-700">Phone</p>
+                          <div class="text-gray-800 text-sm break-all">
+                            <span (click)="callNumber('+919792629116')" class="cursor-pointer hover:underline">
+                              +91 9792629116
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                      <span
-                        *ngIf="copied"
-                        class="absolute -top-6 left-1/2 -translate-x-1/2 bg-green-500 text-white text-xs px-2 py-1 rounded animate-fade-in-up"
-                      >
-                        Copied!
-                      </span>
+                  
+                      <!-- Email -->
+                      <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                          <i class="fas fa-envelope text-purple-600 text-lg"></i>
+                        </div>
+                        <div>
+                          <p class="text-sm font-semibold text-gray-700">Email</p>
+                          <p class="text-gray-800 text-sm break-all">{{ uacOfficialMail }}</p>
+                        </div>
+                      </div>
+                  
+                      <!-- Location -->
+                      <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                          <i class="fas fa-map-marker-alt text-purple-600 text-lg"></i>
+                        </div>
+                        <div>
+                          <p class="text-sm font-semibold text-gray-700">Location</p>
+                          <p class="text-gray-800 text-sm break-words">
+                            📍 Our institute is located right <strong>behind V-Mart</strong> —<br />
+                            <a
+                              href="https://www.google.com/maps/place/UNSTOPPABLE+ACADEMIC+CLASSES/@26.2240609,81.2425932,448m"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="text-blue-600 font-medium underline"
+                            >
+                              Click here to view us on Google Maps
+                            </a>
+                          </p>
+                        </div>
+                      </div>
+                  
                     </div>
                   </div>
-          
-                  <!-- Email -->
-                  <div class="flex flex-wrap items-center gap-4">
-                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                      <i class="fas fa-envelope text-purple-600"></i>
-                    </div>
-                    <div>
-                      <p class="font-semibold text-gray-800">Email</p>
-                      <p class="text-gray-600 break-words">{{ uacOfficialMail }}</p>
-                    </div>
-                  </div>
-          
-                  <!-- Location -->
-                  <div class="flex flex-wrap items-center gap-4">
-                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                      <i class="fas fa-map-marker-alt text-purple-600"></i>
-                    </div>
-                    <div>
-                      <p class="font-semibold text-gray-800">Location</p>
-                      <span class="break-words">
-                        📍 Our institute is located right <strong>behind V-Mart</strong> —
-                        <a
-                          href="https://www.google.com/maps/place/UNSTOPPABLE+ACADEMIC+CLASSES/@26.2240609,81.2425932,448m/data=!3m1!1e3!4m14..."
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="font-semibold underline hover:text-blue-300 break-words"
-                        >
-                          Click here to view us on Google Maps
-                        </a>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  
             </div>
           
             <!-- Contact Form Section -->

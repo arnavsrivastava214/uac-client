@@ -37,4 +37,8 @@ export class ApplicationServiceService extends BaseServiceService{
   getAllReviews(callback: any) {
     return this.getData({}, this.httpUrls['getAllReviews'], callback)
   }
+
+  fetchAllteacher(callback: any) {
+    return this.getData({}, this.httpUrls['fetchAllteacher'], callback)
+  }
 }

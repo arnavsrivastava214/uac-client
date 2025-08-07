@@ -37,7 +37,15 @@ export const routes: Routes = [
           {
             path: 'dashboard',
             loadComponent: () => import("./admin/dashboard/dashboard.component").then(m => m.DashboardComponent),
-          }
+          },
+          {
+            path: 'teacher',
+            loadComponent: () => import("./admin/dashboard/create-teachers/create-teachers.component").then(m => m.CreateTeachersComponent),
+          },
+          {
+            path: 'teachers',
+            loadComponent: () => import("./admin/dashboard/teachers/teachers.component").then(m => m.TeachersComponent),
+          },
         ]
         }
 ];

@@ -2,6 +2,7 @@ import { Component } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { trigger, transition, style, animate } from '@angular/animations';
 import { RouterLink, RouterModule } from "@angular/router";
+import { FormsModule } from "@angular/forms";
 
 interface CourseItem {
   title: string
@@ -10,7 +11,7 @@ interface CourseItem {
 }
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, RouterModule, RouterLink],
+  imports: [CommonModule, RouterModule, RouterLink, FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   animations: [

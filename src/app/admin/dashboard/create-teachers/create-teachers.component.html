@@ -1,0 +1,159 @@
+<!--
+  This is the updated HTML template for the Teacher Creation Form component.
+  It uses a more modern and beautiful design with Tailwind CSS.
+  Padding has been added to all input fields for better spacing.
+-->
+<div class="min-h-screen bg-slate-900 flex items-center justify-center p-6">
+    <div class="bg-slate-800 shadow-2xl rounded-3xl p-8 w-full max-w-4xl border border-slate-700 transform transition-all duration-300 hover:scale-[1.01]">
+      <h2 class="text-4xl font-extrabold text-white text-center mb-10 font-sans">Create New Teacher</h2>
+      <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()" class="space-y-8">
+  
+        <!-- Row for Name and Gender -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <label for="name" class="block text-sm font-medium text-slate-300">Name</label>
+            <input
+              type="text"
+              id="name"
+              formControlName="name"
+              class="mt-1 block w-full p-3 rounded-xl bg-slate-700 border-slate-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 placeholder-slate-400 transition duration-300 ease-in-out"
+              placeholder="e.g., Jane Doe"
+            />
+            <div *ngIf="teacherForm.get('name')?.invalid && teacherForm.get('name')?.touched" class="mt-2 text-rose-400 text-xs font-semibold">
+              Name is required.
+            </div>
+          </div>
+          <div>
+            <label for="gender" class="block text-sm font-medium text-slate-300">Gender</label>
+            <select
+              id="gender"
+              formControlName="gender"
+              class="mt-1 block w-full p-3 rounded-xl bg-slate-700 border-slate-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-300 ease-in-out"
+            >
+              <option class="bg-slate-700 text-slate-300" value="Male">Male</option>
+              <option class="bg-slate-700 text-slate-300" value="Female">Female</option>
+              <option class="bg-slate-700 text-slate-300" value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+  
+        <!-- Row for Email and Phone -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <label for="email" class="block text-sm font-medium text-slate-300">Email</label>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              class="mt-1 block w-full p-3 rounded-xl bg-slate-700 border-slate-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 placeholder-slate-400 transition duration-300 ease-in-out"
+              placeholder="e.g., jane.doe@school.edu"
+            />
+            <div *ngIf="teacherForm.get('email')?.invalid && teacherForm.get('email')?.touched" class="mt-2 text-rose-400 text-xs font-semibold">
+              A valid email is required.
+            </div>
+          </div>
+          <div>
+            <label for="phone" class="block text-sm font-medium text-slate-300">Phone</label>
+            <input
+              type="tel"
+              id="phone"
+              formControlName="phone"
+              class="mt-1 block w-full p-3 rounded-xl bg-slate-700 border-slate-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 placeholder-slate-400 transition duration-300 ease-in-out"
+              placeholder="e.g., 555-123-4567"
+            />
+          </div>
+        </div>
+  
+        <!-- Address -->
+        <div>
+          <label for="address" class="block text-sm font-medium text-slate-300">Address</label>
+          <textarea
+            id="address"
+            formControlName="address"
+            rows="3"
+            class="mt-1 block w-full p-3 rounded-xl bg-slate-700 border-slate-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 placeholder-slate-400 transition duration-300 ease-in-out"
+            placeholder="Street, City, State, ZIP"
+          ></textarea>
+        </div>
+  
+        <!-- Row for Designation and Joining Date -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <label for="designation" class="block text-sm font-medium text-slate-300">Designation</label>
+            <input
+              type="text"
+              id="designation"
+              formControlName="designation"
+              class="mt-1 block w-full p-3 rounded-xl bg-slate-700 border-slate-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 placeholder-slate-400 transition duration-300 ease-in-out"
+              placeholder="e.g., Senior Lecturer"
+            />
+          </div>
+          <div>
+            <label for="joining_date" class="block text-sm font-medium text-slate-300">Joining Date</label>
+            <input
+              type="date"
+              id="joining_date"
+              formControlName="joining_date"
+              class="mt-1 block w-full p-3 rounded-xl bg-slate-700 border-slate-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-300 ease-in-out"
+            />
+          </div>
+        </div>
+  
+        <!-- Row for Salary and Bank Account -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <label for="salary" class="block text-sm font-medium text-slate-300">Salary</label>
+            <input
+              type="number"
+              id="salary"
+              formControlName="salary"
+              class="mt-1 block w-full p-3 rounded-xl bg-slate-700 border-slate-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 placeholder-slate-400 transition duration-300 ease-in-out"
+              placeholder="e.g., 50000.00"
+            />
+          </div>
+          <div>
+            <label for="bank_account_number" class="block text-sm font-medium text-slate-300">Bank Account Number</label>
+            <input
+              type="text"
+              id="bank_account_number"
+              formControlName="bank_account_number"
+              class="mt-1 block w-full p-3 rounded-xl bg-slate-700 border-slate-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 placeholder-slate-400 transition duration-300 ease-in-out"
+            />
+          </div>
+        </div>
+  
+        <!-- Row for IFSC and PAN -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <label for="ifsc_code" class="block text-sm font-medium text-slate-300">IFSC Code</label>
+            <input
+              type="text"
+              id="ifsc_code"
+              formControlName="ifsc_code"
+              class="mt-1 block w-full p-3 rounded-xl bg-slate-700 border-slate-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 placeholder-slate-400 transition duration-300 ease-in-out"
+            />
+          </div>
+          <div>
+            <label for="pan_number" class="block text-sm font-medium text-slate-300">PAN Number</label>
+            <input
+              type="text"
+              id="pan_number"
+              formControlName="pan_number"
+              class="mt-1 block w-full p-3 rounded-xl bg-slate-700 border-slate-600 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 placeholder-slate-400 transition duration-300 ease-in-out"
+            />
+          </div>
+        </div>
+  
+        <!-- Submit Button -->
+        <div class="pt-8">
+          <button
+            type="submit"
+            [disabled]="teacherForm.invalid"
+            class="w-full flex justify-center py-4 px-6 border-2 border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 ease-in-out transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+          >
+            Create Teacher
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

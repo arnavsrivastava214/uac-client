@@ -1,0 +1,75 @@
+<div class="min-h-screen bg-slate-900 flex flex-col items-center p-6">
+    <div class="bg-slate-800 shadow-2xl rounded-3xl p-8 w-full max-w-7xl border border-slate-700">
+      <h2 class="text-4xl font-extrabold text-white text-center mb-10 font-sans">Teacher Dashboard</h2>
+  
+      <!-- Responsive table container -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-slate-700 rounded-xl overflow-hidden">
+          <thead class="bg-slate-700">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                Name
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                Designation
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                Email
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                Joining Date
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                Status
+              </th>
+              <th scope="col" class="relative px-6 py-3">
+                <span class="sr-only">Edit</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-slate-800 divide-y divide-slate-700">
+            <!-- Loop through the teachers array to display each teacher -->
+            <tr *ngFor="let teacher of teachers" class="hover:bg-slate-700 transition duration-150 ease-in-out">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-white">{{ teacher.name }}</div>
+                    <div class="text-sm text-slate-400">{{ teacher.gender }}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-white">{{ teacher.designation }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-slate-300">{{ teacher.email }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                {{ teacher.joining_date | date: 'mediumDate' }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                  [ngClass]="{
+                    'bg-green-100 text-green-800': teacher.status === 'Active',
+                    'bg-red-100 text-red-800': teacher.status === 'Inactive'
+                  }"
+                >
+                  {{ teacher.status }}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <a href="#" class="text-indigo-400 hover:text-indigo-300 transition-colors duration-150 ease-in-out mr-4">Edit</a>
+                <a href="#" class="text-rose-400 hover:text-rose-300 transition-colors duration-150 ease-in-out">Delete</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <!-- Loading and error messages -->
+      <div *ngIf="isLoading" class="text-center mt-8 text-white">Loading teachers...</div>
+      <div *ngIf="error" class="text-center mt-8 text-rose-500 font-bold">Error: {{ error }}</div>
+      <div *ngIf="!isLoading && teachers.length === 0" class="text-center mt-8 text-slate-400">No teachers found.</div>
+    </div>
+  </div>

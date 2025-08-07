@@ -25,7 +25,7 @@ export class BaseServiceService {
     'sendRequest': '/api/uac/contact/sendRequest',
     
     // teacher
-    'fetchAllteacher': '/api/uac/contact/fetchAllteacher',
+    'fetchAllteacher': '/api/uac/teacher/fetchAllteacher',
 
 
     

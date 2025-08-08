@@ -39,7 +39,7 @@ export const routes: Routes = [
             loadComponent: () => import("./admin/dashboard/dashboard.component").then(m => m.DashboardComponent),
           },
           {
-            path: 'teacher',
+            path: 'create-teacher',
             loadComponent: () => import("./admin/dashboard/create-teachers/create-teachers.component").then(m => m.CreateTeachersComponent),
           },
           {

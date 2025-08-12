@@ -1,6 +1,9 @@
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ApplicationServiceService } from '../../../services/application-service.service';
+import { Router } from '@angular/router';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-create-teachers',
@@ -14,8 +17,7 @@ export class CreateTeachersComponent {
   teacherForm: FormGroup;
 
   // Inject the FormBuilder service to easily create form controls
-  constructor(private fb: FormBuilder) {
-    // Initialize the form with controls and validators based on your SQL schema
+  constructor(private fb: FormBuilder,private  service:ApplicationServiceService, private router:Router, private alert:AlertService) {
     this.teacherForm = this.fb.group({
       name: ['', [Validators.required]],
       gender: ['Other'], // Default value
@@ -32,23 +34,23 @@ export class CreateTeachersComponent {
   }
 
   ngOnInit(): void {
-    // Any initialization logic can go here
   }
 
-  // Method to handle form submission
   onSubmit(): void {
-    // Check if the form is valid before submitting
     if (this.teacherForm.valid) {
-      // Log the form value to the console for demonstration
-      console.log('Form Submitted!', this.teacherForm.value);
 
-      // Here you would typically call a service to save the data to your backend API
-      // For example: this.teacherService.createTeacher(this.teacherForm.value).subscribe(response => { ... });
+      this.service.createTeacher(this.teacherForm.value, (res:any)=>{
+           
+        if(res.status==200){
+          this.teacherForm.reset();
+            this.router.navigate(['admin/teachers']);
+            this.alert.success(res.message)
+          }else{
+            this.alert.error(res.message)
+        }
+      })
 
-      // After successful submission, you might want to reset the form
-      this.teacherForm.reset();
     } else {
-      // Mark all fields as touched to show validation errors
       this.teacherForm.markAllAsTouched();
     }
   }

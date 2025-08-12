@@ -22,6 +22,11 @@ export class ApplicationServiceService extends BaseServiceService{
     return this.postData(params, this.httpUrls['sendRequest'], callback)
   }
 
+  
+  createTeacher(params: any, callback: any) {
+    return this.postData(params, this.httpUrls['createTeacher'], callback)
+  }
+
   // getUsersById(userId: string, callback: any) {
   //   return this.getData({}, this.httpUrls['getUsersById'] + "/" + userId, callback)
   // }

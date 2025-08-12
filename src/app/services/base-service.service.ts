@@ -26,6 +26,7 @@ export class BaseServiceService {
     
     // teacher
     'fetchAllteacher': '/api/uac/teacher/fetchAllteacher',
+    'createTeacher': '/api/uac/teacher/createTeacher',
 
 
     
@@ -33,7 +34,7 @@ export class BaseServiceService {
 
   }
 
-  apiUrl: any = 'https://uac-server.onrender.com';
+  apiUrl: any = 'http://localhost:3000';
 
   
   getData(d: any, url: any, callback: any) {

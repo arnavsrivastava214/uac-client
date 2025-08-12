@@ -28,30 +28,31 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-
-
-
     this.errorMessage = null;
+  
     if (this.loginForm.valid) {
       this.isLoading = true;
-
+  
       this.service.login(this.loginForm.value, (res: any) => {
         if (res.status == 200) {
+          localStorage.setItem('isAdminLoggedIn', 'true');
+  
           setTimeout(() => {
             this.isLoading = false;
-              this.router.navigate(['admin/dashboard'])
+            this.router.navigate(['admin/dashboard']);
           }, 1000);
-        }else{
+        } else {
           this.errorMessage = 'Please enter valid credentials.';
-
+          localStorage.removeItem('isAdminLoggedIn');
         }
-      })
-
+      });
+  
     } else {
       console.warn('Login Failed: Form is invalid');
       this.loginForm.markAllAsTouched();
     }
   }
+  
 
   isFieldInvalid(field: string): boolean {
     const control = this.loginForm.get(field);

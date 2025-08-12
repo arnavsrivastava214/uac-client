@@ -9,4 +9,8 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AdminComponent {
 
+  ngOnDestroy(){
+  localStorage.removeItem("isAdminLoggedIn")
+  }
+
 }

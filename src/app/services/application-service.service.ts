@@ -35,9 +35,9 @@ export class ApplicationServiceService extends BaseServiceService{
   //   return this.putData(params, this.httpUrls['updateUsers'], callback)
   // }
   
-  // deleteUsers(id: any, callback: any) {
-  //   return this.deleteData({}, this.httpUrls['deleteUsers'] + "/" + id, callback)
-  // }
+  deleteTeacher(id: any, callback: any) {
+    return this.deleteData({}, this.httpUrls['deleteTeacher'] + "/" + id, callback)
+  }
   
   getAllReviews(callback: any) {
     return this.getData({}, this.httpUrls['getAllReviews'], callback)

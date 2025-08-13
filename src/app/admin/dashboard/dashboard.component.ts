@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -17,18 +18,18 @@ export class DashboardComponent {
 
   // Dummy data for quick actions/links
   quickLinks = [
-    { name: 'Add New Student', icon: 'user-plus', url: '#' },
-    { name: 'Create New Course', icon: 'file-plus', url: '#' },
-    { name: 'View All Students', icon: 'users', url: '#' },
-    { name: 'Manage Courses', icon: 'book-open', url: '#' }
+    { name: 'Teachers', icon: 'user-plus', route: '/admin/teachers' },
+    { name: 'Create New Course', icon: 'file-plus', route: '/admin/create-course' },
+    { name: 'View All Students', icon: 'users', route: '/admin/students' },
+    { name: 'Manage Courses', icon: 'book-open', route: '/admin/manage-courses' }
   ];
+  
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  // Helper for icons (simple SVG paths)
   getIconPath(iconName: string): string {
     switch (iconName) {
       case 'users': return 'M17 20v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2M10 9a4 4 0 100-8 4 4 0 000 8zm6.921 4.764c.264-.08.5-.236.702-.438a4 4 0 00-5.874-5.874c-.202.202-.358.438-.438.702M16 16v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2';

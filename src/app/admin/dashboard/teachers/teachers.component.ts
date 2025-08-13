@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { ApplicationServiceService } from '../../../services/application-service.service';
+import { Router } from '@angular/router';
+import { AlertService } from '../../../services/alert.service';
 
 
 export interface Teacher {
@@ -32,29 +34,55 @@ export class TeachersComponent {
   teachers: Teacher[] = [];
   isLoading = true;
   error: string | null = null;
+  teachersa:any=[]
+  showDeleteModal = false;
+  teacherToDelete: Teacher | null = null;
 
-  ngOnInit(){
-    this.getTeachers()
+  ngOnInit() {
+    this.getTeachers();
   }
-  constructor(private service:ApplicationServiceService){}
-  
-  getTeachers(){
-this.service.fetchAllteacher((res:any)=>{
-  if(res.status==200){
-    this.teachers = res.data;
-    this.isLoading = false
+
+  constructor(private service: ApplicationServiceService, private router:Router, private alert: AlertService) { }
+
+  getTeachers() {
+    this.service.fetchAllteacher((res: any) => {
+      if (res.status == 200) {
+        this.teachers = res.data;
+        this.isLoading = false;
+      }
+    });
+    this.isLoading = false;
   }
-  
-})
 
+  addTeacher() {
+    console.log('Add teacher button clicked. Implement your navigation or modal here.');
+    Example: this.router.navigate(['/admin/create-teacher']);
+  }
 
-    //  this.teachers = [
-    //   { id: 1, name: 'John Smith', gender: 'Male', email: 'john.smith@school.edu', designation: 'Professor', joining_date: new Date('2018-09-01'), status: 'Active' },
-    //   { id: 2, name: 'Emily White', gender: 'Female', email: 'emily.white@school.edu', designation: 'Senior Lecturer', joining_date: new Date('2015-05-15'), status: 'Active' },
-    //   { id: 3, name: 'Michael Brown', gender: 'Other', email: 'michael.b@school.edu', designation: 'Teaching Assistant', joining_date: new Date('2022-01-20'), status: 'Inactive' },
-    // ];
+  openDeleteModal(teacher: Teacher) {
+    this.teacherToDelete = teacher;
+    this.showDeleteModal = true;
+  }
 
-    // Return the mock data as an observable
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+    this.teacherToDelete = null;
+  }
+
+  deleteTeacher() {
+    if (this.teacherToDelete) {
+
+      this.service.deleteTeacher(this.teacherToDelete.id,(res:any)=>{
+        if(res.status==200){
+          this.alert.success(res.message)
+          this.closeDeleteModal();
+          this.getTeachers();
+        }else{
+          this.alert.error(res.message)
+        }
+
+      })
+    }
   }
 }
 

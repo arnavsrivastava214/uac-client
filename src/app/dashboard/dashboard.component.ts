@@ -236,20 +236,17 @@ export class DashboardComponent {
   }
 
 
-  // @param text The text to copy.
-  //  *
   copyToClipboard(text: string): void {
-    // Use document.execCommand('copy') for better compatibility in iframes
     const textarea = document.createElement('textarea');
     textarea.value = text;
-    textarea.style.position = 'fixed'; // Prevent scrolling to bottom of page in some browsers
+    textarea.style.position = 'fixed'; 
     document.body.appendChild(textarea);
     textarea.select();
     try {
       document.execCommand('copy');
-      this.copied = true; // Show "Copied!" message
+      this.copied = true; 
       setTimeout(() => {
-        this.copied = false; // Hide message after a short delay
+        this.copied = false; 
       }, 1500);
       console.log('Text copied to clipboard:', text);
     } catch (err) {

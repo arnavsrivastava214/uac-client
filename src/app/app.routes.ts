@@ -30,6 +30,7 @@ export const routes: Routes = [
       { path: 'login', loadComponent: () => import("./admin/dashboard/login/login.component").then(m => m.LoginComponent) },
       { path: 'dashboard', canActivate: [adminGuard], loadComponent: () => import("./admin/dashboard/dashboard.component").then(m => m.DashboardComponent) },
       { path: 'create-teacher', canActivate: [adminGuard], loadComponent: () => import("./admin/dashboard/create-teachers/create-teachers.component").then(m => m.CreateTeachersComponent) },
+      { path: 'edit-teacher/:id', canActivate: [adminGuard], loadComponent: () => import("./admin/dashboard/create-teachers/create-teachers.component").then(m => m.CreateTeachersComponent) },
       { path: 'teachers', canActivate: [adminGuard], loadComponent: () => import("./admin/dashboard/teachers/teachers.component").then(m => m.TeachersComponent) },
     ]
   }

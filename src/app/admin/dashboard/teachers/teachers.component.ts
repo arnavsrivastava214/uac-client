@@ -84,6 +84,10 @@ export class TeachersComponent {
       })
     }
   }
+
+  onEdit(id:any){
+    this.router.navigate(['admin/edit-teacher',id])
+  }
 }
 
 

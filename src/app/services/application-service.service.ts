@@ -27,13 +27,13 @@ export class ApplicationServiceService extends BaseServiceService{
     return this.postData(params, this.httpUrls['createTeacher'], callback)
   }
 
-  // getUsersById(userId: string, callback: any) {
-  //   return this.getData({}, this.httpUrls['getUsersById'] + "/" + userId, callback)
-  // }
+  getTeacherById(userId: string, callback: any) {
+    return this.getData({}, this.httpUrls['getTeacherById'] + "/" + userId, callback)
+  }
   
-  // updateUsers(params: any, callback: any) {
-  //   return this.putData(params, this.httpUrls['updateUsers'], callback)
-  // }
+  updateTeacher(params: any, callback: any) {
+    return this.putData(params, this.httpUrls['updateTeacher'], callback)
+  }
   
   deleteTeacher(id: any, callback: any) {
     return this.deleteData({}, this.httpUrls['deleteTeacher'] + "/" + id, callback)

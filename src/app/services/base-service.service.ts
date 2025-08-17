@@ -28,6 +28,8 @@ export class BaseServiceService {
     'fetchAllteacher': '/api/uac/teacher/fetchAllteacher',
     'createTeacher': '/api/uac/teacher/createTeacher',
     'deleteTeacher': '/api/uac/teacher/deleteTeacher',
+    'getTeacherById': '/api/uac/teacher/getTeacherById',
+    'updateTeacher': '/api/uac/teacher/updateTeacher',
 
 
     

@@ -30,12 +30,15 @@ export class CreateTeachersComponent {
     });
      this.route.params.subscribe((params: any) => {
       this.cardUuid = params['id'];
-      this.service.getTeacherById(this.cardUuid, (res: any) => {
-        if (res.status == 200) {
-          console.log(res);
-          this.teacherForm.patchValue(res.data);
-        }
-      })
+      if(this.cardUuid){
+
+        this.service.getTeacherById(this.cardUuid, (res: any) => {
+          if (res.status == 200) {
+            console.log(res);
+            this.teacherForm.patchValue(res.data);
+          }
+        })
+      }
     })
 
 
@@ -48,6 +51,7 @@ export class CreateTeachersComponent {
     if (this.teacherForm.valid) {
       let formValue = { ...this.teacherForm.value };
   
+      // CREATE mode: if no date entered, use today
       if (!this.cardUuid) {
         if (!formValue.joining_date) {
           formValue.joining_date = new Date().toISOString().split('T')[0]; 

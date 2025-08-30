@@ -1,0 +1,56 @@
+<div class="bg-gray-900 w-screen min-h-screen text-gray-100 p-4 md:p-8 flex justify-center items-start">
+    <div class="w-full max-w-7xl">
+      <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+          <h1 class="text-3xl font-bold mb-4 md:mb-0">Student Dashboard</h1>
+          <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg flex items-center transition-colors duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            Add Student
+          </button>
+        </div>
+  
+        <div class="overflow-x-auto rounded-lg">
+          <table class="min-w-full divide-y divide-gray-700">
+            <thead class="bg-gray-700">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Name</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Course</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Email</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Joining Date</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
+                <th scope="col" class="relative px-6 py-3">
+                  <span class="sr-only">Actions</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-gray-800 divide-y divide-gray-700">
+              <tr *ngFor="let student of students">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-200">{{ student.name }}</div>
+                  <div class="text-xs text-gray-400">{{ student.gender }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">{{ student.course }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">{{ student.email }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">{{ student.joiningDate }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span [ngClass]="{
+                    'px-2 inline-flex text-xs leading-5 font-semibold rounded-full': true,
+                    'bg-green-600/30 text-green-300': student.status === 'Active',
+                    'bg-red-600/30 text-red-300': student.status === 'Inactive'
+                  }">
+                    {{ student.status }}
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <a href="#" class="text-blue-500 hover:text-blue-300 transition-colors duration-200 mr-4">Edit</a>
+                  <a href="#" class="text-red-500 hover:text-red-300 transition-colors duration-200">Delete</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

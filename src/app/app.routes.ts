@@ -32,6 +32,7 @@ export const routes: Routes = [
       { path: 'create-teacher', canActivate: [adminGuard], loadComponent: () => import("./admin/dashboard/create-teachers/create-teachers.component").then(m => m.CreateTeachersComponent) },
       { path: 'edit-teacher/:id', canActivate: [adminGuard], loadComponent: () => import("./admin/dashboard/create-teachers/create-teachers.component").then(m => m.CreateTeachersComponent) },
       { path: 'teachers', canActivate: [adminGuard], loadComponent: () => import("./admin/dashboard/teachers/teachers.component").then(m => m.TeachersComponent) },
+      { path: 'students', canActivate: [adminGuard], loadComponent: () => import("./admin/dashboard/students/students.component").then(m => m.StudentsComponent) },
     ]
   }
 

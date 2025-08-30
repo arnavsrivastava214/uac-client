@@ -16,7 +16,6 @@ export class DashboardComponent {
     { title: 'Pending Enquiries', value: '18', icon: 'bell', color: 'text-red-400', bgColor: 'bg-red-500/20' }
   ];
 
-  // Dummy data for quick actions/links
   quickLinks = [
     { name: 'Teachers', icon: 'user-plus', route: '/admin/teachers' },
     { name: 'Create New Course', icon: 'file-plus', route: '/admin/create-course' },

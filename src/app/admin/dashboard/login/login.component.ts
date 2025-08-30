@@ -36,18 +36,19 @@ export class LoginComponent {
       // this.service.login(this.loginForm.value, (res: any) => {
         // if (res.status == 200) {
 
-        if(this.loginForm.value.email=="admin@gmail.com" && this.loginForm.value.password=="admin@gmail.com" ){
+        if(this.loginForm.value.email=="admin@gmail.com" && this.loginForm.value.password ){
           localStorage.setItem('isAdminLoggedIn', 'true');
+          console.log(this.loginForm.value);
+          
           setTimeout(() => {
             this.isLoading = false;
             this.router.navigate(['admin/dashboard']);
           }, 1000);
-
-        }
-  
-        // } else {
-          this.errorMessage = 'Please enter valid credentials.';
-          localStorage.removeItem('isAdminLoggedIn');
+        }else{
+          // } else {
+            this.errorMessage = 'Please enter valid credentials.';
+            localStorage.removeItem('isAdminLoggedIn');
+          }
         }
       // });
   

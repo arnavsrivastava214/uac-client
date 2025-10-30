@@ -8,7 +8,10 @@ html, body {
   margin: 0;
   height: 100%;
   font-family: $font-body !important; // Apply body font globally
+  overflow-x: hidden;
+
 }
+
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-heading;

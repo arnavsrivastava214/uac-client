@@ -8,7 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'notes',
-    loadComponent: () => import("./notes/free-notes/free-notes.component").then(m => m.FreeNotesComponent)
+    loadComponent: () => import("./headers/header/free-notes/free-notes.component").then(m => m.FreeNotesComponent)
   },
   {
     path: 'contact',

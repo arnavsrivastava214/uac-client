@@ -1,41 +1,59 @@
-import { Component } from "@angular/core"
-import { CommonModule } from "@angular/common"
-import { trigger, transition, style, animate } from '@angular/animations';
-import { RouterLink, RouterModule } from "@angular/router";
-import { FormsModule } from "@angular/forms";
+import { Component, AfterViewInit } from "@angular/core";
+import { driver, DriveStep } from "driver.js";
+import "driver.js/dist/driver.css";
 
-interface CourseItem {
-  title: string
-  route: string
-  description: string
-}
 @Component({
-  selector: 'app-header',
-  imports: [CommonModule, RouterModule, RouterLink, FormsModule],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
-  animations: [
-    trigger('slideDown', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-10px)' }),
-        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
-      ]),
-      transition(':leave', [
-        animate('200ms ease-in', style({ opacity: 0, transform: 'translateY(-10px)' }))
-      ])
-    ])
-  ]
-
+  selector: "app-header",
+  standalone: true,
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.scss"],
 })
-export class HeaderComponent {
+export class HeaderComponent implements AfterViewInit {
+  ngAfterViewInit(): void {
+    // 🔥 Define tour steps for NOTES, Gallery, Contact
+    const steps: DriveStep[] = [
+      {
+        element: "#notes-link",
+        popover: {
+          title: "Notes Section",
+          description: "Access all your class notes here.",
+          side: "bottom",
+          align: "center",
+        },
+      },
+      {
+        element: "#gallery-link",
+        popover: {
+          title: "Gallery Section",
+          description: "Browse student activities and classroom photos.",
+          side: "bottom",
+          align: "center",
+        },
+      },
+      {
+        element: "#contact-link",
+        popover: {
+          title: "Contact Section",
+          description: "Get in touch with us or request support.",
+          side: "bottom",
+          align: "center",
+        },
+      },
+    ];
 
-  isMenuOpen = false;
+    // 🚀 Initialize the driver
+    const driverObj = driver({
+      steps,
+      showProgress: true,
+      showButtons: ["next", "previous", "close"],
+      nextBtnText: "Next",
+      prevBtnText: "Back",
+      doneBtnText: "Finish",
+      allowClose: true,
+      popoverClass: "uac-theme", // 👈 matches your custom theme in SCSS
+    });
 
-  closeMobileMenu() {
-    const menuToggle = document.getElementById('menu-toggle') as HTMLInputElement;
-    if (menuToggle) {
-      menuToggle.checked = false;
-    }
+    // ⏳ Start after slight delay for DOM to render
+    setTimeout(() => driverObj.drive(), 600);
   }
-
 }

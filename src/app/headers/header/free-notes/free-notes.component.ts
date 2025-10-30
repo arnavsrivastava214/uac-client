@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // Required if downloading from an API
 import { RouterModule } from '@angular/router';
-import { HeaderComponent } from "../../headers/header/header.component";
+import { HeaderComponent } from "../header.component";
 
 interface DownloadNote {
   id: string;

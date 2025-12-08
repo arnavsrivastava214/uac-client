@@ -52,6 +52,13 @@ export class DashboardComponent {
   uacOfficialMail: string = 'unstoppableacademicclassess@gmail.com';
   copied: boolean = false; // New state for "Copied!" message
 
+  isReadMoreVisible: boolean = false;
+
+  // 2. Method to toggle the state
+  toggleReadMore(): void {
+    this.isReadMoreVisible = !this.isReadMoreVisible;
+  }
+
 
 
   constructor(private fb: FormBuilder, private router:Router,private service:ApplicationServiceService, private alert:AlertService) {

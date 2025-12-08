@@ -1,17 +1,16 @@
 @import "tailwindcss";
 
 // Define font variables for easier use
-$font-body: 'Inter', sans-serif;
-$font-heading: 'Montserrat', sans-serif;
+$font-body: "Outfit", sans-serif;
+$font-heading:  "Outfit", sans-serif;
 
 html, body {
   margin: 0;
   height: 100%;
-  font-family: $font-body !important; // Apply body font globally
+font-family: "Outfit", sans-serif;
   overflow-x: hidden;
 
 }
-
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-heading;
@@ -22,7 +21,6 @@ h1, h2, h3, h4, h5, h6 {
 @tailwind utilities;
 
 * {
-  font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
   font-weight: 600 !important;
   font-style: normal;

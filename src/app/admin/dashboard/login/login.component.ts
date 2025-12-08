@@ -33,30 +33,34 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.isLoading = true;
   
-      // this.service.login(this.loginForm.value, (res: any) => {
-        // if (res.status == 200) {
-
-        if(this.loginForm.value.email=="admin@gmail.com" && this.loginForm.value.password ){
+      this.service.login(this.loginForm.value, (res: any) => {
+  
+        if (res && res.status === 200) {
+          if (res.token) {
+            localStorage.setItem('token', res.token);
+          }
+  
           localStorage.setItem('isAdminLoggedIn', 'true');
           console.log(this.loginForm.value);
-          
+  
           setTimeout(() => {
             this.isLoading = false;
             this.router.navigate(['admin/dashboard']);
           }, 1000);
-        }else{
-          // } else {
-            this.errorMessage = 'Please enter valid credentials.';
-            localStorage.removeItem('isAdminLoggedIn');
-          }
-        }
-      // });
   
-    // } else {
+        } else {
+          this.isLoading = false;
+          this.errorMessage = res?.error || 'Please enter valid credentials.';
+          localStorage.removeItem('isAdminLoggedIn');
+        }
+      });
+  
+    } else {
       console.warn('Login Failed: Form is invalid');
       this.loginForm.markAllAsTouched();
-    // }
+    }
   }
+  
   
 
   isFieldInvalid(field: string): boolean {

@@ -1,5 +1,5 @@
 import { CommonModule, NgClass } from '@angular/common';
-import { Component, type OnInit } from '@angular/core';
+import { ApplicationRef, Component, NgZone, type OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ReviewComponent } from '../reviews/review/review.component';
@@ -35,7 +35,7 @@ interface Testimonial {
   selector: 'app-dashboard',
   imports: [FormsModule, ReactiveFormsModule, CommonModule, NgClass, ReviewComponent, HeaderComponent, RouterLink, ReviewCarouselComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
   title = 'unstoppableAcademicClassess';
@@ -61,7 +61,12 @@ export class DashboardComponent {
 
 
 
-  constructor(private fb: FormBuilder, private router:Router,private service:ApplicationServiceService, private alert:AlertService) {
+  constructor(  private fb: FormBuilder,
+    private router: Router,
+    private service: ApplicationServiceService,
+    private alert: AlertService,
+    private appRef: ApplicationRef,
+    private ngZone: NgZone) {
     this.contactForm = this.fb.group({
       name: ["", [Validators.required, Validators.minLength(2)]],
       email: ["", [Validators.required, Validators.email]],
@@ -277,45 +282,45 @@ export class DashboardComponent {
     console.log('Attempting to call:', phoneNumber);
   }
 
-  ngAfterViewInit(): void {
-    const steps: DriveStep[] = [
-      {
-        element: '#notes-link',
-        popover: {
-          title: 'Notes Section',
-          description: 'Access all your class notes here.',
-          side: 'bottom',
-          align: 'center',
-        },
-      },
-      {
-        element: '#gallery-link',
-        popover: {
-          title: 'Gallery Section',
-          description: 'Browse student activities and classroom photos.',
-          side: 'bottom',
-          align: 'center',
-        },
-      },
-      {
-        element: '#contact-link',
-        popover: {
-          title: 'Contact Section',
-          description: 'Get in touch with us or request support.',
-          side: 'bottom',
-          align: 'center',
-        },
-      },
-    ];
+  // ngAfterViewInit(): void {
+  //   const steps: DriveStep[] = [
+  //     {
+  //       element: '#notes-link',
+  //       popover: {
+  //         title: 'Notes Section',
+  //         description: 'Access all your class notes here.',
+  //         side: 'bottom',
+  //         align: 'center',
+  //       },
+  //     },
+  //     {
+  //       element: '#gallery-link',
+  //       popover: {
+  //         title: 'Gallery Section',
+  //         description: 'Browse student activities and classroom photos.',
+  //         side: 'bottom',
+  //         align: 'center',
+  //       },
+  //     },
+  //     {
+  //       element: '#contact-link',
+  //       popover: {
+  //         title: 'Contact Section',
+  //         description: 'Get in touch with us or request support.',
+  //         side: 'bottom',
+  //         align: 'center',
+  //       },
+  //     },
+  //   ];
 
-    // small delay so header + menu are fully rendered
-    setTimeout(() => {
-      driver({
-        steps,
-        showProgress: true,
-        showButtons: ['next', 'previous', 'close'],
-        popoverClass: 'uac-theme',
-      }).drive();
-    }, 500);
-  }
+  //   // small delay so header + menu are fully rendered
+  //   setTimeout(() => {
+  //     driver({
+  //       steps,
+  //       showProgress: true,
+  //       showButtons: ['next', 'previous', 'close'],
+  //       popoverClass: 'uac-theme',
+  //     }).drive();
+  //   }, 500);
+  // }
 }

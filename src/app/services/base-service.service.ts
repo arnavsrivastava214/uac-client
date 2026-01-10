@@ -37,7 +37,7 @@ export class BaseServiceService {
 
   }
 
-  apiUrl: any = 'http://localhost:3000';
+  apiUrl = 'https://uac-server.onrender.com';
 
   
   getData(d: any, url: any, callback: any) {

@@ -8,9 +8,6 @@ import { ReviewCarouselComponent } from "../carousel/review-carousel/review-caro
 import { ApplicationServiceService } from '../services/application-service.service';
 import { AlertService } from '../services/alert.service';
 import { Subject } from 'rxjs';
-import { driver, DriveStep } from 'driver.js';
-import 'driver.js/dist/driver.css';
-
 
 interface Stat {
   number: any
@@ -31,15 +28,15 @@ interface Testimonial {
   content: string
   rating: number
 }
+
 @Component({
   selector: 'app-dashboard',
   imports: [FormsModule, ReactiveFormsModule, CommonModule, NgClass, ReviewComponent, HeaderComponent, RouterLink, ReviewCarouselComponent],
   templateUrl: './dashboard.component.html',
-styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   title = 'unstoppableAcademicClassess';
-
 
   isGameVisible = false;
   gameMessage: string = '';
@@ -47,40 +44,19 @@ export class DashboardComponent {
   prizeCardIndex: number = 0;
   showAllCards: boolean = false;
   gameDisabled: boolean = false;
-  isMenuOpen = false
+  isMenuOpen = false;
   contactForm: FormGroup;
   uacOfficialMail: string = 'unstoppableacademicclassess@gmail.com';
-  copied: boolean = false; // New state for "Copied!" message
-
+  copied: boolean = false;
   isReadMoreVisible: boolean = false;
-
-  // 2. Method to toggle the state
-  toggleReadMore(): void {
-    this.isReadMoreVisible = !this.isReadMoreVisible;
-  }
-
-
-
-  constructor(  private fb: FormBuilder,
-    private router: Router,
-    private service: ApplicationServiceService,
-    private alert: AlertService,
-    private appRef: ApplicationRef,
-    private ngZone: NgZone) {
-    this.contactForm = this.fb.group({
-      name: ["", [Validators.required, Validators.minLength(2)]],
-      email: ["", [Validators.required, Validators.email]],
-      Subject: ["", [Validators.required]],
-      message: ["", [Validators.required, Validators.minLength(10)]],
-    })
-  }
+  isTrophyVisible: boolean = true;
+  hasPlayedGame: boolean = false;
 
   services: Service[] = [
     {
       icon: "fas fa-bullseye",
       title: "Life Coaching",
-      description:
-        "Transform your personal and professional life with personalized guidance and actionable strategies.",
+      description: "Transform your personal and professional life with personalized guidance and actionable strategies.",
       color: "from-blue-500 to-purple-600",
     },
     {
@@ -101,98 +77,122 @@ export class DashboardComponent {
       description: "Build high-performing teams and enhance collaboration in your organization.",
       color: "from-orange-500 to-red-600",
     },
-  ]
+  ];
 
   stats: any = [
     { number: "500+", label: "Clients Transformed" },
     { number: "10+", label: "Years Experience" },
     { number: "95%", label: "Success Rate" },
     { number: "10:00 AM to 8:00 PM", label: "Support Available" },
-  ]
+  ];
 
   testimonials: Testimonial[] = [
     {
       name: "Sarah Johnson",
       position: "Marketing Director",
       image: "/placeholder.svg?height=60&width=60",
-      content:
-        "The coaching program completely transformed my approach to leadership. I've seen incredible growth in both my career and personal life.",
+      content: "The coaching program completely transformed my approach to leadership. I've seen incredible growth in both my career and personal life.",
       rating: 5,
     },
     {
       name: "Michael Chen",
       position: "Entrepreneur",
       image: "/placeholder.svg?height=60&width=60",
-      content:
-        "Working with this coach helped me overcome limiting beliefs and achieve goals I never thought possible. Highly recommended!",
+      content: "Working with this coach helped me overcome limiting beliefs and achieve goals I never thought possible. Highly recommended!",
       rating: 5,
     },
     {
       name: "Emily Rodriguez",
       position: "Team Lead",
       image: "/placeholder.svg?height=60&width=60",
-      content:
-        "The personalized approach and actionable strategies made all the difference. I'm now leading my team with confidence and clarity.",
+      content: "The personalized approach and actionable strategies made all the difference. I'm now leading my team with confidence and clarity.",
       rating: 5,
     },
-  ]
-  ngOnInit() {
-    scroll(0, 0)
-  }
- 
+  ];
 
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private service: ApplicationServiceService,
+    private alert: AlertService,
+    private appRef: ApplicationRef,
+    private ngZone: NgZone
+  ) {
+    this.contactForm = this.fb.group({
+      name: ["", [Validators.required, Validators.minLength(2)]],
+      email: ["", [Validators.required, Validators.email]],
+      subject: ["", [Validators.required]],
+      message: ["", [Validators.required, Validators.minLength(10)]],
+    });
+  }
+
+  ngOnInit() {
+    scroll(0, 0);
+    this.checkGameStatus();
+  }
+
+  checkGameStatus(): void {
+    const gameLost = sessionStorage.getItem('uac_game_lost');
+    if (gameLost === 'true') {
+      this.isTrophyVisible = false;
+      this.hasPlayedGame = true;
+    }
+  }
+
+  toggleReadMore(): void {
+    this.isReadMoreVisible = !this.isReadMoreVisible;
+  }
 
   toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen
+    this.isMenuOpen = !this.isMenuOpen;
   }
 
   scrollToSection(sectionId: string): void {
-    const element = document.getElementById(sectionId)
+    const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+      element.scrollIntoView({ behavior: "smooth" });
     }
-    this.isMenuOpen = false
+    this.isMenuOpen = false;
   }
 
   onSubmit(): void {
     if (this.contactForm.valid) {
       this.service.sendRequest(this.contactForm.value, (res: any) => {
-        if(res.status==200){
+        if (res.status == 200) {
           this.alert.success(res.message);
-          this.contactForm.reset()
-        }else{
+          this.contactForm.reset();
+        } else {
           this.alert.error(res.message);
         }
-      })
+      });
     } else {
-      console.log("Form is invalid")
+      console.log("Form is invalid");
     }
   }
 
-
-
-
-
-
-
   getStarArray(rating: number): number[] {
-    return Array(rating).fill(0)
+    return Array(rating).fill(0);
   }
 
   get name() {
-    return this.contactForm.get("name")
+    return this.contactForm.get("name");
   }
+  
   get email() {
-    return this.contactForm.get("email")
+    return this.contactForm.get("email");
   }
+  
   get subject() {
-    return this.contactForm.get("subject")
+    return this.contactForm.get("subject");
   }
+  
   get message() {
-    return this.contactForm.get("message")
+    return this.contactForm.get("message");
   }
 
   startGame() {
+    if (!this.isTrophyVisible) return;
+    
     this.prizeCardIndex = Math.floor(Math.random() * 3);
     this.isGameVisible = true;
     this.gameWinner = false;
@@ -200,127 +200,88 @@ export class DashboardComponent {
     this.showAllCards = false;
     this.gameDisabled = false;
   }
-  
+
   selectCard(index: number) {
     if (this.gameDisabled) return;
     this.gameDisabled = true;
     this.showAllCards = true;
-  
+
     if (index === this.prizeCardIndex) {
       this.gameWinner = true;
-      this.gameMessage = 'You found the prize! You won!';
+      this.gameMessage = '🎉 Congratulations! You found the prize!';
       this.runConfettiAnimation();
-    } else {
-      this.gameWinner = false;
-      this.gameMessage = 'Better luck next time!';
+      
       setTimeout(() => {
         this.closeGame();
-      }, 2000); 
+      }, 4000);
+    } else {
+      this.gameWinner = false;
+      this.gameMessage = '😔 Better luck next time!';
+      
+      sessionStorage.setItem('uac_game_lost', 'true');
+      this.isTrophyVisible = false;
+      this.hasPlayedGame = true;
+      
+      setTimeout(() => {
+        this.closeGame();
+      }, 2500);
     }
   }
-  
+
   closeGame() {
     this.isGameVisible = false;
     this.gameWinner = false;
     this.gameMessage = '';
     this.showAllCards = false;
     this.gameDisabled = false;
-    
+
     const confettiContainer = document.getElementById('confetti-container');
     if (confettiContainer) {
       confettiContainer.innerHTML = '';
     }
-
   }
-  
+
   runConfettiAnimation() {
     const confettiContainer = document.getElementById('confetti-container');
     if (!confettiContainer) return;
-  
-    for (let i = 0; i < 50; i++) {
+
+    for (let i = 0; i < 100; i++) {
       const confetti = document.createElement('div');
       confetti.className = 'confetti';
       confetti.style.left = `${Math.random() * 100}%`;
       confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      confetti.style.animationDelay = `${Math.random() * 0.5}s`;
       confettiContainer.appendChild(confetti);
     }
-    
+
     setTimeout(() => {
       confettiContainer.innerHTML = '';
     }, 4000);
   }
 
-
   copyToClipboard(text: string): void {
     const textarea = document.createElement('textarea');
     textarea.value = text;
-    textarea.style.position = 'fixed'; 
+    textarea.style.position = 'fixed';
     document.body.appendChild(textarea);
     textarea.select();
     try {
       document.execCommand('copy');
-      this.copied = true; 
+      this.copied = true;
       setTimeout(() => {
-        this.copied = false; 
+        this.copied = false;
       }, 1500);
       console.log('Text copied to clipboard:', text);
     } catch (err) {
       console.error('Failed to copy text:', err);
-      // Fallback for older browsers or specific environments
       alert('Could not copy text. Please copy manually: ' + text);
     } finally {
       document.body.removeChild(textarea);
     }
   }
 
-  /**
-   * Initiates a phone call using the 'tel:' protocol.
-   * @param phoneNumber The phone number to call.
-   */
   callNumber(phoneNumber: string): void {
     window.location.href = `tel:${phoneNumber}`;
     console.log('Attempting to call:', phoneNumber);
   }
-
-  // ngAfterViewInit(): void {
-  //   const steps: DriveStep[] = [
-  //     {
-  //       element: '#notes-link',
-  //       popover: {
-  //         title: 'Notes Section',
-  //         description: 'Access all your class notes here.',
-  //         side: 'bottom',
-  //         align: 'center',
-  //       },
-  //     },
-  //     {
-  //       element: '#gallery-link',
-  //       popover: {
-  //         title: 'Gallery Section',
-  //         description: 'Browse student activities and classroom photos.',
-  //         side: 'bottom',
-  //         align: 'center',
-  //       },
-  //     },
-  //     {
-  //       element: '#contact-link',
-  //       popover: {
-  //         title: 'Contact Section',
-  //         description: 'Get in touch with us or request support.',
-  //         side: 'bottom',
-  //         align: 'center',
-  //       },
-  //     },
-  //   ];
-
-  //   // small delay so header + menu are fully rendered
-  //   setTimeout(() => {
-  //     driver({
-  //       steps,
-  //       showProgress: true,
-  //       showButtons: ['next', 'previous', 'close'],
-  //       popoverClass: 'uac-theme',
-  //     }).drive();
-  //   }, 500);
-  // }
 }

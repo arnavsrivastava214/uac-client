@@ -1,17 +1,29 @@
 <app-header></app-header>
 
-<section id="home" class="pt-20 min-h-screen gradient-bg flex items-center">
-    <div class="container mx-auto px-6">
+<!-- Hero Section -->
+<section id="home" class="pt-20 min-h-screen gradient-bg flex items-center relative overflow-hidden">
+    <!-- Animated Background Particles -->
+    <div class="absolute inset-0 opacity-20">
+        <div class="absolute top-20 left-10 w-20 h-20 bg-yellow-300 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute top-40 right-20 w-32 h-32 bg-purple-400 rounded-full blur-3xl floating"></div>
+        <div class="absolute bottom-20 left-1/3 w-24 h-24 bg-pink-400 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+    </div>
+
+    <div class="container mx-auto px-6 py-16 lg:py-24 relative z-10">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="text-white animate-slide-up">
                 <h1 class="text-5xl lg:text-7xl font-bold mb-6 leading-tight">
                     Transform Your
-                    <span class="text-yellow-300">Life</span>
+                    <span class="text-yellow-300 inline-block hover:scale-110 transition-transform duration-300">Life</span>
                     Today
                 </h1>
 
-                <div class="mb-8 space-y-4">
-                    <h2 class="text-2xl font-semibold text-yellow-300">*UNSTOPPABLE ACADEMIC CLASSES* 🔥</h2>
+                <div class="mb-8 space-y-4 bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                    <h2 class="text-2xl font-semibold text-yellow-300 flex items-center gap-2">
+                        <span class="animate-bounce">🔥</span>
+                        *UNSTOPPABLE ACADEMIC CLASSES*
+                        <span class="animate-bounce" style="animation-delay: 0.5s;">🔥</span>
+                    </h2>
                     <p class="text-xl lg:text-2xl text-gray-200 leading-relaxed">
                         A coaching institute where your child can study from **Class 1 to 12** with **experienced teachers** for all subjects at a single location, with **minimum fees**, 3-hour daily classes, revision classes every Saturday, and test series every Sunday.
                     </p>
@@ -20,90 +32,199 @@
                     </p>
                 </div>
 
-                <div class="text-gray-200 space-y-6" [class.hidden]="!isReadMoreVisible">
+                <div class="text-gray-200 space-y-6 transition-all duration-500 ease-in-out" 
+                     [class.hidden]="!isReadMoreVisible"
+                     [class.opacity-0]="!isReadMoreVisible"
+                     [class.opacity-100]="isReadMoreVisible">
                     
-                    <div>
-                        <h3 class="text-xl font-bold text-yellow-300 mb-2">*Key Features:*</h3>
-                        <ul class="list-disc list-inside space-y-1 text-lg ml-4">
-                            <li>**Experienced Teachers**: Specialized teachers for each subject</li>
-                            <li>**Minimum Fees**: High-quality education at affordable prices</li>
-                            <li>**3-Hour Classes**: Daily classes of 3 hours</li>
-                            <li>**Revision Classes**: Every Saturday</li>
-                            <li>**Test Series**: Every Sunday</li>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 slide-up">
+                        <h3 class="text-xl font-bold text-yellow-300 mb-4 flex items-center gap-2">
+                            <i class="fas fa-star"></i>
+                            *Key Features:*
+                        </h3>
+                        <ul class="space-y-3 text-lg ml-4">
+                            <li class="flex items-start gap-3 hover:translate-x-2 transition-transform duration-300">
+                                <i class="fas fa-check-circle text-green-400 mt-1"></i>
+                                <span>**Experienced Teachers**: Specialized teachers for each subject</span>
+                            </li>
+                            <li class="flex items-start gap-3 hover:translate-x-2 transition-transform duration-300">
+                                <i class="fas fa-check-circle text-green-400 mt-1"></i>
+                                <span>**Minimum Fees**: High-quality education at affordable prices</span>
+                            </li>
+                            <li class="flex items-start gap-3 hover:translate-x-2 transition-transform duration-300">
+                                <i class="fas fa-check-circle text-green-400 mt-1"></i>
+                                <span>**3-Hour Classes**: Daily classes of 3 hours</span>
+                            </li>
+                            <li class="flex items-start gap-3 hover:translate-x-2 transition-transform duration-300">
+                                <i class="fas fa-check-circle text-green-400 mt-1"></i>
+                                <span>**Revision Classes**: Every Saturday</span>
+                            </li>
+                            <li class="flex items-start gap-3 hover:translate-x-2 transition-transform duration-300">
+                                <i class="fas fa-check-circle text-green-400 mt-1"></i>
+                                <span>**Test Series**: Every Sunday</span>
+                            </li>
                         </ul>
                     </div>
                     
-                    <div>
-                        <h3 class="text-xl font-bold text-yellow-300 mb-2">*Address and Contact:*</h3>
-                        <p class="text-lg">
-                            **Address**: Beside V Mart, Vadik Bal Mandir School, Nirala Nagar, Raebareli, Uttar Pradesh 229001, India
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 slide-up" style="animation-delay: 0.2s;">
+                        <h3 class="text-xl font-bold text-yellow-300 mb-4 flex items-center gap-2">
+                            <i class="fas fa-map-marker-alt"></i>
+                            *Address and Contact:*
+                        </h3>
+                        <p class="text-lg mb-3">
+                            <strong>Address:</strong> Beside V Mart, Vadik Bal Mandir School, Nirala Nagar, Raebareli, Uttar Pradesh 229001, India
                         </p>
-                        <p class="text-lg mt-1">
-                            **Contact**: If you want more information or want to enroll your child, you can directly contact <span class="font-bold text-yellow-300">9792629116</span>.
+                        <p class="text-lg">
+                            <strong>Contact:</strong> If you want more information or want to enroll your child, you can directly contact 
+                            <span class="font-bold text-yellow-300 hover:text-yellow-200 transition-colors cursor-pointer" 
+                                  (click)="callNumber('+919792629116')">
+                                9792629116
+                            </span>.
                         </p>
                     </div>
-
                 </div>
 
                 <button
-                    class="mt-6 border-2 border-white text-white px-6 py-2 rounded-full font-semibold text-base hover:bg-white hover:text-purple-600 transition-all duration-300"
-                    (click)="toggleReadMore()"
-                >
-                    {{ isReadMoreVisible ? 'Read Less' : 'Read More' }}
+                    class="mt-6 border-2 border-white text-white px-6 py-2 rounded-full font-semibold text-base hover:bg-white hover:text-purple-600 transition-all duration-300 read-more-btn"
+                    (click)="toggleReadMore()">
+                    <span class="flex items-center gap-2">
+                        {{ isReadMoreVisible ? 'Read Less' : 'Read More' }}
+                        <i class="fas" [class.fa-chevron-up]="isReadMoreVisible" [class.fa-chevron-down]="!isReadMoreVisible"></i>
+                    </span>
                 </button>
-
 
                 <div class="flex flex-col sm:flex-row gap-4 mt-8"> 
                     <button
-                        class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105"
+                        class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                         routerLink="/contact">
-                        Start Your Journey
+                        <span class="flex items-center justify-center gap-2">
+                            <i class="fas fa-rocket"></i>
+                            Start Your Journey
+                        </span>
                     </button>
 
                     <button
-                        class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300">
-                        <a href="https://www.youtube.com/@Sonusrivastava_uac" target="_blank">
+                        class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300 hover:scale-105">
+                        <a href="https://www.youtube.com/@Sonusrivastava_uac" target="_blank" class="flex items-center justify-center gap-2">
+                            <i class="fab fa-youtube"></i>
                             Watch Demo on Youtube
                         </a>
                     </button>
                 </div>
             </div>
 
-            <div class="animate-bounce-in">
+            <div class="animate-bounce-in relative">
                 <div class="relative flex justify-center items-center h-full"> 
                     <img src="" 
                         alt="Professional Coach" 
                         class="max-w-full h-auto rounded-3xl shadow-2xl relative z-10 animate-float"
                         style="max-height: 500px;">
                         
-                    <div class="absolute -top-6 -right-6 bg-yellow-400 text-purple-800 p-4 rounded-full shadow-lg animate-float cursor-pointer"
-                        style="animation-delay: 1s; z-index: 20;" (click)="startGame()">
+                    <div *ngIf="isTrophyVisible"
+                         class="absolute -top-6 -right-6 bg-yellow-400 text-purple-800 p-4 rounded-full shadow-lg cursor-pointer animate-trophy"
+                         style="z-index: 20;" 
+                         (click)="startGame()"
+                         title="Click to play a game!">
+                        <i class="fas fa-trophy text-2xl"></i>
+                    </div>
+
+                    <div *ngIf="!isTrophyVisible && hasPlayedGame"
+                         class="absolute -top-6 -right-6 bg-gray-400 text-gray-600 p-4 rounded-full shadow-lg opacity-50"
+                         style="z-index: 20;"
+                         title="You've already played the game">
                         <i class="fas fa-trophy text-2xl"></i>
                     </div>
                 </div>
             </div>
             
+            <!-- Enhanced Game Modal -->
             <div *ngIf="isGameVisible"
-                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 game-modal">
+                <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 game-container relative overflow-hidden">
+                    <div id="confetti-container" class="absolute inset-0"></div>
+                    
+                    <button 
+                        (click)="closeGame()" 
+                        class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors z-10">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                    
+                    <h2 class="text-3xl font-bold text-center mb-6 text-purple-600">
+                        🎯 Find the Prize!
+                    </h2>
+                    
+                    <p class="text-center text-gray-600 mb-8">
+                        Choose a card and see if you can find the hidden prize!
+                    </p>
+                    
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div *ngFor="let card of [0,1,2]; let i = index"
+                             (click)="selectCard(i)"
+                             class="card"
+                             [class.revealed]="showAllCards"
+                             [class.winner]="showAllCards && i === prizeCardIndex"
+                             [class.loser]="showAllCards && i !== prizeCardIndex">
+                            <i *ngIf="showAllCards && i === prizeCardIndex" 
+                               class="fas fa-gift text-white text-4xl"></i>
+                            <i *ngIf="showAllCards && i !== prizeCardIndex" 
+                               class="fas fa-times text-white text-4xl"></i>
+                        </div>
+                    </div>
+                    
+                    <div *ngIf="gameMessage" 
+                         class="text-center text-lg font-semibold p-4 rounded-xl"
+                         [class.bg-green-100]="gameWinner"
+                         [class.text-green-800]="gameWinner"
+                         [class.bg-red-100]="!gameWinner"
+                         [class.text-red-800]="!gameWinner">
+                        {{ gameMessage }}
+                    </div>
                 </div>
-        </div>
-    </div>
-</section>
-
-<!-- Stats Section -->
-<section class="py-16 bg-white">
-    <div class="container mx-auto px-6">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            <div *ngFor="let stat of stats; let i = index" class="text-center slide-up"
-                [style.animation-delay]="(i * 0.2) + 's'">
-                <div class="text-4xl lg:text-5xl font-bold text-purple-600 mb-2">{{stat.number}}</div>
-                <div class="text-gray-600 font-medium">{{stat.label}}</div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Services Section -->
+<!-- Stats Section with Enhanced Animation -->
+<section class="py-16 bg-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-5">
+        <div class="absolute top-0 left-0 w-full h-full" 
+             style="background-image: radial-gradient(circle, #8b5cf6 1px, transparent 1px); background-size: 50px 50px;"></div>
+    </div>
+    <div class="container mx-auto px-6 relative z-10">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+      
+          <div
+            *ngFor="let stat of stats; let i = index"
+            class="group relative overflow-hidden rounded-3xl bg-white/80 backdrop-blur-md border border-gray-200 shadow-lg
+                   hover:shadow-2xl transition-all duration-500 ease-out
+                   p-6 lg:p-8 text-center stat-item"
+            [style.animation-delay]="(i * 0.15) + 's'">
+      
+            <div
+              class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
+                     bg-gradient-to-br from-purple-100 via-transparent to-blue-100">
+            </div>
+      
+            <div
+              class="relative text-4xl lg:text-5xl font-extrabold text-purple-600 mb-2
+                     group-hover:scale-110 transition-transform duration-300">
+              {{ stat.number }}
+            </div>
+      
+            <div class="relative mx-auto mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-purple-500 to-blue-500"></div>
+      
+            <div class="relative text-gray-700 font-semibold tracking-wide">
+              {{ stat.label }}
+            </div>
+          </div>
+      
+        </div>
+      </div>
+      
+</section>
+
+<!-- Services Section with Enhanced Cards -->
 <section id="services" class="py-20 bg-gray-50">
     <div class="container mx-auto px-6">
         <div class="text-center mb-16 slide-up">
@@ -119,7 +240,7 @@
                 class="bg-white rounded-2xl p-8 shadow-lg card-hover bounce-in"
                 [style.animation-delay]="(i * 0.2) + 's'">
                 <div class="mb-6">
-                    <div class="w-16 h-16 bg-gradient-to-r rounded-2xl flex items-center justify-center mb-4"
+                    <div class="w-16 h-16 bg-gradient-to-r rounded-2xl flex items-center justify-center mb-4 service-gradient"
                         [ngClass]="service.color">
                         <i [class]="service.icon + ' text-white text-2xl'"></i>
                     </div>
@@ -127,7 +248,7 @@
                     <p class="text-gray-600 leading-relaxed">{{service.description}}</p>
                 </div>
                 <button
-                    class="w-full bg-gray-100 text-gray-800 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors duration-300">
+                    class="w-full bg-gray-100 text-gray-800 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white transition-all duration-300">
                     Learn More
                 </button>
             </div>
@@ -142,7 +263,8 @@
     <div class="container mx-auto px-6">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div class="slide-up">
-                <img src="/placeholder.svg?height=600&width=600" alt="About Us" class="rounded-2xl shadow-2xl">
+                <img src="/placeholder.svg?height=600&width=600" alt="About Us" 
+                     class="rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-500">
             </div>
             <div class="slide-up" style="animation-delay: 0.3s;">
                 <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-8">
@@ -159,20 +281,20 @@
                 </p>
 
                 <div class="space-y-4 mb-8">
-                    <div class="flex items-center space-x-4">
-                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <div class="flex items-center space-x-4 hover:translate-x-2 transition-transform duration-300">
+                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center pulse-glow">
                             <i class="fas fa-check text-white text-sm"></i>
                         </div>
                         <span class="text-gray-700 font-medium">Certified Professional Coach (ICF)</span>
                     </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <div class="flex items-center space-x-4 hover:translate-x-2 transition-transform duration-300">
+                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center pulse-glow" style="animation-delay: 0.5s;">
                             <i class="fas fa-check text-white text-sm"></i>
                         </div>
                         <span class="text-gray-700 font-medium">10+ Years of Coaching Experience</span>
                     </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <div class="flex items-center space-x-4 hover:translate-x-2 transition-transform duration-300">
+                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center pulse-glow" style="animation-delay: 1s;">
                             <i class="fas fa-check text-white text-sm"></i>
                         </div>
                         <span class="text-gray-700 font-medium">500+ Successful Transformations</span>
@@ -203,19 +325,22 @@
         <div class="grid lg:grid-cols-2 gap-8 sm:gap-12 max-w-full overflow-x-hidden">
             <!-- Contact Info Section -->
             <div class="slide-up">
-                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg w-full">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Get in Touch</h3>
+                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg w-full hover:shadow-2xl transition-shadow duration-300">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                        <i class="fas fa-phone-volume text-purple-600"></i>
+                        Get in Touch
+                    </h3>
                     <div class="space-y-6">
                   
                       <!-- Phone -->
-                      <div class="flex items-start space-x-4">
+                      <div class="flex items-start space-x-4 hover:bg-purple-50 p-3 rounded-xl transition-colors duration-300">
                         <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
                           <i class="fas fa-phone text-purple-600 text-lg"></i>
                         </div>
                         <div>
                           <p class="text-sm font-semibold text-gray-700">Phone</p>
                           <div class="text-gray-800 text-sm break-all">
-                            <span (click)="callNumber('+919792629116')" class="cursor-pointer hover:underline">
+                            <span (click)="callNumber('+919792629116')" class="cursor-pointer hover:underline hover:text-purple-600 transition-colors">
                               +91 9792629116
                             </span>
                           </div>
@@ -223,18 +348,24 @@
                       </div>
                   
                       <!-- Email -->
-                      <div class="flex items-start space-x-4">
+                      <div class="flex items-start space-x-4 hover:bg-purple-50 p-3 rounded-xl transition-colors duration-300 relative">
                         <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
                           <i class="fas fa-envelope text-purple-600 text-lg"></i>
                         </div>
-                        <div>
+                        <div class="flex-1">
                           <p class="text-sm font-semibold text-gray-700">Email</p>
                           <p class="text-gray-800 text-sm break-all">{{ uacOfficialMail }}</p>
+                          <button 
+                            (click)="copyToClipboard(uacOfficialMail)"
+                            class="mt-2 text-xs text-purple-600 hover:text-purple-800 transition-colors">
+                            <i class="fas fa-copy mr-1"></i>
+                            {{ copied ? 'Copied!' : 'Copy Email' }}
+                          </button>
                         </div>
                       </div>
                   
                       <!-- Location -->
-                      <div class="flex items-start space-x-4">
+                      <div class="flex items-start space-x-4 hover:bg-purple-50 p-3 rounded-xl transition-colors duration-300">
                         <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
                           <i class="fas fa-map-marker-alt text-purple-600 text-lg"></i>
                         </div>
@@ -246,23 +377,23 @@
                               href="https://www.google.com/maps/place/UNSTOPPABLE+ACADEMIC+CLASSES/@26.2240609,81.2425932,448m"
                               target="_blank"
                               rel="noopener noreferrer"
-                              class="text-blue-600 font-medium underline"
-                            >
+                              class="text-blue-600 font-medium underline hover:text-blue-800 transition-colors">
                               Click here to view us on Google Maps
                             </a>
                           </p>
                         </div>
                       </div>
-                  
                     </div>
-                  </div>
-                  
+                </div>
             </div>
           
             <!-- Contact Form Section -->
             <div class="slide-up" style="animation-delay: 0.3s;">
-              <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg">
-                <h3 class="text-2xl font-bold text-gray-800 mb-6">Send a Message</h3>
+              <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                    <i class="fas fa-paper-plane text-purple-600"></i>
+                    Send a Message
+                </h3>
                 <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-6">
                   <!-- Name -->
                   <div>
@@ -270,7 +401,7 @@
                       type="text"
                       placeholder="Your Name"
                       formControlName="name"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent form-input"
                       [class.border-red-500]="name?.invalid && name?.touched"
                     />
                     <div *ngIf="name?.invalid && name?.touched" class="text-red-500 text-sm mt-1">
@@ -285,7 +416,7 @@
                       type="email"
                       placeholder="Your Email"
                       formControlName="email"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent form-input"
                       [class.border-red-500]="email?.invalid && email?.touched"
                     />
                     <div *ngIf="email?.invalid && email?.touched" class="text-red-500 text-sm mt-1">
@@ -300,7 +431,7 @@
                       type="text"
                       placeholder="Enter Your Subject"
                       formControlName="subject"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent form-input"
                       [class.border-red-500]="subject?.invalid && subject?.touched"
                     />
                     <div *ngIf="subject?.invalid && subject?.touched" class="text-red-500 text-sm mt-1">
@@ -314,7 +445,7 @@
                       placeholder="Your Message"
                       rows="4"
                       formControlName="message"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none form-input"
                       [class.border-red-500]="message?.invalid && message?.touched"
                     ></textarea>
                     <div *ngIf="message?.invalid && message?.touched" class="text-red-500 text-sm mt-1">
@@ -327,9 +458,11 @@
                   <button
                     type="submit"
                     [disabled]="contactForm.invalid"
-                    class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 "
-                  >
-                    Send Message
+                    class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+                    <span class="flex items-center justify-center gap-2">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Message
+                    </span>
                   </button>
                 </form>
               </div>

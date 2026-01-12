@@ -1,106 +1,194 @@
 @import "tailwindcss";
 
+// Enhanced Animations
 .fade-in {
-    animation: fadeIn 1s ease-in;
-  }
-  
-  .slide-up {
-    animation: slideUp 0.8s ease-out;
-  }
-  
-  .bounce-in {
-    animation: bounceIn 1s ease-out;
-  }
-  
-  .floating {
-    animation: floating 3s ease-in-out infinite;
-  }
-  
-  .pulse-glow {
-    animation: pulseGlow 2s infinite;
-  }
-  
-  .card-hover {
-    transition: all 0.3s ease;
-  }
-  
-  .card-hover:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  }
-  
-  // Keyframes
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes slideUp {
-    from { 
-      opacity: 0;
-      transform: translateY(50px);
-    }
-    to { 
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes bounceIn {
-    0% {
-      opacity: 0;
-      transform: scale(0.3);
-    }
-    50% {
-      opacity: 1;
-      transform: scale(1.05);
-    }
-    70% {
-      transform: scale(0.9);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  
-  @keyframes floating {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-  }
-  
-  @keyframes pulseGlow {
-    0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
-    50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.8); }
-  }
-  
+  animation: fadeIn 1s ease-in;
+}
 
-  /* Add this to your dashboard.component.scss */
+.slide-up {
+  animation: slideUp 0.8s ease-out;
+  animation-fill-mode: both;
+}
 
+.bounce-in {
+  animation: bounceIn 1s ease-out;
+  animation-fill-mode: both;
+}
+
+.floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+.card-hover {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  &:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    
+    &::before {
+      left: 100%;
+    }
+  }
+}
+
+// Keyframes
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+  }
+  to { 
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes floating {
+  0%, 100% { 
+    transform: translateY(0px);
+  }
+  50% { 
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(102, 126, 234, 0.8);
+    transform: scale(1.05);
+  }
+}
+
+// Trophy Animation
+@keyframes trophy-pulse {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(5deg);
+  }
+}
+
+@keyframes trophy-shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.animate-trophy {
+  animation: trophy-pulse 2s ease-in-out infinite;
+  
+  &:hover {
+    animation: trophy-shake 0.5s ease-in-out;
+  }
+}
+
+// Game Card Styles
 .card {
-  width: 100px;
-  height: 120px;
+  width: 120px;
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #a78bfa, #8b5cf6); /* Your gradient-bg style */
+  background: linear-gradient(135deg, #a78bfa, #8b5cf6);
   border-radius: 1rem;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
+  position: relative;
+  
+  &::before {
+    content: '?';
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    transition: opacity 0.3s ease;
+  }
+  
+  &:hover:not(.revealed) {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  &.revealed {
+    background: #f1f5f9;
+    
+    &::before {
+      opacity: 0;
+    }
+  }
+  
+  &.winner {
+    background: linear-gradient(135deg, #10b981, #059669);
+    animation: winner-pulse 0.5s ease-in-out;
+  }
+  
+  &.loser {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    opacity: 0.6;
+  }
 }
 
-.card:hover {
-  transform: translateY(-5px);
+@keyframes winner-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
 
-.card.revealed {
-  background: #f1f5f9; /* A lighter background to show the icon */
-}
-
-
-/* Confetti animation (this section remains unchanged) */
+// Confetti Animation
 @keyframes confetti-fall {
   0% {
     transform: translateY(-100px) rotateZ(0deg);
@@ -114,12 +202,129 @@
 
 .confetti {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   animation: confetti-fall 3s ease-out forwards;
 }
 
 #confetti-container {
-  overflow: hidden; 
+  overflow: hidden;
+  pointer-events: none;
+}
+
+// Game Modal Enhancement
+.game-modal {
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.3s ease-in;
+}
+
+.game-container {
+  animation: slideUp 0.5s ease-out;
+}
+
+// Read More Button Enhancement
+.read-more-btn {
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
+  
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+// Stats Counter Animation
+@keyframes count-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat-item {
+  animation: count-up 0.8s ease-out;
+  animation-fill-mode: both;
+}
+
+// Form Focus Enhancement
+.form-input {
+  transition: all 0.3s ease;
+  
+  &:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  }
+}
+
+// Service Card Gradient Animation
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.service-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+// Smooth Scroll Indicator
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+.scroll-indicator {
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+// Copy Feedback Animation
+@keyframes copy-feedback {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  20%, 80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.copy-feedback {
+  animation: copy-feedback 1.5s ease-out;
+}
+
+// Responsive Enhancements
+@media (max-width: 768px) {
+  .card {
+    width: 100px;
+    height: 130px;
+    
+    &::before {
+      font-size: 2.5rem;
+    }
+  }
 }

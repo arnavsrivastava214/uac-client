@@ -1,159 +1,237 @@
-/* 🌐 Global reset for header layout */
-body {
-  margin: 0;
-  font-family: Helvetica, sans-serif;
-  background-color: #f4f4f4;
+/* header.component.scss */
+:host {
+  display: block;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-/* 🌟 Header Styles */
+/* Header Base Styles */
 .header {
   background-color: #fff;
-  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.1);
-  position: fixed;
-  width: 100%;
-  z-index: 1000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.header-scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+  
+  &.header-top {
+    background-color: #fff;
+  }
 }
 
-.header ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow: hidden;
-}
-
-.header li a {
-  display: block;
-  padding: 20px 20px;
-  border-right: 1px solid #f4f4f4;
-  text-decoration: none;
-  color: #000;
-}
-
-.header li a:hover {
-  background-color: #f4f4f4;
-}
-
-/* 🧭 Menu & Mobile */
-.header .menu {
-  clear: both;
-  max-height: 0;
-  transition: max-height 0.2s ease-out;
-}
-
-.header .menu-icon {
-  cursor: pointer;
-  display: inline-block;
-  float: right;
-  padding: 28px 20px;
+/* Logo Animation */
+.logo {
   position: relative;
-}
-
-.header .menu-btn {
-  display: none;
-}
-
-.header .menu-btn:checked ~ .menu {
-  max-height: 100vh;
-}
-
-/* Desktop View */
-@media (min-width: 48em) {
-  .header li {
-    float: left;
-  }
-  .header .menu {
-    clear: none;
-    float: right;
-    max-height: none;
-  }
-  .header .menu-icon {
-    display: none;
+  overflow: hidden;
+  display: inline-block;
+  
+  &:hover {
+    span:first-child {
+      color: #2563eb;
+    }
   }
 }
 
-/* ===============================
-   🚀 DRIVER.JS CUSTOM THEME (UAC)
-================================= */
-
-/* 🎯 Base Theme for Popover & Overlay */
-:host ::ng-deep [data-driverjs-theme="uac-theme"] {
-  --driverjs-overlay-color: rgba(0, 0, 0, 0.65);
-  --driverjs-popover-bg-color: #ffffff;
-  --driverjs-text-color: #222;
-  --driverjs-title-color: #111;
-  --driverjs-border-radius: 10px;
-  --driverjs-button-bg-color: #4a00e0;
-  --driverjs-button-text-color: #fff;
-  --driverjs-button-hover-bg-color: #3700b3;
-  --driverjs-z-index: 99999;
+/* Desktop Navigation Animations */
+.nav-link {
+  position: relative;
+  transition: all 0.3s ease;
+  animation: slideInFromRight 0.5s ease-out forwards;
+  opacity: 0;
+  transform: translateX(20px);
+  
+  @for $i from 1 through 5 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 50}ms;
+    }
+  }
+  
+  &:hover {
+    color: #2563eb;
+    
+    span {
+      opacity: 1;
+      width: 80%;
+    }
+    
+    &.active span {
+      opacity: 1;
+      width: 100%;
+    }
+  }
+  
+  &.active {
+    color: #2563eb;
+    
+    span {
+      opacity: 1;
+      width: 100%;
+    }
+  }
+  
+  span {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    
+    &.active {
+      opacity: 1;
+      width: 100%;
+    }
+    
+    &.hover {
+      opacity: 0.5;
+      width: 0;
+    }
+  }
 }
 
-/* 💬 Popover content */
-:host ::ng-deep .driver-popover {
-  border-radius: 10px !important;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.3s ease-in-out;
-  z-index: 99999 !important;
+/* Mobile Menu Animations */
+.mobile-nav-item {
+  opacity: 0;
+  transform: translateX(-10px);
+  animation: slideInLeft 0.3s ease-out forwards;
+  
+  @for $i from 1 through 5 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 100}ms;
+    }
+  }
+  
+  &:hover {
+    background-color: #eff6ff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+  }
 }
 
-:host ::ng-deep .driver-popover-title {
-  font-weight: 600;
-  color: #111;
-  font-size: 1.1rem;
-}
-
-:host ::ng-deep .driver-popover-description {
-  color: #444;
-  margin-top: 8px;
-  font-size: 0.95rem;
-}
-
-/* 🧭 Footer Buttons */
-:host ::ng-deep [data-driverjs-theme="uac-theme"] .driver-popover-footer button {
-  font-weight: 600;
-  border-radius: 6px;
-  padding: 6px 14px;
-  transition: background-color 0.2s ease-in-out;
-}
-
-/* ✨ Floating Action Buttons (optional if you want persistent controls) */
-.driver-fab-controls {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 10000;
-  display: flex;
-  gap: 10px;
-}
-
-.driver-fab-controls button {
-  background-color: #4a00e0;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease;
-}
-
-.driver-fab-controls button:hover {
-  transform: scale(1.1);
-}
-
-/* 🔄 Animation */
-@keyframes fadeIn {
+/* Keyframe Animations */
+@keyframes slideInFromRight {
   from {
     opacity: 0;
-    transform: translateY(-4px);
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes widthGrow {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes pulseSlow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Utility Animation Classes */
+.animate-slideDown {
+  animation: slideDown 0.4s ease-out forwards;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-width-grow {
+  animation: widthGrow 0.6s ease-out forwards;
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 2s ease-in-out infinite;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Scroll Animation for Header */
+@keyframes headerSlideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.header {
+  animation: headerSlideDown 0.5s ease-out;
+}
+
+/* Hover Effects */
+img {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button {
+  transition: all 0.2s ease;
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .nav-link {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Smooth transitions for all interactive elements */
+a, button, .nav-link {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

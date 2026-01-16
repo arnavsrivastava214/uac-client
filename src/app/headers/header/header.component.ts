@@ -80,7 +80,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     { id: 'notes-link', route: '/notes', label: 'NOTES' },
     { id: 'gallery-link', route: '/gallery', label: 'Gallery' },
     { id: 'result-link', route: '/result', label: 'Result' },
-    { id: 'contact-link', route: '/contact', label: 'Contact' }
+    { id: 'contact-link', route: '/contact', label: 'Contact' },
+    { id: 'mock-test', route: '/mock-test', label: 'Mock Test' }
   ];
   
   private destroy$ = new Subject<void>();

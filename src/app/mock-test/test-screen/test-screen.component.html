@@ -1,0 +1,205 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+
+    <!-- ✅ Loading Screen -->
+    <div *ngIf="loading" class="min-h-screen flex items-center justify-center">
+      <div class="bg-white rounded-2xl shadow-xl p-8 text-center w-full max-w-md">
+        <div class="text-4xl mb-4">⏳</div>
+        <h2 class="text-xl font-bold text-gray-800">Loading your test...</h2>
+        <p class="text-gray-500 mt-2">Please wait, questions are being prepared.</p>
+      </div>
+    </div>
+  
+    <!-- ✅ Main Test UI -->
+    <ng-container *ngIf="!loading && questions.length > 0">
+  
+      <!-- Top Bar -->
+      <div class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+          <div class="flex justify-between items-center h-16">
+  
+            <!-- Timer -->
+            <div class="flex items-center space-x-2">
+              <div class="text-2xl">⏱️</div>
+              <div
+                class="text-2xl font-mono font-bold"
+                [class.text-red-600]="timeRemaining <= 60"
+                [class.text-gray-800]="timeRemaining > 60"
+              >
+                {{ formatTime(timeRemaining) }}
+              </div>
+            </div>
+  
+            <!-- Question Progress -->
+            <div class="text-center">
+              <div class="text-2xl font-bold text-gray-800">
+                Q {{ currentQuestionIndex + 1 }} / {{ questions.length }}
+              </div>
+              <div class="text-sm text-gray-500">Questions</div>
+            </div>
+  
+            <!-- Answered Preview -->
+            <div class="text-right">
+              <div class="text-lg font-semibold text-gray-800">
+                {{ getAnsweredCount() }}/{{ questions.length }} Answered
+              </div>
+              <div class="text-sm text-gray-500">
+                Attempt ID: {{ attemptId || '-' }}
+              </div>
+            </div>
+          </div>
+  
+          <!-- Progress Bar -->
+          <div class="h-2 bg-gray-200">
+            <div
+              class="h-full bg-blue-600 transition-all duration-300"
+              [style.width.%]="((currentQuestionIndex + 1) / questions.length) * 100"
+            ></div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Main Content -->
+      <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+  
+          <!-- Question Card -->
+          <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 mb-8">
+  
+            <div class="flex flex-wrap items-center gap-3 mb-6">
+              <span class="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+                Question {{ currentQuestionIndex + 1 }}
+              </span>
+  
+              <span class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-semibold">
+                {{ questions[currentQuestionIndex]?.difficulty | titlecase }}
+              </span>
+  
+              <span
+                *ngIf="userAnswers[currentQuestionIndex]?.isMarked"
+                class="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold"
+              >
+                ⭐ Marked
+              </span>
+            </div>
+  
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-8 leading-relaxed">
+              {{ questions[currentQuestionIndex]?.question }}
+            </h2>
+  
+            <!-- Options -->
+            <div class="space-y-4">
+              <button
+                *ngFor="let option of ['A','B','C','D']"
+                (click)="selectOption(asOption(option))"
+                [class]="getOptionClass(option)"
+                class="w-full p-4 sm:p-6 text-left rounded-xl border-2 transition-all duration-200 hover:scale-[1.01] active:scale-[0.99]"
+              >
+                <div class="flex items-center">
+                  <div class="w-10 h-10 flex items-center justify-center rounded-lg mr-4 text-lg font-bold bg-gray-100">
+                    {{ option }}
+                  </div>
+                  <div class="text-base sm:text-lg font-medium">
+                    {{ getOptionText(asOption(option)) }}
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+  
+          <!-- Navigation Buttons -->
+          <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+  
+            <div class="w-full sm:w-auto">
+              <button
+                *ngIf="currentQuestionIndex > 0"
+                (click)="previousQuestion()"
+                class="w-full sm:w-auto flex items-center justify-center px-6 py-3 bg-gray-700 text-white rounded-xl hover:bg-gray-800 transition-colors"
+              >
+                ← Previous
+              </button>
+            </div>
+  
+            <div class="w-full sm:w-auto flex flex-col sm:flex-row gap-3">
+              <button
+                (click)="markForReview()"
+                class="w-full sm:w-auto px-6 py-3 bg-yellow-500 text-white rounded-xl hover:bg-yellow-600 transition-colors"
+              >
+                ⭐ Mark for Review
+              </button>
+  
+              <button
+                *ngIf="currentQuestionIndex < questions.length - 1"
+                (click)="nextQuestion()"
+                class="w-full sm:w-auto flex items-center justify-center px-8 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-semibold"
+              >
+                Next →
+              </button>
+  
+              <button
+                *ngIf="currentQuestionIndex == questions.length - 1"
+                (click)="submitTest()"
+                [disabled]="submitting"
+                class="w-full sm:w-auto flex items-center justify-center px-8 py-3 rounded-xl transition-colors font-semibold
+                       bg-green-600 text-white hover:bg-green-700 disabled:bg-green-300 disabled:cursor-not-allowed"
+              >
+                <span *ngIf="!submitting">✅ Submit Test</span>
+                <span *ngIf="submitting">Submitting...</span>
+              </button>
+            </div>
+          </div>
+  
+          <!-- Question Grid -->
+          <div class="mt-12 bg-white rounded-2xl shadow-lg p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Questions Navigation</h3>
+  
+            <div class="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-3">
+              <button
+                *ngFor="let question of questions; let i = index"
+                (click)="goToQuestion(i)"
+                [class]="getQuestionButtonClass(i)"
+                class="h-12 rounded-xl transition-all hover:scale-105"
+              >
+                {{ i + 1 }}
+              </button>
+            </div>
+  
+            <div class="flex flex-wrap items-center justify-center gap-6 mt-6 text-sm text-gray-700">
+              <div class="flex items-center">
+                <div class="w-4 h-4 bg-blue-500 rounded mr-2"></div>
+                <span>Answered</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-4 h-4 bg-yellow-500 rounded mr-2"></div>
+                <span>Marked</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-4 h-4 bg-gray-300 rounded mr-2"></div>
+                <span>Unanswered</span>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </ng-container>
+  
+    <!-- ✅ If no questions -->
+    <div *ngIf="!loading && questions.length === 0" class="min-h-screen flex items-center justify-center">
+      <div class="bg-white rounded-2xl shadow-xl p-8 text-center w-full max-w-md">
+        <div class="text-4xl mb-4">😕</div>
+        <h2 class="text-xl font-bold text-gray-800">No Questions Found</h2>
+        <p class="text-gray-500 mt-2">
+          Please add questions in database for this class & subject.
+        </p>
+  
+        <button
+          (click)="router.navigate(['/tests'])"
+          class="mt-6 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+        >
+          Back to Tests
+        </button>
+      </div>
+    </div>
+  
+  </div>
+  

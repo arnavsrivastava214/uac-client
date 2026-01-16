@@ -1,0 +1,187 @@
+<app-header></app-header>
+
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 py-12">
+
+  <!-- ✅ Loading UI -->
+  <div *ngIf="loading" class="container mx-auto px-4">
+    <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8 text-center">
+      <div class="text-4xl mb-3">⏳</div>
+      <h2 class="text-2xl font-bold text-gray-800">Loading Result...</h2>
+      <p class="text-gray-500 mt-2">Please wait, we are fetching your score.</p>
+    </div>
+  </div>
+
+  <!-- ✅ Result UI -->
+  <div *ngIf="!loading && result" class="container mx-auto px-4">
+    <!-- Result Header -->
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">🎉 Test Completed!</h1>
+        <p class="text-lg text-gray-600">Here's your performance analysis</p>
+      </div>
+
+      <!-- Score Summary -->
+      <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+        <div class="text-center">
+          <div class="inline-block relative">
+            <svg class="w-48 h-48" viewBox="0 0 36 36">
+              <path
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+                fill="none"
+                stroke="#E5E7EB"
+                stroke-width="3"
+              />
+              <path
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+                fill="none"
+                stroke="#10B981"
+                stroke-width="3"
+                [attr.stroke-dasharray]="(result.percentage || 0) + ', 100'"
+                stroke-linecap="round"
+              />
+            </svg>
+
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <div class="text-4xl font-bold text-gray-800">{{ result.percentage || 0 }}%</div>
+              <div class="text-lg text-gray-600">Score</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+          <div class="bg-green-50 p-6 rounded-xl text-center">
+            <div class="text-3xl font-bold text-green-700">{{ result.score || 0 }}</div>
+            <div class="text-gray-600">Total Score</div>
+          </div>
+
+          <div class="bg-blue-50 p-6 rounded-xl text-center">
+            <div class="text-3xl font-bold text-blue-700">{{ result.correct_count || 0 }}</div>
+            <div class="text-gray-600">Correct</div>
+          </div>
+
+          <div class="bg-red-50 p-6 rounded-xl text-center">
+            <div class="text-3xl font-bold text-red-700">{{ result.wrong_count || 0 }}</div>
+            <div class="text-gray-600">Wrong</div>
+          </div>
+
+          <div class="bg-yellow-50 p-6 rounded-xl text-center">
+            <div class="text-3xl font-bold text-yellow-700">{{ result.skipped_count || 0 }}</div>
+            <div class="text-gray-600">Skipped</div>
+          </div>
+        </div>
+
+        <!-- Time Taken -->
+        <div class="mt-8 pt-6 border-t border-gray-200">
+          <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-gray-800">
+                {{ formatTime(result.time_taken_seconds || 0) }}
+              </div>
+              <div class="text-gray-600">Time Taken</div>
+            </div>
+
+            <div class="text-center">
+              <div class="text-2xl font-bold text-gray-800">
+                {{ result.started_at | date:'medium' }}
+              </div>
+              <div class="text-gray-600">Test Date</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question-wise Review -->
+      <div class="bg-white rounded-2xl shadow-xl p-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">📋 Question-wise Review</h2>
+
+        <div *ngIf="questionReviews.length === 0" class="text-center text-gray-500 py-10">
+          No review data found.
+        </div>
+
+        <div class="space-y-6" *ngIf="questionReviews.length > 0">
+          <div
+            *ngFor="let review of questionReviews; let i = index"
+            class="border border-gray-200 rounded-xl p-6 hover:border-blue-300 transition-colors"
+            [ngClass]="review.isCorrect ? 'bg-green-50' : 'bg-red-50'"
+          >
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <span
+                  class="px-3 py-1 rounded-full text-sm font-semibold mr-3"
+                  [ngClass]="review.isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+                >
+                  Q{{ i + 1 }}
+                </span>
+
+                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                  {{ review.difficulty | titlecase }}
+                </span>
+              </div>
+
+              <div class="text-lg font-bold" [ngClass]="review.isCorrect ? 'text-green-700' : 'text-red-700'">
+                {{ review.isCorrect ? '+1' : '0' }}
+              </div>
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">
+              {{ review.question }}
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <div class="text-sm font-medium text-gray-500 mb-2">Your Answer</div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center rounded-md mr-3"
+                    [ngClass]="review.isCorrect ? 'bg-green-500 text-white' : 'bg-red-500 text-white'"
+                  >
+                    {{ review.userAnswer }}
+                  </div>
+                  <span>{{ review.userAnswerText }}</span>
+                </div>
+              </div>
+
+              <div *ngIf="!review.isCorrect">
+                <div class="text-sm font-medium text-gray-500 mb-2">Correct Answer</div>
+                <div class="flex items-center">
+                  <div class="w-8 h-8 flex items-center justify-center rounded-md mr-3 bg-green-500 text-white">
+                    {{ review.correctAnswer }}
+                  </div>
+                  <span>{{ review.correctAnswerText }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Explanation -->
+            <div *ngIf="review.explanation" class="mt-4 pt-4 border-t border-gray-200">
+              <div class="text-sm font-medium text-gray-500 mb-2">Explanation</div>
+              <p class="text-gray-700">{{ review.explanation }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row justify-center gap-4 mt-12">
+        <button
+          routerLink="/tests"
+          class="px-8 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-semibold"
+        >
+          🚀 Take Another Test
+        </button>
+
+        <button
+          routerLink="/"
+          class="px-8 py-3 bg-gray-700 text-white rounded-xl hover:bg-gray-800 transition-colors font-semibold"
+        >
+          🏠 Back to Home
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

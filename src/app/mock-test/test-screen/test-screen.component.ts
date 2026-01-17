@@ -51,7 +51,8 @@ export class TestScreenComponent implements OnInit, OnDestroy {
       this.router.navigate(['/tests']);
       return;
     }
-
+      window.onbeforeunload = () => "Test is running. Are you sure you want to leave?";
+    
     this.startAttemptAndLoadQuestions();
   }
 
@@ -62,17 +63,47 @@ export class TestScreenComponent implements OnInit, OnDestroy {
   // ✅ Start attempt -> get attemptId -> fetch locked questions
   startAttemptAndLoadQuestions(): void {
     this.loading = true;
-
+  
+    // ✅ check saved attempt
+    const saved = localStorage.getItem(this.storageKey);
+  
+    if (saved) {
+      const data = JSON.parse(saved);
+  
+      this.attemptId = data.attemptId;
+      this.userAnswers = data.userAnswers || [];
+      this.currentQuestionIndex = data.currentQuestionIndex || 0;
+  
+      // ✅ timer resume
+      this.restoreTimer(data.endTime);
+  
+      // ✅ load same locked questions
+      this.loadAttemptQuestions();
+      return;
+    }
+  
+    // ✅ start fresh attempt
     this.testDataService
       .startTestAttempt(this.testId, { name: 'Student', phone: null })
       .subscribe({
         next: (res) => {
           this.attemptId = res.attemptId;
-
-                  this.timeRemaining = res.test.duration_minutes * 60;
-
-          this.testDataService.setSelectedTest(res.test);
-
+  
+          const durationSeconds = res.test.duration_minutes * 60;
+          const endTime = Date.now() + durationSeconds * 1000;
+  
+          // save attempt info
+          localStorage.setItem(
+            this.storageKey,
+            JSON.stringify({
+              attemptId: this.attemptId,
+              endTime,
+              userAnswers: [],
+              currentQuestionIndex: 0,
+            })
+          );
+  
+          this.restoreTimer(endTime);
           this.loadAttemptQuestions();
         },
         error: (err) => {
@@ -82,21 +113,27 @@ export class TestScreenComponent implements OnInit, OnDestroy {
         },
       });
   }
-
   // ✅ fetch questions for this attempt
   loadAttemptQuestions(): void {
     this.testDataService.getQuestionsForAttempt(this.attemptId).subscribe({
       next: (questions) => {
         this.questions = questions;
-
-        this.userAnswers = this.questions.map((q) => ({
-          questionId: q.id,
-          selectedOption: null,
-          isMarked: false,
-        }));
-
+  
+        // ✅ saved answers ko preserve karo (refresh case)
+        const savedMap = new Map(
+          (this.userAnswers || []).map(a => [a.questionId, a])
+        );
+  
+        this.userAnswers = this.questions.map(q => {
+          const old = savedMap.get(q.id);
+          return old ? old : { questionId: q.id, selectedOption: null, isMarked: false };
+        });
+  
         this.loading = false;
-        this.startTimer();
+  
+        // ❌ yaha startTimer mat call karo
+        // kyunki restoreTimer already timer start kar chuka hoga
+        // this.startTimer();
       },
       error: (err) => {
         console.error(err);
@@ -105,7 +142,7 @@ export class TestScreenComponent implements OnInit, OnDestroy {
       },
     });
   }
-
+  
   // ✅ timer
   startTimer(): void {
     if (this.timerInterval) clearInterval(this.timerInterval);
@@ -164,8 +201,10 @@ export class TestScreenComponent implements OnInit, OnDestroy {
   selectOption(option: 'A' | 'B' | 'C' | 'D'): void {
     const currentAnswer = this.userAnswers[this.currentQuestionIndex];
     currentAnswer.selectedOption = option;
+  
+    this.saveProgress(); // ✅ save after every click
   }
-
+  
   // UI class (simple highlight)
   getOptionClass(option: string): string {
     const currentAnswer = this.userAnswers[this.currentQuestionIndex];
@@ -180,24 +219,29 @@ export class TestScreenComponent implements OnInit, OnDestroy {
   nextQuestion(): void {
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
+      this.saveProgress();
     }
   }
-
+  
   previousQuestion(): void {
     if (this.currentQuestionIndex > 0) {
       this.currentQuestionIndex--;
+      this.saveProgress();
     }
   }
-
+  
   goToQuestion(index: number): void {
     this.currentQuestionIndex = index;
+    this.saveProgress();
   }
-
+  
   markForReview(): void {
     this.userAnswers[this.currentQuestionIndex].isMarked =
       !this.userAnswers[this.currentQuestionIndex].isMarked;
+  
+    this.saveProgress();
   }
-
+  
   getQuestionButtonClass(index: number): string {
     const answer = this.userAnswers[index];
 
@@ -238,7 +282,9 @@ export class TestScreenComponent implements OnInit, OnDestroy {
     this.testDataService.submitTestAttempt(payload).subscribe({
       next: (attempt: TestAttempt) => {
         this.testDataService.setCurrentAttempt(attempt);
+        localStorage.removeItem(this.storageKey); 
         this.submitting = false;
+        window.onbeforeunload = null;
         this.router.navigate(['/result', attempt.id]);
       },
       error: (err) => {
@@ -253,4 +299,42 @@ export class TestScreenComponent implements OnInit, OnDestroy {
     console.log('⏰ Time up! Auto-submitting test...');
     this.submitTest();
   }
+
+
+  
+
+  get storageKey() {
+    return `uac_attempt_${this.testId}`;
+  }
+  
+  restoreTimer(endTime: number) {
+    const diff = Math.floor((endTime - Date.now()) / 1000);
+  
+    this.timeRemaining = diff > 0 ? diff : 0;
+  
+    if (this.timeRemaining <= 0) {
+      this.autoSubmit();
+      return;
+    }
+  
+    this.startTimer();
+  }
+
+  saveProgress() {
+    const saved = localStorage.getItem(this.storageKey);
+    if (!saved) return;
+  
+    const data = JSON.parse(saved);
+  
+    localStorage.setItem(
+      this.storageKey,
+      JSON.stringify({
+        ...data,
+        userAnswers: this.userAnswers,
+        currentQuestionIndex: this.currentQuestionIndex,
+      })
+    );
+  }
+  
+  
 }

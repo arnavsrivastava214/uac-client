@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { BaseServiceService } from './base-service.service';
 
 export interface ClassGroup {
   id: number;
@@ -76,8 +77,7 @@ export interface SubmitPayload {
   providedIn: 'root',
 })
 export class TestDataService {
-  private baseUrl = 'https://your-render-backend.onrender.com/api/uac/test-system';
-  // apiUrl: 'https://your-render-backend.onrender.com/api/uac/test-system'
+  private baseUrl!: string;
 
   private selectedTest = new BehaviorSubject<Test | null>(null);
   selectedTest$ = this.selectedTest.asObservable();
@@ -85,19 +85,21 @@ export class TestDataService {
   private currentAttempt = new BehaviorSubject<TestAttempt | null>(null);
   currentAttempt$ = this.currentAttempt.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private baseService: BaseServiceService
+  ) {
+    this.baseUrl = `${this.baseService.apiUrl}/api/uac/test-system`;
+  }
 
-  // ✅ DB: Get class groups
   getClassGroups(): Observable<ClassGroup[]> {
     return this.http.get<ClassGroup[]>(`${this.baseUrl}/classes`);
   }
 
-  // ✅ DB: Get subjects
   getSubjects(): Observable<Subject[]> {
     return this.http.get<Subject[]>(`${this.baseUrl}/subjects`);
   }
 
-  // ✅ DB: Get tests by filters
   getTestsByFilters(classGroup: string, subjectId: number): Observable<Test[]> {
     let params = new HttpParams()
       .set('class_group', classGroup)
@@ -106,7 +108,6 @@ export class TestDataService {
     return this.http.get<Test[]>(`${this.baseUrl}/tests`, { params });
   }
 
-  // ✅ DB: Start attempt (creates attempt + locks random questions)
   startTestAttempt(testId: number, studentInfo?: { name?: string; phone?: any }): Observable<StartAttemptResponse> {
     return this.http.post<StartAttemptResponse>(`${this.baseUrl}/tests/${testId}/start`, {
       student_name: studentInfo?.name || null,
@@ -114,22 +115,18 @@ export class TestDataService {
     });
   }
 
-  // ✅ DB: Get locked questions for attempt
   getQuestionsForAttempt(attemptId: number): Observable<Question[]> {
     return this.http.get<Question[]>(`${this.baseUrl}/attempts/${attemptId}/questions`);
   }
 
-  // ✅ DB: Submit attempt (calculate score server side)
   submitTestAttempt(payload: SubmitPayload): Observable<TestAttempt> {
     return this.http.post<TestAttempt>(`${this.baseUrl}/attempts/${payload.attemptId}/submit`, payload);
   }
 
-  // ✅ DB: Get result anytime
   getAttemptResult(attemptId: number): Observable<TestAttempt> {
     return this.http.get<TestAttempt>(`${this.baseUrl}/attempts/${attemptId}/result`);
   }
 
-  // local state helpers
   setSelectedTest(test: Test): void {
     this.selectedTest.next(test);
   }
@@ -141,5 +138,5 @@ export class TestDataService {
   getAttemptReview(attemptId: number) {
     return this.http.get<any[]>(`${this.baseUrl}/attempts/${attemptId}/review`);
   }
-  
 }
+

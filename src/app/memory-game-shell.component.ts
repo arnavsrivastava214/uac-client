@@ -12,6 +12,7 @@ import { GameResultComponent } from './game-result.component';
 import { WinnerBannerComponent } from './winner-banner.component';
 import { WinnerUploadModalComponent } from './winner-upload-modal.component';
 import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from './headers/header/header.component';
 
 @Component({
   selector: 'app-memory-game-shell',
@@ -25,10 +26,12 @@ import { FormsModule } from '@angular/forms';
     WinnerUploadModalComponent,
     CommonModule,
     FormsModule,
+    HeaderComponent
   ],
   template: `
-    <div class="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
-      <!-- Winner Banner -->
+  <app-header></app-header>
+  <div class="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50" style="padding:130px 0;">
+  <!-- Winner Banner -->
       <app-winner-banner [winnerData]="currentWinner()" />
 
       <div class="container mx-auto px-4 py-8">

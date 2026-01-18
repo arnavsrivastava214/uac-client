@@ -54,7 +54,7 @@ export interface LeaderboardEntry {
   providedIn: 'root',
 })
 export class MemoryGameService {
-  private apiUrl = 'https://uac-server.onrender.com/api/uac/memory-game';
+private apiUrl = 'https://uac-server.onrender.com/api/uac/memory-game';
 
   constructor(private http: HttpClient) {}
 

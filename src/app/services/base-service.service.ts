@@ -31,6 +31,15 @@ export class BaseServiceService {
     'getTeacherById': '/api/uac/teacher/getTeacherById',
     'updateTeacher': '/api/uac/teacher/updateTeacher',
 
+    //game 
+
+    // memory game
+'createPlayer': '/api/uac/memory-game/player',
+'saveResult': '/api/uac/memory-game/result',
+'getLeaderboard': '/api/uac/memory-game/leaderboard',
+'uploadWinnerPhoto': '/api/uac/memory-game/winner/upload-photo',
+
+
 
     
     

@@ -81,7 +81,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     { id: 'gallery-link', route: '/gallery', label: 'Gallery' },
     { id: 'result-link', route: '/result', label: 'Result' },
     { id: 'contact-link', route: '/contact', label: 'Contact' },
-    { id: 'mock-test', route: '/mock-test', label: 'Mock Test' }
+    { id: 'mock-test', route: '/mock-test', label: 'Mock Test' }, 
+    { id: 'mind-game', route: '/mind-game', label: 'UAC Games' }
   ];
   
   private destroy$ = new Subject<void>();

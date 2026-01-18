@@ -59,6 +59,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'mind-game',
+    loadComponent: () =>
+      import('./memory-game-shell.component').then(
+        (m) => m.MemoryGameShellComponent
+      ),
+  },
+  {
     path: 'admin',
     loadComponent: () =>
       import('./admin/admin/admin.component').then((m) => m.AdminComponent),

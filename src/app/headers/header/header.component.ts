@@ -76,7 +76,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentYear = new Date().getFullYear();
   
   navItems: NavItem[] = [
-    { id: 'home-link', route: '/', label: 'HOME' },
+    { id: 'home-link', route: '/', label: 'Home' },
     { id: 'notes-link', route: '/notes', label: 'NOTES' },
     { id: 'gallery-link', route: '/gallery', label: 'Gallery' },
     { id: 'result-link', route: '/result', label: 'Result' },
@@ -120,7 +120,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const segments = url.split('/').filter(segment => segment);
     
     if (segments.length === 0) {
-      this.breadcrumbs = [{ label: 'Home', url: '/', isActive: true }];
+      this.breadcrumbs = [{ label: '', url: '/', isActive: true }];
       return;
     }
 

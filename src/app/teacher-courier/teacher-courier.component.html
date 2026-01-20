@@ -1,0 +1,414 @@
+<app-header></app-header>
+
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-blue-50 py-8 px-4 sm:px-6 lg:px-8" style="padding-top: 150px;">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Hero Section -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          Join <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">UAC</span> as a Teacher
+        </h1>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Apply now and become part of our academic team. Shape the future of education with Unstoppable Academic Classes.
+        </p>
+      </div>
+  
+      <!-- Main Content Grid -->
+      <div class="grid lg:grid-cols-2 gap-8">
+        
+        <!-- Left Column: Institute Highlights -->
+        <div class="space-y-6">
+          <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+              <span class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-2 rounded-lg mr-3">🌟</span>
+              Why Join UAC?
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div *ngFor="let highlight of highlights" 
+                   class="group p-4 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition-all duration-300">
+                <div class="flex items-start space-x-4">
+                  <span class="text-2xl group-hover:scale-110 transition-transform duration-300">{{highlight.icon}}</span>
+                  <div>
+                    <h3 class="font-bold text-gray-900 mb-1">{{highlight.title}}</h3>
+                    <p class="text-gray-600 text-sm">{{highlight.description}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Stats Section -->
+            <div class="mt-8 pt-8 border-t border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-4">Our Teaching Community</h3>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="text-center p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl">
+                  <div class="text-2xl font-bold text-blue-600">150+</div>
+                  <div class="text-sm text-gray-600">Teachers</div>
+                </div>
+                <div class="text-center p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
+                  <div class="text-2xl font-bold text-purple-600">95%</div>
+                  <div class="text-sm text-gray-600">Satisfaction Rate</div>
+                </div>
+                <div class="text-center p-4 bg-gradient-to-r from-green-50 to-teal-50 rounded-xl">
+                  <div class="text-2xl font-bold text-green-600">5000+</div>
+                  <div class="text-sm text-gray-600">Students Taught</div>
+                </div>
+                <div class="text-center p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl">
+                  <div class="text-2xl font-bold text-orange-600">50+</div>
+                  <div class="text-sm text-gray-600">Cities</div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Application Process Info -->
+          <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-6 text-white">
+            <h3 class="text-xl font-bold mb-4">Application Process</h3>
+            <ol class="space-y-3">
+              <li class="flex items-center">
+                <span class="flex items-center justify-center w-6 h-6 rounded-full bg-white text-blue-600 mr-3 text-sm font-bold">1</span>
+                Submit your application
+              </li>
+              <li class="flex items-center">
+                <span class="flex items-center justify-center w-6 h-6 rounded-full bg-white text-blue-600 mr-3 text-sm font-bold">2</span>
+                Initial screening call
+              </li>
+              <li class="flex items-center">
+                <span class="flex items-center justify-center w-6 h-6 rounded-full bg-white text-blue-600 mr-3 text-sm font-bold">3</span>
+                Demo class evaluation
+              </li>
+              <li class="flex items-center">
+                <span class="flex items-center justify-center w-6 h-6 rounded-full bg-white text-blue-600 mr-3 text-sm font-bold">4</span>
+                Final interview & onboarding
+              </li>
+            </ol>
+          </div>
+        </div>
+  
+        <!-- Right Column: Application Form -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Teacher Application Form</h2>
+          
+          <form [formGroup]="applyForm" (ngSubmit)="onSubmit()" class="space-y-6">
+            
+            <!-- Personal Details -->
+            <div class="grid md:grid-cols-2 gap-6">
+              <!-- Full Name -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Full Name <span class="text-red-500">*</span>
+                </label>
+                <input type="text" formControlName="fullName"
+                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                       placeholder="Enter your full name">
+                <div *ngIf="f['fullName'].touched && f['fullName'].invalid" class="mt-2 text-sm text-red-600">
+                  <span *ngIf="f['fullName'].errors?.['required']">Full name is required</span>
+                  <span *ngIf="f['fullName'].errors?.['minlength']">Minimum 3 characters required</span>
+                </div>
+              </div>
+  
+              <!-- Mobile Number -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Mobile Number <span class="text-red-500">*</span>
+                </label>
+                <input type="tel" formControlName="mobile"
+                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                       placeholder="10-digit mobile number">
+                <div *ngIf="f['mobile'].touched && f['mobile'].invalid" class="mt-2 text-sm text-red-600">
+                  <span *ngIf="f['mobile'].errors?.['required']">Mobile number is required</span>
+                  <span *ngIf="f['mobile'].errors?.['pattern']">Enter a valid 10-digit number</span>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Email & City -->
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Email Address <span class="text-red-500">*</span>
+                </label>
+                <input type="email" formControlName="email"
+                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                       placeholder="you@example.com">
+                <div *ngIf="f['email'].touched && f['email'].invalid" class="mt-2 text-sm text-red-600">
+                  <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+                  <span *ngIf="f['email'].errors?.['email']">Enter a valid email address</span>
+                </div>
+              </div>
+  
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  City <span class="text-red-500">*</span>
+                </label>
+                <input type="text" formControlName="city"
+                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                       placeholder="Your city">
+                <div *ngIf="f['city'].touched && f['city'].invalid" class="mt-2 text-sm text-red-600">
+                  <span *ngIf="f['city'].errors?.['required']">City is required</span>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Subject & Classes -->
+            <div class="grid md:grid-cols-2 gap-6">
+              <!-- Subject Dropdown -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Subject to Teach <span class="text-red-500">*</span>
+                </label>
+                <select formControlName="subject"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white">
+                  <option value="" disabled>Select a subject</option>
+                  <option *ngFor="let subject of subjects" [value]="subject">{{subject}}</option>
+                </select>
+                <div *ngIf="f['subject'].touched && f['subject'].invalid" class="mt-2 text-sm text-red-600">
+                  <span *ngIf="f['subject'].errors?.['required']">Please select a subject</span>
+                </div>
+              </div>
+  
+              <!-- Experience -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Teaching Experience <span class="text-red-500">*</span>
+                </label>
+                <select formControlName="experience"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white">
+                  <option value="" disabled>Select experience level</option>
+                  <option *ngFor="let exp of experienceLevels" [value]="exp">{{exp}}</option>
+                </select>
+                <div *ngIf="f['experience'].touched && f['experience'].invalid" class="mt-2 text-sm text-red-600">
+                  <span *ngIf="f['experience'].errors?.['required']">Please select experience level</span>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Classes Chips -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-3">
+                Classes You Can Teach <span class="text-red-500">*</span>
+              </label>
+              <div class="flex flex-wrap gap-3">
+                <button type="button"
+                        *ngFor="let classOption of classes"
+                        [class]="isClassSelected(classOption.id) 
+                          ? 'px-4 py-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium shadow-sm'
+                          : 'px-4 py-2 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 transition-colors'"
+                        (click)="toggleClassSelection(classOption.id)">
+                  {{classOption.label}}
+                </button>
+              </div>
+              <div *ngIf="f['classes'].touched && f['classes'].invalid" class="mt-2 text-sm text-red-600">
+                <span *ngIf="f['classes'].errors?.['required']">Please select at least one class</span>
+              </div>
+            </div>
+  
+            <!-- Teaching Mode Radio -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-3">
+                Teaching Mode <span class="text-red-500">*</span>
+              </label>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <label *ngFor="let mode of teachingModes"
+                       class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                       [class]="f['teachingMode'].value === mode.id 
+                         ? 'border-blue-500 bg-blue-50' 
+                         : 'border-gray-300'">
+                  <input type="radio" formControlName="teachingMode" [value]="mode.id" class="hidden">
+                  <div class="flex items-center">
+                    <div class="w-4 h-4 border rounded-full mr-3 flex items-center justify-center">
+                      <div *ngIf="f['teachingMode'].value === mode.id" class="w-2 h-2 rounded-full bg-blue-600"></div>
+                    </div>
+                    <span>{{mode.label}}</span>
+                  </div>
+                </label>
+              </div>
+              <div *ngIf="f['teachingMode'].touched && f['teachingMode'].invalid" class="mt-2 text-sm text-red-600">
+                <span *ngIf="f['teachingMode'].errors?.['required']">Please select teaching mode</span>
+              </div>
+            </div>
+  
+            <!-- Salary & Resume -->
+            <div class="grid md:grid-cols-2 gap-6">
+              <!-- Expected Salary -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Expected Salary (₹/month) <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                  <span class="absolute left-3 top-3 text-gray-500">₹</span>
+                  <input type="number" formControlName="expectedSalary"
+                         class="w-full pl-10 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                         placeholder="Expected salary">
+                </div>
+                <div *ngIf="f['expectedSalary'].touched && f['expectedSalary'].invalid" class="mt-2 text-sm text-red-600">
+                  <span *ngIf="f['expectedSalary'].errors?.['required']">Expected salary is required</span>
+                  <span *ngIf="f['expectedSalary'].errors?.['min']">Minimum expected salary is ₹10,000</span>
+                </div>
+              </div>
+  
+              <!-- Resume Upload -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Resume (PDF only, max 2MB) <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                  <input type="file" id="resume" (change)="onFileSelected($event)" accept=".pdf"
+                         class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                </div>
+                <div *ngIf="f['resume'].touched && f['resume'].invalid" class="mt-2 text-sm text-red-600">
+                  <span *ngIf="f['resume'].errors?.['required']">Resume is required</span>
+                  <span *ngIf="f['resume'].errors?.['fileType']">Only PDF files are allowed</span>
+                  <span *ngIf="f['resume'].errors?.['fileSize']">File size should be less than 2MB</span>
+                </div>
+              </div>
+            </div>
+            <!-- Upload Status UI -->
+<div class="mt-3">
+
+    <!-- Uploading -->
+    <div *ngIf="isResumeUploading"
+         class="flex items-center gap-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
+      <svg class="animate-spin h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+      </svg>
+      <span>{{ resumeUploadProgressText || 'Uploading...' }}</span>
+    </div>
+  
+    <!-- Uploaded -->
+    <div *ngIf="resumeUploadSuccess && driveResume?.viewUrl"
+         class="text-sm font-medium text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-3">
+      ✅ Resume uploaded successfully!
+      <div class="mt-2 flex gap-2 flex-wrap">
+        <a [href]="driveResume.viewUrl" target="_blank"
+           class="px-3 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700">
+          👁 View
+        </a>
+  
+        <a [href]="driveResume.downloadUrl" target="_blank"
+           class="px-3 py-2 rounded-lg bg-gray-900 text-white text-xs font-semibold hover:bg-black">
+          ⬇ Download
+        </a>
+      </div>
+    </div>
+  
+    <!-- Error -->
+    <div *ngIf="resumeUploadError"
+         class="text-sm font-medium text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+      ❌ {{ resumeUploadError }}
+    </div>
+  
+  </div>
+  
+  
+            <!-- About Yourself -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                About Yourself (Optional)
+                <span class="text-gray-500 text-xs ml-2">{{remainingChars}} characters remaining</span>
+              </label>
+              <textarea formControlName="aboutYourself" rows="3"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 resize-none"
+                        placeholder="Briefly describe your teaching philosophy, achievements, or any additional information..."></textarea>
+            </div>
+  
+            <!-- Demo Class Ready Toggle -->
+            <div class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+              <div>
+                <h3 class="font-medium text-gray-900">Demo Class Ready?</h3>
+                <p class="text-sm text-gray-600">Are you prepared to conduct a demo class if selected?</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" formControlName="demoClassReady" class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r from-blue-600 to-purple-600"></div>
+              </label>
+            </div>
+            <div *ngIf="f['demoClassReady'].touched && f['demoClassReady'].invalid" class="text-sm text-red-600">
+              <span>You must confirm you're ready for a demo class</span>
+            </div>
+  
+        <!-- Submit Button -->
+<button type="submit"
+[disabled]="isSubmitting || applyForm.invalid || isResumeUploading || !resumeUploaded"
+class="w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-lg 
+       hover:from-blue-700 hover:to-purple-700 focus:ring-4 focus:ring-blue-300 transition-all duration-300 
+       disabled:opacity-50 disabled:cursor-not-allowed">
+
+<!-- Normal -->
+<span *ngIf="!isSubmitting && !isResumeUploading">
+Submit Application
+</span>
+
+<!-- Resume Uploading -->
+<span *ngIf="isResumeUploading" class="flex items-center justify-center">
+<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+ xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+<circle class="opacity-25" cx="12" cy="12" r="10"
+      stroke="currentColor" stroke-width="4"></circle>
+<path class="opacity-75" fill="currentColor"
+    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+</svg>
+Uploading Resume...
+</span>
+
+<!-- Submitting -->
+<span *ngIf="isSubmitting && !isResumeUploading" class="flex items-center justify-center">
+<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+ xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+<circle class="opacity-25" cx="12" cy="12" r="10"
+      stroke="currentColor" stroke-width="4"></circle>
+<path class="opacity-75" fill="currentColor"
+    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+</svg>
+Submitting...
+</span>
+
+</button>
+
+  
+            <!-- Form Status -->
+            <div class="text-center">
+              <p class="text-sm text-gray-600">
+                By submitting this form, you agree to our 
+                <a  class="text-blue-600 hover:text-blue-800 font-medium">Terms & Conditions</a> 
+                and 
+                <a class="text-blue-600 hover:text-blue-800 font-medium">Privacy Policy</a>
+              </p>
+            </div>
+          </form>
+  
+          <!-- Quick Contact Info -->
+          <div class="mt-8 pt-8 border-t border-gray-100">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Need Help?</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                  <span class="text-blue-600">📧</span>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">Email us at</p>
+                  <p class="font-medium">{{uacOfficialMail}}</p>
+                </div>
+              </div>
+              <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                <div class="bg-green-100 p-2 rounded-lg mr-3">
+                  <span class="text-green-600">📞</span>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">Call us</p>
+                  <p class="font-medium">+91 9792629116</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Footer Note -->
+      <div class="mt-12 text-center text-gray-600">
+        <p class="text-sm">© 2024 Unstoppable Academic Classes. All rights reserved.</p>
+        <p class="text-xs mt-2">We're committed to equal opportunity and celebrate diversity in our teaching staff.</p>
+      </div>
+    </div>
+  </div>

@@ -66,6 +66,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'career',
+    loadComponent: () =>
+      import('./teacher-courier/teacher-courier.component').then(
+        (m) => m.TeacherCourierComponent
+      ),
+  },
+  {
     path: 'admin',
     loadComponent: () =>
       import('./admin/admin/admin.component').then((m) => m.AdminComponent),

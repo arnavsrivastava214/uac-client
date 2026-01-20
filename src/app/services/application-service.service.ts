@@ -46,4 +46,14 @@ export class ApplicationServiceService extends BaseServiceService{
   fetchAllteacher(callback: any) {
     return this.getData({}, this.httpUrls['fetchAllteacher'], callback)
   }
+
+  applyCareer(formData: FormData) {
+  return this.http.post('http://localhost:3000/api/uac/career/apply', formData);
+}
+
+applyCareerJson(payload: any) {
+  return this.http.post("http://localhost:3000/api/uac/career/apply", payload);
+}
+
+  
 }

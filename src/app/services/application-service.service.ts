@@ -48,11 +48,11 @@ export class ApplicationServiceService extends BaseServiceService{
   }
 
   applyCareer(formData: FormData) {
-  return this.http.post('http://localhost:3000/api/uac/career/apply', formData);
+  return this.http.post('https://uac-server.onrender.com/api/uac/career/apply', formData);
 }
 
 applyCareerJson(payload: any) {
-  return this.http.post("http://localhost:3000/api/uac/career/apply", payload);
+  return this.http.post("https://uac-server.onrender.com/uac/career/apply", payload);
 }
 
   

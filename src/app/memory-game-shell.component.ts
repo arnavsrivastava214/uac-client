@@ -13,6 +13,7 @@ import { WinnerBannerComponent } from './winner-banner.component';
 import { WinnerUploadModalComponent } from './winner-upload-modal.component';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './headers/header/header.component';
+import { FooterComponent } from "./footer/footer.component";
 
 @Component({
   selector: 'app-memory-game-shell',
@@ -26,8 +27,9 @@ import { HeaderComponent } from './headers/header/header.component';
     WinnerUploadModalComponent,
     CommonModule,
     FormsModule,
-    HeaderComponent
-  ],
+    HeaderComponent,
+    FooterComponent
+],
   template: `
   <app-header></app-header>
   <div class="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50" style="padding:130px 0;">
@@ -90,8 +92,8 @@ import { HeaderComponent } from './headers/header/header.component';
               </h2>
 
               <div class="space-y-3">
-                @for (entry of leaderboard(); track entry.playerId; let i =
-                $index) {
+              @for (entry of top5Leaderboard(); track entry.playerId; let i = $index) {
+
                 <div
                   [class]="
                     'p-4 rounded-xl border ' +
@@ -168,6 +170,7 @@ import { HeaderComponent } from './headers/header/header.component';
       />
       }
     </div>
+    <app-footer></app-footer>
   `,
 })
 export class MemoryGameShellComponent implements OnInit {
@@ -185,11 +188,21 @@ export class MemoryGameShellComponent implements OnInit {
   currentWinner = signal<WinnerData | null>(null);
   leaderboard = signal<any[]>([]);
   selectedLeaderboardLevel = 'easy';
+  showRunnerUps = signal(false);
 
   ngOnInit() {
     this.loadCurrentWinner();
     this.loadLeaderboard();
   }
+
+
+top5Leaderboard = () => this.leaderboard().slice(0, 5);
+runnerUpsLeaderboard = () => this.leaderboard().slice(5);
+
+toggleRunnerUps() {
+  this.showRunnerUps.set(!this.showRunnerUps());
+}
+
 
   onGameStart(data: {
     playerId: number;

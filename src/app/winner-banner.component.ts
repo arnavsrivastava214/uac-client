@@ -10,9 +10,8 @@ import { WinnerData } from './memory-game.service';
     @if (winnerData) {
     <div class="bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-200">
       <div class="container mx-auto px-4 py-3">
-        <div
-          class="flex flex-col md:flex-row items-center justify-between gap-4"
-        >
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+
           <!-- Left: Winner Info -->
           <div class="flex items-center gap-4">
             <div class="relative">
@@ -54,6 +53,13 @@ import { WinnerData } from './memory-game.service';
                 {{ winnerData.timeTaken }}s •
                 {{ winnerData.level | titlecase }} Level
               </div>
+
+              <!-- ✅ NEW: Runner-ups button -->
+              <button
+                class="mt-2 bg-white text-gray-900 text-xs font-bold px-3 py-1 rounded-full shadow hover:bg-gray-100"
+              >
+                🥈 Runner-ups
+              </button>
             </div>
           </div>
 
@@ -70,11 +76,11 @@ import { WinnerData } from './memory-game.service';
               <div class="text-3xl">🏆</div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
     } @else {
-    <!-- No Winner Yet -->
     <div class="bg-gradient-to-r from-gray-200 to-gray-300">
       <div class="container mx-auto px-4 py-3">
         <div class="flex items-center justify-center gap-3">

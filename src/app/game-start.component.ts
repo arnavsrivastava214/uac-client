@@ -21,7 +21,7 @@ interface LevelConfig {
 @Component({
   selector: 'app-game-start',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, FooterComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   template: `
     <div class="max-w-md mx-auto">
       <div class="bg-white rounded-3xl shadow-2xl p-8">
@@ -164,7 +164,6 @@ interface LevelConfig {
         </div>
       </div>
     </div>
-    <app-footer></app-footer>
 
   `,
 })

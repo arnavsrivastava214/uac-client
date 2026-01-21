@@ -26,8 +26,8 @@ export const routes: Routes = [
   {
     path: 'result',
     loadComponent: () =>
-      import('./carousel/result-carousel/result-carousel.component').then(
-        (m) => m.ResultCarouselComponent
+      import('./app-uac-results.component').then(
+        (m) => m.UacResultsComponent
       ),
   },
   {
@@ -123,6 +123,14 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./admin/dashboard/students/students.component').then(
             (m) => m.StudentsComponent
+          ),
+      },
+      {
+        path: 'image-upload',
+        canActivate: [adminGuard],
+        loadComponent: () =>
+          import('./admin/result-images-upload/result-images-upload.component').then(
+            (m) => m.ResultImagesUploadComponent
           ),
       },
     ],

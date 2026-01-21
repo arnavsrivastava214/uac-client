@@ -1,0 +1,197 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 p-4 md:p-10">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Header -->
+    <div class="mb-6 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900">
+          Results Media Upload
+        </h1>
+        <p class="text-gray-600 mt-1">
+          Upload results gallery images (Cloudinary + MySQL)
+        </p>
+      </div>
+
+      <!-- Limit Badge -->
+      <div class="flex items-center gap-3">
+        <span class="px-4 py-2 rounded-full text-sm font-semibold bg-white border border-gray-200 shadow-sm">
+          Limit: <span class="font-extrabold text-gray-900">{{ MAX_FILES }}</span>
+        </span>
+
+        <span class="px-4 py-2 rounded-full text-sm font-semibold bg-white border border-gray-200 shadow-sm">
+          Selected:
+          <span class="font-extrabold text-blue-700">{{ selectedFiles.length }}</span>
+          / {{ MAX_FILES }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="bg-white/70 backdrop-blur rounded-3xl shadow-xl border border-white p-6 md:p-8">
+
+      <!-- Upload Panel -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Left Upload Box -->
+        <div class="lg:col-span-2">
+          <div class="border-2 border-dashed border-gray-300 rounded-2xl p-6 md:p-10 text-center hover:border-blue-500 transition bg-white">
+            <div class="text-5xl mb-3">📤</div>
+
+            <div class="text-lg font-bold text-gray-800">
+              Upload Images for Results Gallery
+            </div>
+
+            <div class="text-sm text-gray-500 mt-1">
+              JPG / PNG / WebP • Max {{ MAX_FILES }} images
+            </div>
+
+            <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <label
+                class="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold cursor-pointer hover:opacity-95 shadow-lg"
+              >
+                + Select Images
+                <input
+                  type="file"
+                  class="hidden"
+                  accept="image/*"
+                  multiple
+                  (change)="onSelectFiles($event)"
+                  [disabled]="isUploading"
+                />
+              </label>
+
+              <button
+                type="button"
+                class="px-6 py-3 rounded-xl bg-gray-900 text-white font-semibold hover:bg-gray-800 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                [disabled]="selectedFiles.length === 0 || isUploading"
+                (click)="uploadAll()"
+              >
+                <span *ngIf="!isUploading">🚀 Upload Now</span>
+                <span *ngIf="isUploading">Uploading...</span>
+              </button>
+
+              <button
+                type="button"
+                class="px-6 py-3 rounded-xl bg-white border border-gray-300 text-gray-800 font-semibold hover:bg-gray-50 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                [disabled]="selectedFiles.length === 0 || isUploading"
+                (click)="clearAll()"
+              >
+                Clear
+              </button>
+            </div>
+
+            <!-- Upload Progress -->
+            <div *ngIf="isUploading || progress > 0" class="mt-6 max-w-xl mx-auto">
+              <div class="flex items-center justify-between text-sm text-gray-600 mb-2">
+                <span class="font-semibold">Uploading...</span>
+                <span class="font-bold text-gray-900">{{ progress }}%</span>
+              </div>
+
+              <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  class="h-3 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300"
+                  [style.width.%]="progress"
+                ></div>
+              </div>
+
+              <div class="mt-2 text-xs text-gray-500">
+                Uploaded:
+                <span class="font-bold text-gray-800">{{ uploadedCount }}</span>
+                / {{ totalToUpload }}
+              </div>
+            </div>
+
+            <div class="mt-4 text-xs text-gray-500">
+              ✅ Spaces in file names are auto-fixed (safe naming)
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Info Card -->
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+          <div class="text-lg font-extrabold text-gray-900 mb-2">Upload Tips</div>
+
+          <ul class="text-sm text-gray-600 space-y-2">
+            <li>✅ Best size: 200KB – 1MB per image</li>
+            <li>✅ Use clear topper / classroom photos</li>
+            <li>✅ Avoid blurry images</li>
+            <li>✅ Upload max {{ MAX_FILES }} images at once</li>
+          </ul>
+
+          <div class="mt-6 p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-purple-50 border border-gray-200">
+            <div class="text-sm font-bold text-gray-900">Status</div>
+            <div class="text-xs text-gray-600 mt-1">
+              Selected: <b>{{ selectedFiles.length }}</b> images
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview Grid -->
+      <div *ngIf="selectedFiles.length > 0" class="mt-8">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-bold text-gray-800">Preview</h2>
+          <div class="text-sm text-gray-500">
+            Total selected:
+            <b class="text-gray-800">{{ selectedFiles.length }}</b>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div
+            *ngFor="let item of selectedFiles; let i = index"
+            class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden group"
+          >
+            <div class="relative aspect-[4/3] bg-gray-100">
+              <img
+                [src]="item.previewUrl"
+                alt="preview"
+                class="w-full h-full object-contain"
+                loading="lazy"
+                decoding="async"
+              />
+
+              <button
+                type="button"
+                class="absolute top-3 right-3 bg-black/70 text-white px-3 py-1 rounded-full text-xs font-bold hover:bg-black opacity-0 group-hover:opacity-100 transition"
+                (click)="removeFile(i)"
+                [disabled]="isUploading"
+              >
+                ✖ Remove
+              </button>
+
+              <div class="absolute bottom-3 left-3 px-3 py-1 rounded-full text-xs font-bold bg-white/90 border border-gray-200 shadow-sm">
+                {{ getExt(item.file.name) }}
+              </div>
+            </div>
+
+            <div class="p-4">
+              <div class="text-sm font-bold text-gray-900 truncate">
+                {{ item.file.name }}
+              </div>
+
+              <div class="text-xs text-gray-500 mt-1 truncate">
+                Safe: <span class="font-semibold text-gray-700">{{ item.safeName }}</span>
+              </div>
+
+              <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+                <span>{{ formatSize(item.file.size) }}</span>
+                <span class="text-gray-700 font-semibold">Ready</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Message -->
+      <div *ngIf="message" class="mt-6 p-4 rounded-2xl border"
+        [ngClass]="success ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'">
+        <div class="font-bold">
+          {{ success ? '✅ Upload Successful' : '⚠️ Notice' }}
+        </div>
+        <div class="text-sm mt-1">{{ message }}</div>
+      </div>
+
+    </div>
+  </div>
+</div>

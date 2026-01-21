@@ -52,7 +52,7 @@ export class ApplicationServiceService extends BaseServiceService{
 }
 
 applyCareerJson(payload: any) {
-  return this.http.post("https://uac-server.onrender.com/uac/career/apply", payload);
+  return this.http.post("https://uac-server.onrender.com/api/uac/career/apply", payload);
 }
 
   

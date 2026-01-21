@@ -251,14 +251,19 @@ resumeDownloadUrl: string | null = null;
       if (fileInput) fileInput.value = "";
     },
     error: (err: any) => {
-      console.log("Career Apply Error:", err);
-
+      console.log("Career Apply Error FULL:", err);
+    
       this.isSubmitting = false;
-      this.toastr.error(
-        err?.error?.error || "Something went wrong. Please try again.",
-        "Error"
-      );
-    },
+    
+      const msg =
+        err?.error?.error ||
+        err?.error?.message ||
+        err?.message ||
+        "Something went wrong. Please try again.";
+    
+      this.toastr.error(msg, "Error");
+    }
+    
   });
 }
   

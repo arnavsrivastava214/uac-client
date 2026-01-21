@@ -4,10 +4,11 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validatio
 import { ToastrService } from 'ngx-toastr';
 import { HeaderComponent } from "../headers/header/header.component";
 import { ApplicationServiceService } from '../services/application-service.service';
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: 'app-teacher-courier',
-  imports: [CommonModule, ReactiveFormsModule, HeaderComponent],
+  imports: [CommonModule, ReactiveFormsModule, HeaderComponent, FooterComponent],
   templateUrl: './teacher-courier.component.html',
   styleUrl: './teacher-courier.component.scss'
 })

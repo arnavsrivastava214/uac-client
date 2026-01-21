@@ -9,6 +9,7 @@ import {
   } from '@angular/core';
   import { CommonModule } from '@angular/common';
   import { GameResult } from './memory-game.service';
+import { FooterComponent } from "./footer/footer.component";
   
   const COLORS = [
     { name: 'red', bg: 'bg-red-500', light: 'bg-red-100', ring: 'ring-red-300' },
@@ -21,7 +22,7 @@ import {
   @Component({
     selector: 'app-game-play',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule,],
     template: `
       <div class="relative">
         <!-- Header -->

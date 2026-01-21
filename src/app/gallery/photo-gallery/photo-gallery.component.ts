@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { HeaderComponent } from "../../headers/header/header.component";
+import { FooterComponent } from "../../footer/footer.component";
 interface GalleryImage {
   url: string;
   alt: string;
@@ -13,7 +14,7 @@ interface GalleryImage {
 
 @Component({
   selector: 'app-photo-gallery',
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, HeaderComponent, FooterComponent],
   templateUrl: './photo-gallery.component.html',
   styleUrl: './photo-gallery.component.scss'
 })

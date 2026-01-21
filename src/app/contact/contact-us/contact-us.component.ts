@@ -5,6 +5,7 @@ import { HeaderComponent } from "../../headers/header/header.component";
 import { ApplicationServiceService } from '../../services/application-service.service';
 import { AlertService } from '../../services/alert.service';
 import { Router } from '@angular/router';
+import { FooterComponent } from "../../footer/footer.component";
 interface ContactForm {
   name: string;
   email: string;
@@ -13,7 +14,7 @@ interface ContactForm {
 }
 @Component({
   selector: 'app-contact-us',
-  imports: [CommonModule, FormsModule, HeaderComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent],
   templateUrl: './contact-us.component.html',
   styleUrl: './contact-us.component.scss'
 })

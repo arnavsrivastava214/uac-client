@@ -2,6 +2,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../../headers/header/header.component";
+import { FooterComponent } from "../../footer/footer.component";
 
 interface CarouselImage {
   src: string;
@@ -9,7 +10,7 @@ interface CarouselImage {
 }
 @Component({
   selector: 'app-result-carousel',
-  imports: [FormsModule, CommonModule, NgFor, HeaderComponent],
+  imports: [FormsModule, CommonModule, NgFor, HeaderComponent, FooterComponent],
   templateUrl: './result-carousel.component.html',
   styleUrl: './result-carousel.component.scss'
 })

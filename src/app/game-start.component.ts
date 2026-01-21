@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MemoryGameService } from './memory-game.service';
+import { FooterComponent } from "./footer/footer.component";
 type LevelType = 'easy' | 'medium' | 'hard';
 
 interface LevelConfig {
@@ -20,7 +21,7 @@ interface LevelConfig {
 @Component({
   selector: 'app-game-start',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, FooterComponent],
   template: `
     <div class="max-w-md mx-auto">
       <div class="bg-white rounded-3xl shadow-2xl p-8">
@@ -163,6 +164,8 @@ interface LevelConfig {
         </div>
       </div>
     </div>
+    <app-footer></app-footer>
+
   `,
 })
 export class GameStartComponent {

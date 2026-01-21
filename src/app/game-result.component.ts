@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameResult } from './memory-game.service';
+import { FooterComponent } from "./footer/footer.component";
 
 @Component({
   selector: 'app-game-result',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FooterComponent],
   template: `
     <div class="max-w-2xl mx-auto">
       <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
@@ -143,6 +144,7 @@ import { GameResult } from './memory-game.service';
         </div>
       </div>
     </div>
+    <app-footer></app-footer>
   `,
 })
 export class GameResultComponent {

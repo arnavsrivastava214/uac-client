@@ -5,6 +5,7 @@ import { OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // Required if downloading from an API
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from "../header.component";
+import { FooterComponent } from "../../../footer/footer.component";
 
 interface DownloadNote {
   id: string;
@@ -18,7 +19,7 @@ interface DownloadNote {
 
 @Component({
   selector: 'app-free-notes',
-  imports: [RouterModule, CommonModule, FormsModule, HeaderComponent],
+  imports: [RouterModule, CommonModule, FormsModule, HeaderComponent, FooterComponent],
   templateUrl: './free-notes.component.html',
   styleUrl: './free-notes.component.scss'
 })

@@ -8,6 +8,7 @@ import { ReviewCarouselComponent } from "../carousel/review-carousel/review-caro
 import { ApplicationServiceService } from '../services/application-service.service';
 import { AlertService } from '../services/alert.service';
 import { Subject } from 'rxjs';
+import { FooterComponent } from "../footer/footer.component";
 
 interface Stat {
   number: any
@@ -31,7 +32,7 @@ interface Testimonial {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, NgClass, ReviewComponent, HeaderComponent, RouterLink, ReviewCarouselComponent],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, NgClass, ReviewComponent, HeaderComponent, RouterLink, ReviewCarouselComponent, FooterComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })

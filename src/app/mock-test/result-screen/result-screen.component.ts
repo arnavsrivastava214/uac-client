@@ -4,6 +4,7 @@ import { CommonModule, NgFor, TitleCasePipe } from '@angular/common';
 import { HeaderComponent } from '../../headers/header/header.component';
 
 import { TestDataService, TestAttempt } from '../../services/test-data.service';
+import { FooterComponent } from "../../footer/footer.component";
 
 interface QuestionReview {
   question: string;
@@ -21,7 +22,7 @@ interface QuestionReview {
   standalone: true,
   templateUrl: './result-screen.component.html',
   styleUrls: ['./result-screen.component.scss'],
-  imports: [CommonModule, HeaderComponent, TitleCasePipe, NgFor, RouterModule],
+  imports: [CommonModule, HeaderComponent, TitleCasePipe, NgFor, RouterModule, FooterComponent],
 })
 export class ResultScreenComponent implements OnInit {
   attemptId!: number;

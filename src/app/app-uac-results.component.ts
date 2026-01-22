@@ -8,6 +8,7 @@ import {
   AfterViewInit,
   signal,
   computed,
+  effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApplicationServiceService } from './services/application-service.service';
@@ -195,7 +196,7 @@ interface MediaItem {
               <div class="px-3 flex-shrink-0" [style.width]="getSlideWidth()">
                 <div
                   class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
-                  (click)="openPreview(i)"
+                  (click)="openPreview(item)"
                 >
                   <!-- Photo Card -->
                   <div class="relative aspect-[4/3] overflow-hidden">
@@ -207,7 +208,7 @@ interface MediaItem {
                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       (load)="onImageLoad(item.src)"
                       (error)="onImageError($event, item)"
-                    />
+                      />
 
                     <!-- Skeleton Loader -->
                     @if (!imageLoaded.has(item.src)) {
@@ -366,8 +367,8 @@ interface MediaItem {
 
           <!-- Navigation in Modal -->
           <button
-            (click)="modalPrev()"
-            class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 hover:scale-110"
+          (click)="$event.stopPropagation(); modalPrev()"
+          class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 hover:scale-110"
             aria-label="Previous"
           >
             <svg
@@ -386,8 +387,8 @@ interface MediaItem {
           </button>
 
           <button
-            (click)="modalNext()"
-            class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 hover:scale-110"
+          (click)="$event.stopPropagation(); modalNext()"
+          class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 hover:scale-110"
             aria-label="Next"
           >
             <svg
@@ -434,12 +435,12 @@ interface MediaItem {
                 class="relative w-full max-w-5xl mx-auto rounded-2xl overflow-hidden bg-black/50"
               >
                 @if (currentPhoto()) {
-                <img
-                  [src]="currentPhoto()?.src"
-                  [alt]="currentPhoto()?.original_name || 'UAC Result Photo'"
-                  class="w-full h-auto max-h-[70vh] object-contain mx-auto"
-                  (error)="onImageError($event, currentPhoto())"
-                />
+                  <img
+                    [src]="currentPhoto()?.src"
+                    [alt]="currentPhoto()?.original_name || 'UAC Result Photo'"
+                    class="w-full h-auto max-h-[70vh] object-contain mx-auto"
+                    (error)="onImageError($event, currentPhoto())"
+                  />
                 }
               </div>
 
@@ -472,8 +473,8 @@ interface MediaItem {
                     {{ getImageSize(currentPhoto()!) }}
                   </div>
                 </div>
-                <div class="mt-4 text-gray-400">
-                  {{ currentPreviewIndex + 1 }} of {{ filteredPhotos().length }}
+                <div class="mt-4 text-xl font-semibold text-white">
+                  {{ getCurrentNumber() }} of {{ filteredPhotos().length }}
                 </div>
               </div>
               }
@@ -503,14 +504,12 @@ interface MediaItem {
 })
 export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('carouselTrack') carouselTrack!: ElementRef;
-  @ViewChild('previewVideo') previewVideo?: ElementRef<HTMLVideoElement>;
 
   activeTab: 'photos' | 'videos' = 'photos';
   currentSlide = 0;
   currentTranslate = 0;
   itemsPerView = 1;
   showPreview = false;
-  currentPreviewIndex = 0;
   imageLoaded = new Set<string>();
   searchQuery = '';
   sortBy: 'date' | 'name' = 'date';
@@ -524,6 +523,8 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoading = signal(false);
   error = signal<string | null>(null);
   photos = signal<MediaItem[]>([]);
+  currentPreviewId = signal<number | null>(null);
+  currentPreviewIndex = signal<number>(0);
   
   // Computed values
   filteredPhotos = computed(() => {
@@ -578,10 +579,29 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   });
 
   currentPhoto = computed(() => {
-    return this.filteredPhotos()[this.currentPreviewIndex];
+    const filtered = this.filteredPhotos();
+    const currentIndex = this.currentPreviewIndex();
+    
+    if (filtered.length === 0 || currentIndex < 0 || currentIndex >= filtered.length) {
+      return null;
+    }
+    
+    return filtered[currentIndex];
   });
 
-  constructor(private appService: ApplicationServiceService) {}
+  constructor(private appService: ApplicationServiceService) {
+    // Update preview index when filtered photos change
+    effect(() => {
+      const id = this.currentPreviewId();
+      if (id) {
+        const filtered = this.filteredPhotos();
+        const index = filtered.findIndex(item => item.id === id);
+        if (index >= 0) {
+          this.currentPreviewIndex.set(index);
+        }
+      }
+    });
+  }
 
   ngOnInit() {
     this.updateItemsPerView();
@@ -748,26 +768,39 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateCarousel();
   }
 
-  openPreview(index: number) {
-    this.currentPreviewIndex = index;
+  openPreview(item: MediaItem) {
+    this.currentPreviewId.set(item.id);
     this.showPreview = true;
     document.body.style.overflow = 'hidden';
   }
 
   closePreview() {
     this.showPreview = false;
+    this.currentPreviewId.set(null);
+    this.currentPreviewIndex.set(0);
     document.body.style.overflow = '';
   }
 
   modalNext() {
     const items = this.filteredPhotos();
-    this.currentPreviewIndex = (this.currentPreviewIndex + 1) % items.length;
+    if (items.length === 0) return;
+    
+    const currentIndex = this.currentPreviewIndex();
+    const nextIndex = (currentIndex + 1) % items.length;
+    
+    this.currentPreviewIndex.set(nextIndex);
+    this.currentPreviewId.set(items[nextIndex].id);
   }
 
   modalPrev() {
     const items = this.filteredPhotos();
-    this.currentPreviewIndex =
-      (this.currentPreviewIndex - 1 + items.length) % items.length;
+    if (items.length === 0) return;
+    
+    const currentIndex = this.currentPreviewIndex();
+    const prevIndex = (currentIndex - 1 + items.length) % items.length;
+    
+    this.currentPreviewIndex.set(prevIndex);
+    this.currentPreviewId.set(items[prevIndex].id);
   }
 
   // Touch swipe handlers
@@ -805,15 +838,15 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.imageLoaded.add(src);
   }
 
-  onImageError(event: Event, item?: MediaItem) {
+  onImageError(event: Event, item?: MediaItem | null) {
     const img = event.target as HTMLImageElement;
     img.style.display = 'none';
-    
-    // Create error placeholder
+  
     const parent = img.parentElement;
     if (parent) {
       const placeholder = document.createElement('div');
-      placeholder.className = 'absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center';
+      placeholder.className =
+        'absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center';
       placeholder.innerHTML = `
         <div class="text-center">
           <div class="text-4xl mb-2">📷</div>
@@ -885,7 +918,6 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   downloadAllPhotos() {
-    // In a real app, this would trigger a bulk download or zip file
     alert(`Downloading all ${this.filteredPhotos().length} photos...\n\nThis feature would create a ZIP file with all images in a real implementation.`);
   }
 
@@ -897,10 +929,13 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
         url: window.location.href,
       });
     } else {
-      // Fallback: Copy URL to clipboard
       navigator.clipboard.writeText(window.location.href).then(() => {
         alert('Gallery link copied to clipboard!');
       });
     }
+  }
+
+  getCurrentNumber(): number {
+    return this.currentPreviewIndex() + 1;
   }
 }

@@ -53,6 +53,7 @@ export class DashboardComponent implements OnInit {
   isTrophyVisible: boolean = true;
   hasPlayedGame: boolean = false;
 
+
   services: Service[] = [
     {
       icon: "fas fa-bullseye",

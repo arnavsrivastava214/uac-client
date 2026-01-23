@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   
   navItems: NavItem[] = [
     { id: 'home-link', route: '/', label: 'Home' },
-    { id: 'notes-link', route: '/notes', label: 'NOTES' },
+    { id: 'notes-link', route: '/notes', label: 'Notes' },
     { id: 'gallery-link', route: '/gallery', label: 'Gallery' },
     { id: 'result-link', route: '/result', label: 'Result' },
     { id: 'contact-link', route: '/contact', label: 'Contact' },
@@ -96,6 +96,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.updateBreadcrumbs();
       this.closeMobileMenu();
     });
+    window.scrollTo(0,0)
   }
 
   ngOnInit() {

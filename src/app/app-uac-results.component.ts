@@ -13,6 +13,9 @@ import {
 import { CommonModule } from '@angular/common';
 import { ApplicationServiceService } from './services/application-service.service';
 import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from './headers/header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 interface MediaItem {
   id: number;
@@ -27,10 +30,12 @@ interface MediaItem {
 @Component({
   selector: 'app-uac-results',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent],
   template: `
+    <app-header *ngIf="!isVideoFullscreen"></app-header>
     <div
       class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8"
+      style="padding-top: 140px;"
     >
       <div class="max-w-7xl mx-auto">
         <!-- Header -->
@@ -62,7 +67,7 @@ interface MediaItem {
               🔍
             </div>
           </div>
-          
+
           <!-- Sort Options -->
           <div class="flex justify-center gap-4 mt-4">
             <button
@@ -105,16 +110,20 @@ interface MediaItem {
         <!-- Loading State -->
         @if (isLoading()) {
         <div class="text-center py-12">
-          <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+          <div
+            class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"
+          ></div>
           <p class="text-gray-600">Loading gallery...</p>
         </div>
         }
 
         <!-- Error State -->
         @if (error()) {
-        <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-center mb-8">
+        <div
+          class="bg-red-50 border border-red-200 rounded-xl p-6 text-center mb-8"
+        >
           <p class="text-red-600 font-medium">⚠️ {{ error() }}</p>
-          <button 
+          <button
             (click)="loadPhotos()"
             class="mt-4 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
           >
@@ -124,11 +133,16 @@ interface MediaItem {
         }
 
         <!-- Empty State -->
-        @if (!isLoading() && filteredPhotos().length === 0 && activeTab === 'photos') {
+        @if (!isLoading() && filteredPhotos().length === 0 && activeTab ===
+        'photos') {
         <div class="text-center py-12">
           <div class="text-6xl mb-4">📷</div>
-          <h3 class="text-xl font-semibold text-gray-700 mb-2">No photos found</h3>
-          <p class="text-gray-500">Try adjusting your search or check back later</p>
+          <h3 class="text-xl font-semibold text-gray-700 mb-2">
+            No photos found
+          </h3>
+          <p class="text-gray-500">
+            Try adjusting your search or check back later
+          </p>
         </div>
         }
 
@@ -208,7 +222,7 @@ interface MediaItem {
                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       (load)="onImageLoad(item.src)"
                       (error)="onImageError($event, item)"
-                      />
+                    />
 
                     <!-- Skeleton Loader -->
                     @if (!imageLoaded.has(item.src)) {
@@ -219,7 +233,9 @@ interface MediaItem {
 
                     <!-- Date Badge -->
                     @if (item.created_at) {
-                    <div class="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-lg">
+                    <div
+                      class="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-lg"
+                    >
                       {{ formatDate(item.created_at) }}
                     </div>
                     }
@@ -232,16 +248,16 @@ interface MediaItem {
                     >
                       {{ getPhotoTitle(item) }}
                     </h3>
-                    <p class="text-gray-600 line-clamp-2">{{ getPhotoDescription(item) }}</p>
+                    <p class="text-gray-600 line-clamp-2">
+                      {{ getPhotoDescription(item) }}
+                    </p>
                     <div class="mt-4 flex items-center justify-between">
                       <span
                         class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-50 text-blue-600"
                       >
                         📸 {{ getFileType(item.original_name) }}
                       </span>
-                      <div class="text-sm text-gray-500">
-                        ID: {{ item.id }}
-                      </div>
+                      <div class="text-sm text-gray-500">ID: {{ item.id }}</div>
                     </div>
                   </div>
                 </div>
@@ -266,12 +282,6 @@ interface MediaItem {
             class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10 pt-8 border-t border-gray-200/50"
           >
             <button
-              class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105"
-              (click)="downloadAllPhotos()"
-            >
-              ⬇️ Download All Photos
-            </button>
-            <button
               class="px-8 py-3 bg-white text-gray-800 border border-gray-300 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300"
               (click)="shareGallery()"
             >
@@ -283,14 +293,60 @@ interface MediaItem {
 
         <!-- Video Tab Content -->
         @if (activeTab === 'videos') {
-        <div class="text-center py-12">
-          <div class="text-6xl mb-4">🎬</div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-3">Video Gallery Coming Soon!</h3>
-          <p class="text-gray-600 max-w-md mx-auto">
-            We're working on compiling video highlights of our students' success stories.
-            Check back soon!
-          </p>
+        <div class="p-4 sm:p-6 lg:p-10">
+          <div class="max-w-6xl mx-auto">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">
+              Result Gallery 🎉
+            </h1>
+            <p class="text-gray-600 mb-8">
+              Watch our latest results, celebrations and topper interviews.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div
+                *ngFor="let video of videos; trackBy: trackByVideoUrl"
+                class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition"
+              >
+              <div class="w-full aspect-video bg-black relative">
+
+<iframe
+  #videoFrame
+  class="absolute inset-0 w-full h-full"
+  [src]="getSafeYoutubeEmbedUrl(video.youtubeUrl)"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen>
+</iframe>
+
+<!-- Custom Fullscreen Button -->
+<button
+  (click)="openFullscreen(videoFrame)"
+  class="absolute bottom-3 right-3 bg-black/70 text-white px-3 py-2 rounded-lg text-sm hover:bg-black transition">
+  Fullscreen
+</button>
+
+</div>
+
+
+                <!-- Content -->
+                <div class="p-4">
+                  <h2 class="text-lg font-bold text-gray-900 line-clamp-1">
+                    {{ video.title }}
+                  </h2>
+
+                  <a
+                    [href]="video.youtubeUrl"
+                    target="_blank"
+                    class="inline-block mt-3 text-sm font-semibold text-blue-600 hover:text-blue-800"
+                  >
+                    Open on YouTube →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
         }
 
         <!-- Stats -->
@@ -298,32 +354,42 @@ interface MediaItem {
           <div
             class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg"
           >
-            <div class="text-3xl font-bold text-blue-600 mb-2">{{ totalPhotos() }}</div>
+            <div class="text-3xl font-bold text-blue-600 mb-2">
+              {{ totalPhotos() }}
+            </div>
             <div class="text-gray-600">Total Photos</div>
           </div>
           <div
             class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg"
           >
-            <div class="text-3xl font-bold text-purple-600 mb-2">{{ latestDate() | date:'MMM yyyy' }}</div>
+            <div class="text-3xl font-bold text-purple-600 mb-2">
+              {{ latestDate() | date : 'MMM yyyy' }}
+            </div>
             <div class="text-gray-600">Latest Update</div>
           </div>
           <div
             class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg"
           >
-            <div class="text-3xl font-bold text-green-600 mb-2">{{ uniqueDays() }}</div>
+            <div class="text-3xl font-bold text-green-600 mb-2">
+              {{ uniqueDays() }}
+            </div>
             <div class="text-gray-600">Days of Success</div>
           </div>
           <div
             class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg"
           >
-            <div class="text-3xl font-bold text-orange-600 mb-2">{{ jpegCount() }}</div>
+            <div class="text-3xl font-bold text-orange-600 mb-2">
+              {{ jpegCount() }}
+            </div>
             <div class="text-gray-600">JPEG Images</div>
           </div>
         </div>
 
         <!-- Info Panel -->
         <div class="mt-8 bg-blue-50 border border-blue-200 rounded-2xl p-6">
-          <h4 class="text-lg font-semibold text-blue-800 mb-2">ℹ️ Gallery Information</h4>
+          <h4 class="text-lg font-semibold text-blue-800 mb-2">
+            ℹ️ Gallery Information
+          </h4>
           <ul class="text-sm text-blue-700 space-y-1">
             <li>• All photos are uploaded to Cloudinary for fast loading</li>
             <li>• Click any photo to view in full-screen mode</li>
@@ -367,8 +433,8 @@ interface MediaItem {
 
           <!-- Navigation in Modal -->
           <button
-          (click)="$event.stopPropagation(); modalPrev()"
-          class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 hover:scale-110"
+            (click)="$event.stopPropagation(); modalPrev()"
+            class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 hover:scale-110"
             aria-label="Previous"
           >
             <svg
@@ -387,8 +453,8 @@ interface MediaItem {
           </button>
 
           <button
-          (click)="$event.stopPropagation(); modalNext()"
-          class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 hover:scale-110"
+            (click)="$event.stopPropagation(); modalNext()"
+            class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 hover:scale-110"
             aria-label="Next"
           >
             <svg
@@ -435,12 +501,12 @@ interface MediaItem {
                 class="relative w-full max-w-5xl mx-auto rounded-2xl overflow-hidden bg-black/50"
               >
                 @if (currentPhoto()) {
-                  <img
-                    [src]="currentPhoto()?.src"
-                    [alt]="currentPhoto()?.original_name || 'UAC Result Photo'"
-                    class="w-full h-auto max-h-[70vh] object-contain mx-auto"
-                    (error)="onImageError($event, currentPhoto())"
-                  />
+                <img
+                  [src]="currentPhoto()?.src"
+                  [alt]="currentPhoto()?.original_name || 'UAC Result Photo'"
+                  class="w-full h-auto max-h-[70vh] object-contain mx-auto"
+                  (error)="onImageError($event, currentPhoto())"
+                />
                 }
               </div>
 
@@ -453,23 +519,24 @@ interface MediaItem {
                 <p class="text-gray-300 text-lg mb-4">
                   {{ getPhotoDescription(currentPhoto()!) }}
                 </p>
-                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 text-sm text-gray-400">
+                <div
+                  class="flex flex-col sm:flex-row justify-center items-center gap-4 text-sm text-gray-400"
+                >
                   @if (currentPhoto()?.created_at) {
                   <div>
-                    <span class="font-medium">Uploaded:</span> 
+                    <span class="font-medium">Uploaded:</span>
                     {{ formatDate(currentPhoto()!.created_at) }}
                   </div>
-                  }
-                  @if (currentPhoto()?.original_name) {
+                  } @if (currentPhoto()?.original_name) {
                   <div class="hidden sm:block">•</div>
                   <div>
-                    <span class="font-medium">File:</span> 
+                    <span class="font-medium">File:</span>
                     {{ currentPhoto()!.original_name }}
                   </div>
                   }
                   <div class="hidden sm:block">•</div>
                   <div>
-                    <span class="font-medium">Size:</span> 
+                    <span class="font-medium">Size:</span>
                     {{ getImageSize(currentPhoto()!) }}
                   </div>
                 </div>
@@ -484,6 +551,7 @@ interface MediaItem {
       </div>
       }
     </div>
+    <app-footer></app-footer>
   `,
   styles: [
     `
@@ -525,77 +593,148 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   photos = signal<MediaItem[]>([]);
   currentPreviewId = signal<number | null>(null);
   currentPreviewIndex = signal<number>(0);
-  
+  isVideoFullscreen = false;
+
+  videos = [
+    {
+      title: 'Result Celebration',
+      youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    },
+    {
+      title: 'Topper Interview (Shorts)',
+      youtubeUrl: 'https://youtube.com/shorts/oA_rxZssTPQ?si=BW2rq8VW1fBKBf-t',
+    },
+  ];
+
+  extractVideoId(url: string): string {
+    try {
+      // If url is already a videoId (11 chars)
+      if (url.length === 11 && !url.includes('/')) return url;
+
+      // Parse using URL API
+      const parsedUrl = new URL(url);
+
+      // ✅ 1) Normal YouTube: watch?v=VIDEO_ID
+      const v = parsedUrl.searchParams.get('v');
+      if (v && v.length === 11) return v;
+
+      // ✅ 2) Shorts: /shorts/VIDEO_ID
+      const shortsMatch = parsedUrl.pathname.match(
+        /\/shorts\/([a-zA-Z0-9_-]{11})/
+      );
+      if (shortsMatch?.[1]) return shortsMatch[1];
+
+      // ✅ 3) Embed: /embed/VIDEO_ID
+      const embedMatch = parsedUrl.pathname.match(
+        /\/embed\/([a-zA-Z0-9_-]{11})/
+      );
+      if (embedMatch?.[1]) return embedMatch[1];
+
+      // ✅ 4) youtu.be/VIDEO_ID
+      const shortUrlMatch = parsedUrl.hostname.includes('youtu.be')
+        ? parsedUrl.pathname.replace('/', '')
+        : '';
+
+      if (shortUrlMatch && shortUrlMatch.length === 11) return shortUrlMatch;
+
+      return '';
+    } catch (err) {
+      return '';
+    }
+  }
+
+  getSafeYoutubeEmbedUrl(url: string): SafeResourceUrl {
+    const videoId = this.extractVideoId(url);
+
+    // If invalid videoId return empty safe url
+    if (!videoId) {
+      return this.sanitizer.bypassSecurityTrustResourceUrl('');
+    }
+
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      `https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0&modestbranding=1`
+    );
+  }
   // Computed values
   filteredPhotos = computed(() => {
     let items = this.photos();
-    
+
     // Apply search filter
     if (this.searchQuery.trim()) {
       const query = this.searchQuery.toLowerCase().trim();
-      items = items.filter(item => 
-        item.original_name?.toLowerCase().includes(query) ||
-        (item.title?.toLowerCase() || '').includes(query) ||
-        (item.description?.toLowerCase() || '').includes(query)
+      items = items.filter(
+        (item) =>
+          item.original_name?.toLowerCase().includes(query) ||
+          (item.title?.toLowerCase() || '').includes(query) ||
+          (item.description?.toLowerCase() || '').includes(query)
       );
     }
-    
+
     // Apply sorting
     if (this.sortBy === 'date') {
-      items = [...items].sort((a, b) => 
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      items = [...items].sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
     } else if (this.sortBy === 'name') {
-      items = [...items].sort((a, b) => 
+      items = [...items].sort((a, b) =>
         (a.original_name || '').localeCompare(b.original_name || '')
       );
     }
-    
+
     return items;
   });
 
   totalPhotos = computed(() => this.photos().length);
-  
+
   latestDate = computed(() => {
     const items = this.photos();
     if (items.length === 0) return new Date();
-    return new Date(Math.max(...items.map(item => new Date(item.created_at).getTime())));
+    return new Date(
+      Math.max(...items.map((item) => new Date(item.created_at).getTime()))
+    );
   });
-  
+
   uniqueDays = computed(() => {
     const dates = new Set(
-      this.photos().map(item => 
-        new Date(item.created_at).toDateString()
-      )
+      this.photos().map((item) => new Date(item.created_at).toDateString())
     );
     return dates.size;
   });
 
   jpegCount = computed(() => {
-    return this.photos().filter(item => 
-      item.original_name?.toLowerCase().endsWith('.jpg') || 
-      item.original_name?.toLowerCase().endsWith('.jpeg')
+    return this.photos().filter(
+      (item) =>
+        item.original_name?.toLowerCase().endsWith('.jpg') ||
+        item.original_name?.toLowerCase().endsWith('.jpeg')
     ).length;
   });
 
   currentPhoto = computed(() => {
     const filtered = this.filteredPhotos();
     const currentIndex = this.currentPreviewIndex();
-    
-    if (filtered.length === 0 || currentIndex < 0 || currentIndex >= filtered.length) {
+
+    if (
+      filtered.length === 0 ||
+      currentIndex < 0 ||
+      currentIndex >= filtered.length
+    ) {
       return null;
     }
-    
+
     return filtered[currentIndex];
   });
 
-  constructor(private appService: ApplicationServiceService) {
+  constructor(
+    private appService: ApplicationServiceService,
+    private sanitizer: DomSanitizer
+  ) {
     // Update preview index when filtered photos change
     effect(() => {
       const id = this.currentPreviewId();
       if (id) {
         const filtered = this.filteredPhotos();
-        const index = filtered.findIndex(item => item.id === id);
+        const index = filtered.findIndex((item) => item.id === id);
         if (index >= 0) {
           this.currentPreviewIndex.set(index);
         }
@@ -607,6 +746,9 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateItemsPerView();
     window.addEventListener('resize', this.onResize.bind(this));
     this.loadPhotos();
+    document.addEventListener('fullscreenchange', () => {
+      this.isVideoFullscreen = !!document.fullscreenElement;
+    });
   }
 
   ngAfterViewInit() {
@@ -620,10 +762,10 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   loadPhotos() {
     this.isLoading.set(true);
     this.error.set(null);
-    
+
     this.appService.getResultImages((res: any) => {
       this.isLoading.set(false);
-      
+
       if (res && res.data && Array.isArray(res.data)) {
         // Transform API data to MediaItem format
         const mediaItems: MediaItem[] = res.data.map((item: any) => ({
@@ -633,11 +775,11 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
           description: item.description,
           original_name: item.original_name,
           created_at: item.created_at,
-          type: 'image'
+          type: 'image',
         }));
-        
+
         this.photos.set(mediaItems);
-        
+
         // Update carousel after data loads
         setTimeout(() => {
           this.updateItemsPerView();
@@ -716,7 +858,8 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getSortButtonClass(sortType: 'date' | 'name'): string {
-    const baseClasses = 'px-4 py-2 rounded-lg font-medium transition-all duration-300';
+    const baseClasses =
+      'px-4 py-2 rounded-lg font-medium transition-all duration-300';
     if (this.sortBy === sortType) {
       return `${baseClasses} bg-blue-100 text-blue-700 border border-blue-300`;
     }
@@ -784,10 +927,10 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   modalNext() {
     const items = this.filteredPhotos();
     if (items.length === 0) return;
-    
+
     const currentIndex = this.currentPreviewIndex();
     const nextIndex = (currentIndex + 1) % items.length;
-    
+
     this.currentPreviewIndex.set(nextIndex);
     this.currentPreviewId.set(items[nextIndex].id);
   }
@@ -795,10 +938,10 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   modalPrev() {
     const items = this.filteredPhotos();
     if (items.length === 0) return;
-    
+
     const currentIndex = this.currentPreviewIndex();
     const prevIndex = (currentIndex - 1 + items.length) % items.length;
-    
+
     this.currentPreviewIndex.set(prevIndex);
     this.currentPreviewId.set(items[prevIndex].id);
   }
@@ -841,7 +984,7 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   onImageError(event: Event, item?: MediaItem | null) {
     const img = event.target as HTMLImageElement;
     img.style.display = 'none';
-  
+
     const parent = img.parentElement;
     if (parent) {
       const placeholder = document.createElement('div');
@@ -851,7 +994,11 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
         <div class="text-center">
           <div class="text-4xl mb-2">📷</div>
           <p class="text-sm text-gray-500">Image not available</p>
-          ${item ? `<p class="text-xs text-gray-400 mt-1">${item.original_name}</p>` : ''}
+          ${
+            item
+              ? `<p class="text-xs text-gray-400 mt-1">${item.original_name}</p>`
+              : ''
+          }
         </div>
       `;
       parent.appendChild(placeholder);
@@ -868,7 +1015,7 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
       return date.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
-        day: 'numeric'
+        day: 'numeric',
       });
     } catch (error) {
       return 'Invalid date';
@@ -918,7 +1065,11 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   downloadAllPhotos() {
-    alert(`Downloading all ${this.filteredPhotos().length} photos...\n\nThis feature would create a ZIP file with all images in a real implementation.`);
+    alert(
+      `Downloading all ${
+        this.filteredPhotos().length
+      } photos...\n\nThis feature would create a ZIP file with all images in a real implementation.`
+    );
   }
 
   shareGallery() {
@@ -938,4 +1089,16 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   getCurrentNumber(): number {
     return this.currentPreviewIndex() + 1;
   }
+  trackByVideoUrl(index: number, item: any) {
+    return item.youtubeUrl;
+  }
+  openFullscreen(iframe: HTMLIFrameElement) {
+    const el = iframe.parentElement as HTMLElement;
+  
+    if (el?.requestFullscreen) {
+      el.requestFullscreen();
+    }
+  }
+  
+  
 }

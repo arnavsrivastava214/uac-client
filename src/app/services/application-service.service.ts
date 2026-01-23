@@ -73,5 +73,16 @@ export class ApplicationServiceService extends BaseServiceService {
   getResultImages(callback: any) {
     return this.getData({}, '/api/uac/results/images', callback);
   }
+  saveNotesToDB(payload: any, callback: any) {
+    return this.postData(payload, '/api/uac/notes/save', callback);
+  }
+  
+  getNotes(params?: any) {
+    return this.http.get(
+      'https://uac-server.onrender.com/api/uac/notes',
+      { params }
+    );
+  }
+  
   
 }

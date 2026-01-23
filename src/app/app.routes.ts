@@ -133,6 +133,14 @@ export const routes: Routes = [
             (m) => m.ResultImagesUploadComponent
           ),
       },
+      {
+        path: 'add-notes',
+        canActivate: [adminGuard],
+        loadComponent: () =>
+          import('./admin/upload-notes/upload-notes.component').then(
+            (m) => m.UploadNotesComponent
+          ),
+      },
     ],
   },
 ];

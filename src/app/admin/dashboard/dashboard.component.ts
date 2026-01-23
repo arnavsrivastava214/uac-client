@@ -20,7 +20,8 @@ export class DashboardComponent {
     { name: 'Teachers', icon: 'user-plus', route: '/admin/teachers' },
     { name: 'Create New Course', icon: 'file-plus', route: '/admin/create-course' },
     { name: 'View All Students', icon: 'users', route: '/admin/students' },
-    { name: 'Add Result Images', icon: 'book-open', route: '/admin/image-upload' }
+    { name: 'Add Result Images', icon: 'book-open', route: '/admin/image-upload' },
+    { name: 'Add Notes', icon: 'book-open', route: '/admin/add-notes' }
   ];
   
 

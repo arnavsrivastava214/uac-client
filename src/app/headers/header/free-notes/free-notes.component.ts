@@ -1,167 +1,224 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; // Required if downloading from an API
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from "../header.component";
 import { FooterComponent } from "../../../footer/footer.component";
+import { ApplicationServiceService } from '../../../services/application-service.service';
 
-interface DownloadNote {
-  id: string;
-  title: string;
-  description: string;
-  fileType: string; // e.g., 'pdf', 'docx', 'txt'
-  fileSize: string; // e.g., '2.5 MB', '500 KB'
-  downloadUrl: string; // The actual URL to the file
-  category: string; // e.g., 'Math', 'Science', 'History'
+interface Note {
+  id: number;
+  className: string;
+  subjectName: string;
+  chapterName: string;
+  fileName: string;
+  pdfLink: string;
+  downloadLink: string;
+  uploadedAt: Date;
+}
+
+interface DropdownOption {
+  value: string;
+  label: string;
+  count?: number;
 }
 
 @Component({
   selector: 'app-free-notes',
   imports: [RouterModule, CommonModule, FormsModule, HeaderComponent, FooterComponent],
   templateUrl: './free-notes.component.html',
-  styleUrl: './free-notes.component.scss'
+  styleUrls: ['./free-notes.component.scss']
 })
-export class FreeNotesComponent {
-    notes: DownloadNote[] = [];
-  filteredNotes: DownloadNote[] = [];
+export class FreeNotesComponent implements OnInit {
+  // Data
+  notes: Note[] = [];
+  filteredNotes: Note[] = [];
+  
+  // Filters
   searchTerm: string = '';
-  categories: string[] = [];
-  selectedCategory: string = 'All';
+  selectedClass: string = '';
+  selectedSubject: string = '';
+  selectedChapter: string = '';
+  
+  // Dropdown options
+  classOptions: DropdownOption[] = [];
+  subjectOptions: DropdownOption[] = [];
+  chapterOptions: DropdownOption[] = [];
+  
+  // UI state
+  isLoading: boolean = true;
+  
+  // Constants
+  readonly ALL_OPTION: DropdownOption = { value: '', label: 'All' };
 
-  constructor(private http: HttpClient) { } // Inject HttpClient if you plan to fetch notes from an API
+  constructor(private appService: ApplicationServiceService) {}
 
   ngOnInit(): void {
     this.loadNotes();
   }
 
   loadNotes(): void {
-    // Simulate fetching data
-    this.notes = [
-      {
-        id: '1',
-        title: 'Introduction to Calculus',
-        description: 'Comprehensive notes covering limits, derivatives, and integrals.',
-        fileType: 'pdf',
-        fileSize: '3.2 MB',
-        downloadUrl: '/assets/notes/calculus_intro.pdf', // Example path
-        category: 'Mathematics'
+    this.isLoading = true;
+    this.appService.getNotes().subscribe({
+      next: (res: any) => {
+        if (res.success && res.notes) {
+          // Map snake_case to camelCase
+          this.notes = res.notes.map((note: any) => ({
+            id: note.id,
+            className: note.class_name,
+            subjectName: note.subject_name,
+            chapterName: note.chapter_name,
+            fileName: note.file_name,
+            pdfLink: note.pdf_link,
+            downloadLink: note.download_link,
+            uploadedAt: new Date(note.uploaded_at)
+          }));
+          
+          this.initializeFilters();
+          this.filterNotes();
+        }
+        this.isLoading = false;
       },
-      {
-        id: '2',
-        title: 'World History: Ancient Civilizations',
-        description: 'Detailed summary of major ancient civilizations from Mesopotamia to Rome.',
-        fileType: 'docx',
-        fileSize: '1.8 MB',
-        downloadUrl: '/assets/notes/ancient_history.docx',
-        category: 'History'
-      },
-      {
-        id: '3',
-        title: 'Basics of Organic Chemistry',
-        description: 'Fundamentals of organic chemistry, including nomenclature and basic reactions.',
-        fileType: 'pdf',
-        fileSize: '4.5 MB',
-        downloadUrl: '/assets/notes/organic_chem_basics.pdf',
-        category: 'Science'
-      },
-      {
-        id: '4',
-        title: 'Principles of Economics',
-        description: 'Key concepts in micro and macroeconomics explained simply.',
-        fileType: 'pdf',
-        fileSize: '2.1 MB',
-        downloadUrl: '/assets/notes/economics_principles.pdf',
-        category: 'Economics'
-      },
-      {
-        id: '5',
-        title: 'Literary Analysis: Poetry',
-        description: 'Tips and techniques for analyzing poetic structures and themes.',
-        fileType: 'txt',
-        fileSize: '500 KB',
-        downloadUrl: '/assets/notes/poetry_analysis.txt',
-        category: 'Literature'
-      },
-      {
-        id: '6',
-        title: 'Advanced Linear Algebra',
-        description: 'Notes on vector spaces, eigenvalues, and eigenvectors.',
-        fileType: 'pdf',
-        fileSize: '5.1 MB',
-        downloadUrl: '/assets/notes/linear_algebra_advanced.pdf',
-        category: 'Mathematics'
-      },
-      {
-        id: '7',
-        title: 'Introduction to Computer Science',
-        description: 'Covers basic programming concepts, algorithms, and data structures.',
-        fileType: 'pdf',
-        fileSize: '3.8 MB',
-        downloadUrl: '/assets/notes/comp_sci_intro.pdf',
-        category: 'Computer Science'
-      },
-      {
-        id: '8',
-        title: 'Biology: Cell Structure and Function',
-        description: 'Detailed notes on prokaryotic and eukaryotic cells.',
-        fileType: 'pdf',
-        fileSize: '2.9 MB',
-        downloadUrl: '/assets/notes/cell_biology.pdf',
-        category: 'Science'
+      error: (error) => {
+        console.error('Error loading notes:', error);
+        this.isLoading = false;
       }
-    ];
+    });
+  }
 
-    // Extract unique categories for filters
-    this.categories = [...new Set(this.notes.map(note => note.category))];
-    this.filterNotes(); // Initialize filtered notes
+  initializeFilters(): void {
+    // Initialize class options
+    const uniqueClasses = [...new Set(this.notes.map(note => note.className))];
+    this.classOptions = [this.ALL_OPTION, ...uniqueClasses.map(cls => ({ 
+      value: cls, 
+      label: cls 
+    }))];
+    
+    // Initialize subject options based on selected class
+    this.updateSubjectOptions();
+  }
+
+  updateSubjectOptions(): void {
+    let filteredNotes = this.notes;
+    
+    if (this.selectedClass) {
+      filteredNotes = filteredNotes.filter(note => note.className === this.selectedClass);
+    }
+    
+    const uniqueSubjects = [...new Set(filteredNotes.map(note => note.subjectName))];
+    this.subjectOptions = [this.ALL_OPTION, ...uniqueSubjects.map(sub => ({ 
+      value: sub, 
+      label: sub 
+    }))];
+    
+    // Reset subject and chapter if parent filter changes
+    if (this.selectedClass) {
+      this.selectedSubject = '';
+      this.selectedChapter = '';
+    }
+    
+    this.updateChapterOptions();
+  }
+
+  updateChapterOptions(): void {
+    let filteredNotes = this.notes;
+    
+    if (this.selectedClass) {
+      filteredNotes = filteredNotes.filter(note => note.className === this.selectedClass);
+    }
+    if (this.selectedSubject) {
+      filteredNotes = filteredNotes.filter(note => note.subjectName === this.selectedSubject);
+    }
+    
+    const uniqueChapters = [...new Set(filteredNotes.map(note => note.chapterName))];
+    this.chapterOptions = [this.ALL_OPTION, ...uniqueChapters.map(ch => ({ 
+      value: ch, 
+      label: ch 
+    }))];
+    
+    // Reset chapter if subject changes
+    if (this.selectedSubject) {
+      this.selectedChapter = '';
+    }
   }
 
   filterNotes(): void {
-    let tempNotes = this.notes;
-
-    // Apply category filter
-    if (this.selectedCategory !== 'All') {
-      tempNotes = tempNotes.filter(note => note.category === this.selectedCategory);
+    let tempNotes = [...this.notes];
+    
+    // Apply class filter
+    if (this.selectedClass) {
+      tempNotes = tempNotes.filter(note => note.className === this.selectedClass);
     }
-
-    // Apply search term filter
+    
+    // Apply subject filter
+    if (this.selectedSubject) {
+      tempNotes = tempNotes.filter(note => note.subjectName === this.selectedSubject);
+    }
+    
+    // Apply chapter filter
+    if (this.selectedChapter) {
+      tempNotes = tempNotes.filter(note => note.chapterName === this.selectedChapter);
+    }
+    
+    // Apply search filter
     if (this.searchTerm) {
-      const lowerCaseSearchTerm = this.searchTerm.toLowerCase();
+      const searchTermLower = this.searchTerm.toLowerCase();
       tempNotes = tempNotes.filter(note =>
-        note.title.toLowerCase().includes(lowerCaseSearchTerm) ||
-        note.description.toLowerCase().includes(lowerCaseSearchTerm) ||
-        note.category.toLowerCase().includes(lowerCaseSearchTerm)
+        note.fileName.toLowerCase().includes(searchTermLower) ||
+        note.chapterName.toLowerCase().includes(searchTermLower) ||
+        note.subjectName.toLowerCase().includes(searchTermLower)
       );
     }
+    
     this.filteredNotes = tempNotes;
   }
 
-  selectCategory(category: string): void {
-    this.selectedCategory = category;
+  onClassChange(): void {
+    this.updateSubjectOptions();
     this.filterNotes();
   }
 
-  downloadNote(url: string, filename: string): void {
-    // This is the simplest way to trigger a download for static files.
-    // The 'download' attribute on an anchor tag suggests a filename to the browser.
+  onSubjectChange(): void {
+    this.updateChapterOptions();
+    this.filterNotes();
+  }
+
+  onChapterChange(): void {
+    this.filterNotes();
+  }
+
+  onSearchChange(): void {
+    this.filterNotes();
+  }
+
+  clearFilters(): void {
+    this.selectedClass = '';
+    this.selectedSubject = '';
+    this.selectedChapter = '';
+    this.searchTerm = '';
+    this.initializeFilters();
+    this.filterNotes();
+  }
+
+  downloadNote(downloadLink: string, fileName: string): void {
     const link = document.createElement('a');
-    link.href = url;
-    link.download = filename; // Suggested filename for the download
+    link.href = downloadLink;
+    link.download = fileName;
+    link.target = '_blank';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
 
-    // If you need to download files from an API that requires special headers or handles large files:
-    // You'd use HttpClient and potentially a library like 'file-saver'.
-    /*
-    this.http.get(url, { responseType: 'blob' }).subscribe(blob => {
-      // For more robust client-side saving, especially for dynamically generated blobs
-      // import { saveAs } from 'file-saver';
-      // saveAs(blob, filename);
+  formatDate(date: Date): string {
+    return new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     });
-    */
-    console.log(`Downloading: ${filename} from ${url}`);
+  }
+
+  getFileType(fileName: string): string {
+    return fileName.split('.').pop()?.toUpperCase() || 'PDF';
   }
 }

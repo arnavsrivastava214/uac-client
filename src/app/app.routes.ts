@@ -73,6 +73,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'about',
+    loadComponent: () =>
+      import('./about/about.component').then(
+        (m) => m.AboutComponent
+      ),
+  },
+  {
     path: 'admin',
     loadComponent: () =>
       import('./admin/admin/admin.component').then((m) => m.AdminComponent),

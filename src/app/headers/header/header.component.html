@@ -43,9 +43,8 @@
         >
           {{ item.label }}
           <span 
-            class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-blue-600 transition-all duration-300 rounded-full opacity-0"
-            [class.active]="isActive(item.route)"
-            [class.hover]="!isActive(item.route)"
+            class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-500 ease-out"
+           
           ></span>
         </a>
       </nav>

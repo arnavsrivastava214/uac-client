@@ -1,0 +1,264 @@
+<!-- Hero Section -->
+<app-header></app-header>
+<section class="hero-section relative min-h-[90vh] flex items-center justify-center overflow-hidden" style="padding-top: 200px;">
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50"></div>
+    
+    <!-- Floating Shapes Animation -->
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="fade-up text-5xl md:text-7xl font-bold text-gray-900 mb-6">
+          About <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Unstoppable Academic Classes</span>
+        </h1>
+        <p class="fade-up text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed">
+          Empowering students to achieve academic excellence through innovative teaching, 
+          personalized mentoring, and a commitment to lifelong learning.
+        </p>
+        <div class="fade-up flex flex-col sm:flex-row justify-center gap-4">
+          <button (click)="enrollNow()" id="enrollBtn" class="btn-primary group">
+            Join UAC Today
+            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </button>
+          <a routerLink="/result" class="btn-secondary">
+            Explore Results
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+    </div>
+  </section>
+  
+  <!-- Who We Are -->
+  <section id="who-we-are" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="fade-up text-4xl font-bold text-gray-900 mb-4">Who We Are</h2>
+          <div class="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
+          <p class="fade-up text-xl text-gray-600 max-w-3xl mx-auto">
+            UAC is a premier educational institution dedicated to transforming 
+            traditional learning into an engaging, results-driven experience.
+          </p>
+        </div>
+  
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="fade-up glass-card" [style.animation-delay]="'100ms'">
+            <div class="icon-box bg-blue-100 text-blue-600">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0v6l-9-5 9-5 9 5-9 5z"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-3">Expert Faculty</h3>
+            <p class="text-gray-600">Industry experts with 10+ years of teaching experience and advanced degrees.</p>
+          </div>
+  
+          <div class="fade-up glass-card" [style.animation-delay]="'200ms'">
+            <div class="icon-box bg-indigo-100 text-indigo-600">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-3">Innovative Methods</h3>
+            <p class="text-gray-600">Blended learning with technology integration for enhanced understanding.</p>
+          </div>
+  
+          <div class="fade-up glass-card" [style.animation-delay]="'300ms'">
+            <div class="icon-box bg-blue-100 text-blue-600">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-3">Personalized Approach</h3>
+            <p class="text-gray-600">Customized learning paths for each student's unique needs and goals.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Mission & Vision -->
+  <section id="mission-vision" class="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="fade-up text-4xl font-bold text-gray-900 mb-4">Our Mission & Vision</h2>
+          <div class="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
+        </div>
+  
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="slide-left mission-card">
+            <div class="flex flex-col md:flex-row items-start mb-6">
+              <div class="icon-box-lg bg-blue-100 text-blue-600 mb-4 md:mb-0">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+              </div>
+              <div class="md:ml-6">
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">Our Mission</h3>
+                <p class="text-gray-700">
+                  To provide accessible, high-quality education that empowers students 
+                  to reach their full potential through innovative teaching methodologies 
+                  and personalized support systems.
+                </p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="slide-right vision-card">
+            <div class="flex flex-col md:flex-row items-start mb-6">
+              <div class="icon-box-lg bg-indigo-100 text-indigo-600 mb-4 md:mb-0">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+              </div>
+              <div class="md:ml-6">
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">Our Vision</h3>
+                <p class="text-gray-700">
+                  To become the leading educational institution recognized for transforming 
+                  lives through academic excellence and character building, creating future 
+                  leaders who make a positive impact on society.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Why Choose UAC -->
+  <section id="features" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="fade-up text-4xl font-bold text-gray-900 mb-4">Why Choose UAC?</h2>
+          <div class="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
+          <p class="fade-up text-xl text-gray-600 max-w-3xl mx-auto">
+            Experience the difference with our comprehensive educational ecosystem
+          </p>
+        </div>
+  
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div *ngFor="let feature of features; let i = index; trackBy: trackByFn" 
+               class="fade-in feature-card" [style.animation-delay]="getAnimationDelay(i)">
+            <div class="icon-box bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="feature.icon"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">{{ feature.title }}</h3>
+            <p class="text-gray-600">{{ feature.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Stats Section -->
+  <section class="py-20 bg-gradient-to-r from-blue-600 to-indigo-600">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div *ngFor="let stat of stats; trackBy: trackByFn" class="text-center stat-item">
+            <div class="text-4xl md:text-6xl font-bold text-white mb-2">
+              {{ getStatDisplay(stat) }}
+            </div>
+            <div class="text-blue-100 text-lg">{{ stat.label }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Founder Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="fade-up text-4xl font-bold text-gray-900 mb-4">Meet Our Founder</h2>
+          <div class="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
+        </div>
+  
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 md:p-12 shadow-lg">
+          <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/3 mb-8 md:mb-0 md:pr-8">
+              <div class="relative">
+                <div class="w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 mx-auto overflow-hidden shadow-xl">
+                  <div class="w-full h-full flex items-center justify-center text-white">
+                    <svg class="w-32 h-32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="absolute -bottom-2 -right-2 bg-white rounded-full p-3 shadow-lg">
+                  <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="md:w-2/3">
+              <h3 class="text-3xl font-bold text-gray-900 mb-4">{{ founder.name }}</h3>
+              <p class="text-blue-600 text-lg font-semibold mb-6">{{ founder.position }}</p>
+              <p class="text-gray-700 text-lg mb-6 leading-relaxed">
+                {{ founder.description }}
+              </p>
+              <div class="flex flex-wrap gap-4">
+                <div *ngFor="let qual of founder.qualifications" 
+                     class="flex items-center text-gray-600">
+                  <svg class="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  <span>{{ qual }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CTA Section -->
+  <section id="cta" class="py-20 bg-gradient-to-r from-blue-600 to-indigo-600">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="fade-up text-4xl md:text-5xl font-bold text-white mb-6">
+          Ready to Transform Your Academic Journey?
+        </h2>
+        <p class="fade-up text-xl text-blue-100 mb-8 max-w-2xl mx-auto" [style.animation-delay]="'100ms'">
+          Join thousands of successful students who have achieved their dreams with UAC.
+        </p>
+        <div class="fade-up flex flex-col sm:flex-row justify-center gap-4" [style.animation-delay]="'200ms'">
+          <button (click)="enrollNow()" class="cta-btn-primary group">
+            Contact
+            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </button>
+          <button (click)="contactAdmissions()" class="cta-btn-secondary">
+            Mock Test
+          </button>
+        </div>
+        <p class="fade-up text-blue-100 mt-8 text-sm" [style.animation-delay]="'300ms'">
+          Limited seats available for upcoming batches. Early enrollment discount ends soon.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <app-footer></app-footer>

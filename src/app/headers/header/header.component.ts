@@ -77,13 +77,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   
   navItems: NavItem[] = [
     { id: 'home-link', route: '/', label: 'Home' },
+    { id: 'home-link', route: '/about', label: 'About' },
     { id: 'notes-link', route: '/notes', label: 'Notes' },
     { id: 'gallery-link', route: '/gallery', label: 'Gallery' },
     { id: 'result-link', route: '/result', label: 'Result' },
-    { id: 'contact-link', route: '/contact', label: 'Contact' },
     { id: 'mock-test', route: '/mock-test', label: 'Mock Test' }, 
     { id: 'mind-game', route: '/mind-game', label: 'UAC Games' },
-    { id: 'career', route: '/career', label: 'Career' }
+    { id: 'career', route: '/career', label: 'Career' },
+    { id: 'contact-link', route: '/contact', label: 'Contact' },
   ];
   
   private destroy$ = new Subject<void>();

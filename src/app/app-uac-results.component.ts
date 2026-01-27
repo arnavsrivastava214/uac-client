@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './headers/header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { YouTubePlayerModule } from '@angular/youtube-player';
+import { YouTubePlayer } from '@angular/youtube-player';
 
 
 interface MediaItem {
@@ -32,7 +32,8 @@ interface MediaItem {
 @Component({
   selector: 'app-uac-results',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent, YouTubePlayerModule],
+  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent,     YouTubePlayer
+  ],
   template: `
     <app-header *ngIf="!isVideoFullscreen"></app-header>
     <div

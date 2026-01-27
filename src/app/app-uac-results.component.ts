@@ -16,6 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './headers/header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { YouTubePlayerModule } from '@angular/youtube-player';
+
 
 interface MediaItem {
   id: number;
@@ -30,7 +32,7 @@ interface MediaItem {
 @Component({
   selector: 'app-uac-results',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent, YouTubePlayerModule],
   template: `
     <app-header *ngIf="!isVideoFullscreen"></app-header>
     <div
@@ -303,47 +305,41 @@ interface MediaItem {
             </p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div
-                *ngFor="let video of videos; trackBy: trackByVideoUrl"
-                class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition"
-              >
-              <div class="w-full aspect-video bg-black relative">
 
-<iframe
-  #videoFrame
-  class="absolute inset-0 w-full h-full"
-  [src]="getSafeYoutubeEmbedUrl(video.youtubeUrl)"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowfullscreen>
-</iframe>
+<div
+  *ngFor="let video of videos; trackBy: trackByVideoUrl"
+  class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition"
+>
 
-<!-- Custom Fullscreen Button -->
-<button
-  (click)="openFullscreen(videoFrame)"
-  class="absolute bottom-3 right-3 bg-black/70 text-white px-3 py-2 rounded-lg text-sm hover:bg-black transition">
-  Fullscreen
-</button>
-
+  <!-- Video Container -->
+  <div class="video-box" [class.shorts]="isShorts(video.youtubeUrl)">
+  <youtube-player
+    class="yt-player"
+    [videoId]="extractVideoId(video.youtubeUrl)"
+    [playerVars]="playerVars">
+  </youtube-player>
 </div>
 
 
-                <!-- Content -->
-                <div class="p-4">
-                  <h2 class="text-lg font-bold text-gray-900 line-clamp-1">
-                    {{ video.title }}
-                  </h2>
+  <!-- Content -->
+  <div class="p-4">
+    <h2 class="text-lg font-bold text-gray-900 line-clamp-1">
+      {{ video.title }}
+    </h2>
 
-                  <a
-                    [href]="video.youtubeUrl"
-                    target="_blank"
-                    class="inline-block mt-3 text-sm font-semibold text-blue-600 hover:text-blue-800"
-                  >
-                    Open on YouTube →
-                  </a>
-                </div>
-              </div>
-            </div>
+    <a
+      [href]="video.youtubeUrl"
+      target="_blank"
+      class="inline-block mt-3 text-sm font-semibold text-blue-600 hover:text-blue-800"
+    >
+      Open on YouTube →
+    </a>
+  </div>
+
+</div>
+
+</div>
+
           </div>
         </div>
 
@@ -567,6 +563,32 @@ interface MediaItem {
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
       }
+      .video-box{
+  width: 100%;
+  position: relative;
+  background: black;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Normal video 16:9 */
+.video-box{
+  aspect-ratio: 16 / 9;
+}
+
+/* Shorts 9:16 */
+.video-box.shorts{
+  aspect-ratio: 9 / 16;
+}
+
+/* Force youtube-player full size */
+.video-box youtube-player,
+.video-box ::ng-deep youtube-player-placeholder,
+.video-box ::ng-deep iframe{
+  width: 100% !important;
+  height: 100% !important;
+}
+
     `,
   ],
 })
@@ -594,6 +616,12 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   currentPreviewId = signal<number | null>(null);
   currentPreviewIndex = signal<number>(0);
   isVideoFullscreen = false;
+playerVars = {
+  autoplay: 0,
+  rel: 0,
+  modestbranding: 1,
+  playsinline: 1
+};
 
   videos = [
     {
@@ -1097,6 +1125,15 @@ export class UacResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   
     if (el?.requestFullscreen) {
       el.requestFullscreen();
+    }
+  }
+  isShorts(url: string): boolean {
+    try {
+      const u = new URL(url);
+      return u.pathname.includes('/shorts/');
+    } catch {
+      // fallback agar URL invalid ho
+      return url.includes('/shorts/');
     }
   }
   

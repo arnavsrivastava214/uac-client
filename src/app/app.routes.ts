@@ -80,6 +80,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'blog',
+    loadComponent: () =>
+      import('./blog/blog.component').then(
+        (m) => m.BlogComponent
+      ),
+  },
+  {
     path: 'admin',
     loadComponent: () =>
       import('./admin/admin/admin.component').then((m) => m.AdminComponent),

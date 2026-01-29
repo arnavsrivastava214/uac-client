@@ -78,6 +78,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   navItems: NavItem[] = [
     { id: 'home-link', route: '/', label: 'Home' },
     { id: 'home-link', route: '/about', label: 'About' },
+    { id: 'blog-link', route: 'blog', label: 'Blog' },
     { id: 'notes-link', route: '/notes', label: 'Notes' },
     { id: 'gallery-link', route: '/gallery', label: 'Gallery' },
     { id: 'result-link', route: '/result', label: 'Result' },

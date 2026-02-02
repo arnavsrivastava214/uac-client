@@ -280,7 +280,7 @@ export class PostCardComponent implements OnInit {
   }
 
   async onShare(): Promise<void> {
-    const postUrl = `${window.location.origin}/posts/${this.post().id}`;
+    const postUrl = `${window.location.origin}/posts/${this.post()}`;
     
     if (navigator.share) {
       try {

@@ -27,7 +27,7 @@ import { FooterComponent } from "./footer/footer.component";
             <span class="text-white font-bold text-2xl">C</span>
           </div>
           <div class="hidden sm:block">
-            <h1 class="text-2xl font-bold text-gray-900 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">Coaching Hub</h1>
+            <h1 class="text-2xl font-bold text-gray-900 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">UAC Hub</h1>
             <p class="text-sm text-gray-600 mt-1">Learn, Grow, Succeed Together</p>
           </div>
           <div class="sm:hidden">

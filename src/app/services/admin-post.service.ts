@@ -9,7 +9,6 @@ export interface Post {
   imageUrl: string;
   createdAt: Date;
   updatedAt: Date;
-  // Add these for the public feed
   likeCount?: number;
   isLikedByMe?: boolean;
 }
@@ -76,19 +75,20 @@ export interface PublicPost extends Post {
 })
 export class AdminPostService {
 
-  private publicPostBase = 'http://localhost:3000/api/posts';
-  private adminPostBase  = 'http://localhost:3000/api/admin/posts';
-  private authBase       = 'http://localhost:3000/api/uac/auth';
+  // ✅ LIVE BASE URL
+  private API_BASE = 'https://uac-server.onrender.com';
+
+  private publicPostBase = `${this.API_BASE}/api/posts`;
+  private adminPostBase  = `${this.API_BASE}/api/admin/posts`;
+  private authBase       = `${this.API_BASE}/api/uac/auth`;
 
   constructor(private http: HttpClient) {}
-
 
   getPublicPosts(): Observable<PublicPost[]> {
     return this.http.get<PublicPost[]>(
       `${this.publicPostBase}/public`
     );
   }
-  
 
   likePost(postId: string): Observable<LikeResponse> {
     return this.http.post<LikeResponse>(
@@ -135,7 +135,6 @@ export class AdminPostService {
     );
   }
 
-  // (optional – agar frontend pe verify/reset lagana hai)
   verifyOtp(email: string, otp: string) {
     return this.http.post(
       `${this.authBase}/students/verify-otp`,
@@ -187,6 +186,4 @@ export class AdminPostService {
       { email, otp }
     );
   }
-  
-  
 }

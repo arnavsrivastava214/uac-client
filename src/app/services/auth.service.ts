@@ -1,29 +1,24 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 export interface StudentAuthUser {
-    id: number;
-    name: string;
-    email: string;
-  }
-  
-  export interface StudentAuthResponse {
-    access_token: string;
-    user: StudentAuthUser;
-  }
-  
-// Rename to avoid conflict
+  id: number;
+  name: string;
+  email: string;
+  email_verified?: boolean;
+}
+
+export interface StudentAuthResponse {
+  access_token: string;
+  user: StudentAuthUser;
+}
+
 export interface StoredAuthData {
-    access_token: string;
-    user: StudentAuthUser;
-    rememberMe: boolean;
-    timestamp: number;
-  }
-  export interface StudentAuthUser {
-    id: number;
-    name: string;
-    email: string;
-    email_verified?: boolean;   // ✅ add this
-  }
+  access_token: string;
+  user: StudentAuthUser;
+  rememberMe: boolean;
+  timestamp: number;
+}
+
   
   
 

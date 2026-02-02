@@ -564,7 +564,7 @@ confirmPassword = '';
   
     } catch (error) {
   
-      this.errorMessage.set('Failed to send reset email. Please try again.');
+      this.alert.error('Failed to send reset email. Please try again.');
   
     } finally {
       this.forgotPasswordLoading.set(false);
@@ -598,7 +598,7 @@ confirmPassword = '';
             this.close();
           },
           error: (error) => {
-            this.errorMessage.set(
+            this.alert.error(
               error.error?.message ||
                 'Login failed. Please check your credentials.'
             );
@@ -702,7 +702,7 @@ confirmPassword = '';
     this.errorMessage.set('');
   
     if (!this.otp || this.otp.length < 6) {
-      this.errorMessage.set('Please enter 6 digit OTP');
+      this.alert.error('Please enter 6 digit OTP');
       return;
     }
   
@@ -794,7 +794,7 @@ confirmPassword = '';
           err?.message ||
           'Invalid or expired OTP';
   
-        this.errorMessage.set(msg);
+        this.alert.error(msg);
         this.alert.error(msg);
       }
   

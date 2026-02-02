@@ -10,9 +10,6 @@ bootstrapApplication(AppComponent, {
   ...appConfig,
   providers: [
     ...(appConfig.providers || []),
-    provideAnimations(),
-    provideToastr(),
-    provideRouter(routes),  // ✅ ADD THIS LINE to register your routes
+    provideAnimations()
   ],
-})
-.catch((err) => console.error(err));
+}).catch(console.error);

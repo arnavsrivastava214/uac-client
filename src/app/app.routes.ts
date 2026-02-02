@@ -80,10 +80,10 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'blog',
+    path: 'posts',
     loadComponent: () =>
-      import('./blog/blog.component').then(
-        (m) => m.BlogComponent
+      import('./post-feed.component').then(
+        (m) => m.PostFeedComponent
       ),
   },
   {
@@ -153,6 +153,14 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./admin/upload-notes/upload-notes.component').then(
             (m) => m.UploadNotesComponent
+          ),
+      },
+      {
+        path: 'create-post',
+        canActivate: [adminGuard],
+        loadComponent: () =>
+          import('./admin/create-post/create-post.component').then(
+            (m) => m.CreatePostComponent
           ),
       },
     ],

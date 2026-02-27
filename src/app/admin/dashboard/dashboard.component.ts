@@ -22,7 +22,8 @@ export class DashboardComponent {
     { name: 'View All Students', icon: 'users', route: '/admin/students' },
     { name: 'Add Result Images', icon: 'book-open', route: '/admin/image-upload' },
     { name: 'Add Notes', icon: 'book-open', route: '/admin/add-notes' },
-    { name: 'Create Post', icon: 'users', route: '/admin/create-post' }
+    { name: 'Create Post', icon: 'users', route: '/admin/create-post' },
+    { name: 'Add Gallery Images', icon: 'calendar', route: '/admin/gallery-images' }
   ];
   
 

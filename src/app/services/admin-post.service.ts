@@ -186,4 +186,31 @@ export class AdminPostService {
       { email, otp }
     );
   }
+
+  // ------------------------
+// Gallery APIs
+// ------------------------
+
+uploadGalleryImages(formData: FormData): Observable<any> {
+  return this.http.post(
+    `${this.API_BASE}/api/admin/gallery`,
+    formData
+  );
+}
+
+getAdminGallery() {
+  return this.http.get<any[]>(`${this.API_BASE}/api/admin/gallery`);
+}
+
+getGalleryImages(): Observable<string[]> {
+  return this.http.get<string[]>(
+    `${this.API_BASE}/api/gallery`
+  );
+}
+
+deleteGalleryImage(id: string): Observable<void> {
+  return this.http.delete<void>(
+    `${this.API_BASE}/api/admin/gallery/${id}`
+  );
+}
 }

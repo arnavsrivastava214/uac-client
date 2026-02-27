@@ -163,6 +163,14 @@ export const routes: Routes = [
             (m) => m.CreatePostComponent
           ),
       },
+      {
+        path: 'gallery-images',
+        canActivate: [adminGuard],
+        loadComponent: () =>
+          import('./admin/galler-image-upload/galler-image-upload.component').then(
+            (m) => m.GallerImageUploadComponent
+          ),
+      },
     ],
   },
 ];

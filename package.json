@@ -21,6 +21,7 @@
     "@angular/youtube-player": "^19.2.19",
     "driver.js": "^1.3.6",
     "ngx-toastr": "^19.1.0",
+    "photoswipe": "^5.4.4",
     "rxjs": "~7.8.0",
     "swiper": "^11.2.10",
     "tslib": "^2.3.0",

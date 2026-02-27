@@ -1,0 +1,155 @@
+<div class="max-w-7xl mx-auto px-6 py-8">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-800">Gallery Manager</h1>
+        <p class="text-gray-500 text-sm">Upload and manage gallery images</p>
+      </div>
+  
+      <div class="text-sm text-gray-400">
+        Total Images: {{ gallery?.length || 0 }}
+      </div>
+    </div>
+  
+  
+    <!-- Upload Section -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-10">
+  
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">
+        Upload Images
+      </h2>
+  
+      <!-- Drag Drop Area -->
+      <label
+        class="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-8 cursor-pointer hover:border-blue-500 transition">
+  
+        <input type="file"
+               multiple
+               (change)="onFileSelect($event)"
+               class="hidden">
+  
+        <div class="text-center">
+  
+          <div class="text-4xl mb-2">📤</div>
+  
+          <p class="text-gray-600 font-medium">
+            Drag & Drop images here
+          </p>
+  
+          <p class="text-xs text-gray-400 mt-1">
+            JPG, PNG, WEBP • Max 2MB • Max 10 files
+          </p>
+  
+        </div>
+      </label>
+  
+      <p class="text-red-500 mt-3 text-sm" *ngIf="error">
+        {{ error }}
+      </p>
+  
+  
+      <!-- Preview Section -->
+      <div *ngIf="previews.length"
+           class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-6">
+  
+        <div *ngFor="let img of previews; let i = index"
+             class="relative group rounded-lg overflow-hidden border">
+  
+          <img [src]="img"
+               class="h-28 w-full object-cover">
+  
+          <button
+            (click)="previews.splice(i,1); files.splice(i,1)"
+            class="absolute top-1 right-1 bg-black/70 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
+            Remove
+          </button>
+  
+        </div>
+  
+      </div>
+  
+  
+      <!-- Upload Button -->
+      <div class="mt-6 flex items-center gap-4">
+  
+        <button
+          (click)="upload()"
+          [disabled]="uploading"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium shadow">
+  
+          <span *ngIf="!uploading">Upload Images</span>
+          <span *ngIf="uploading">Uploading...</span>
+  
+        </button>
+  
+        <div *ngIf="uploading"
+             class="text-sm text-gray-500">
+          Please wait while images are uploading...
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  
+  
+    <!-- Gallery Section -->
+    <div>
+  
+      <div class="flex items-center justify-between mb-4">
+  
+        <h2 class="text-lg font-semibold text-gray-700">
+          Uploaded Images
+        </h2>
+  
+        <button
+          (click)="loadGallery()"
+          class="text-sm text-blue-600 hover:underline">
+          Refresh
+        </button>
+  
+      </div>
+  
+  
+      <!-- Loading Skeleton -->
+      <div *ngIf="loading"
+           class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+  
+        <div *ngFor="let i of [1,2,3,4,5,6]"
+             class="h-32 bg-gray-200 animate-pulse rounded-lg">
+        </div>
+  
+      </div>
+  
+  
+      <!-- Gallery Grid -->
+      <div *ngIf="!loading"
+           class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+  
+        <div *ngFor="let img of gallery"
+             class="relative group rounded-xl overflow-hidden border shadow-sm hover:shadow-md transition">
+  
+          <img [src]="img.imageUrl"
+               class="h-36 w-full object-cover">
+  
+  
+          <!-- Overlay -->
+          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+  
+            <button
+              (click)="deleteImage(img.id)"
+              class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm shadow">
+  
+              Delete
+            </button>
+  
+          </div>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  </div>

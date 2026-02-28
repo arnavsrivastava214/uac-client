@@ -2,65 +2,67 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--thumb-size, 150px), 1fr));
   gap: 0.75rem;
-  transition: grid-template-columns 0.1s ease-out;
+  padding: 1rem;
 
   .gallery-item {
-    position: relative;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1/1;
     overflow: hidden;
     border-radius: 0.75rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.05);
+    animation: fadeIn 0.5s ease-out backwards;
+    @for $i from 1 through 50 { &:nth-child(#{$i}) { animation-delay: #{$i * 0.02}s; } }
     
-    // --- NEW: Staggered Entrance Animation ---
-    animation: slideUpFade 0.6s cubic-bezier(0.23, 1, 0.32, 1) backwards;
-    @for $i from 1 through 50 {
-      &:nth-child(#{$i}) { animation-delay: #{$i * 0.03}s; }
-    }
-
-    &:hover {
-      transform: scale(1.02);
-      box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4);
-    }
-
-    .gallery-thumb {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .gallery-thumb { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
+    &:hover .gallery-thumb { transform: scale(1.05); }
   }
 }
 
-// --- NEW: Spring & Smooth Classes ---
-.preview-image-el {
-  will-change: transform, opacity;
-  // Jab dragging band ho, tab ye spring transition apply hogi
-  &.spring-animation {
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                opacity 0.3s ease-out;
+.slider-container {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  touch-action: none;
+  overflow: hidden;
+
+  .filmstrip {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+    &.smooth-snap { transition: transform 0.4s cubic-bezier(0.15, 0.8, 0.3, 1); }
+  }
+
+  .slide {
+    flex: 0 0 100%;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    
+    .preview-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    color: white;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    padding: 0.5rem;
+    z-index: 10001;
+    &:hover { background: rgba(255,255,255,0.2); }
   }
 }
 
-.backdrop-animate {
-  transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
-}
-
-@keyframes slideUpFade {
-  from { opacity: 0; transform: translateY(30px) scale(0.9); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-// Tumhara existing skeleton logic
-.skeleton-square {
-  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 0.75rem;
-  aspect-ratio: 1 / 1;
-}
-
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

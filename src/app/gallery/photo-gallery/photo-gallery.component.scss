@@ -2,21 +2,26 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--thumb-size, 150px), 1fr));
   gap: 0.75rem;
-  transition: grid-template-columns 0.1s ease-out; // subtle animation
+  transition: grid-template-columns 0.1s ease-out;
 
   .gallery-item {
     position: relative;
     aspect-ratio: 1 / 1;
     overflow: hidden;
     border-radius: 0.75rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
-    backdrop-filter: blur(4px);
     background: rgba(255, 255, 255, 0.05);
+    
+    // --- NEW: Staggered Entrance Animation ---
+    animation: slideUpFade 0.6s cubic-bezier(0.23, 1, 0.32, 1) backwards;
+    @for $i from 1 through 50 {
+      &:nth-child(#{$i}) { animation-delay: #{$i * 0.03}s; }
+    }
 
     &:hover {
       transform: scale(1.02);
-      box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.5), 0 10px 10px -5px rgba(59, 130, 246, 0.3);
+      box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4);
     }
 
     .gallery-thumb {
@@ -27,7 +32,26 @@
   }
 }
 
-// Skeleton loader (unchanged)
+// --- NEW: Spring & Smooth Classes ---
+.preview-image-el {
+  will-change: transform, opacity;
+  // Jab dragging band ho, tab ye spring transition apply hogi
+  &.spring-animation {
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                opacity 0.3s ease-out;
+  }
+}
+
+.backdrop-animate {
+  transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(30px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+// Tumhara existing skeleton logic
 .skeleton-square {
   background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
   background-size: 200% 100%;

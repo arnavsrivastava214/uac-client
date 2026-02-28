@@ -1,58 +1,51 @@
-<app-header></app-header>
+<app-header *ngIf="selectedImageIndex === null"></app-header>
 
-<div class="gallery-page min-h-screen bg-[#0a0a0a] text-white p-4 sm:p-6 lg:p-8" style="padding-top: 150px;">
-
-  <!-- Header -->
-  <header class="text-center mb-10 pt-6">
-    <h1 class="text-4xl md:text-5xl font-light tracking-wide">
-      UAC Gallery
-    </h1>
+<div class="gallery-page min-h-screen bg-[#0a0a0a] text-white p-4 sm:p-6 lg:p-8" 
+     [style.padding-top]="selectedImageIndex === null ? '150px' : '0'">
+  
+  <header class="text-center mb-10 pt-6" *ngIf="selectedImageIndex === null">
+    <h1 class="text-4xl md:text-5xl font-light tracking-wide">UAC Gallery</h1>
     <div class="w-16 h-0.5 bg-blue-500 mx-auto mt-3"></div>
     <p class="text-sm md:text-base text-gray-400 mt-3">Unstoppable Moments</p>
   </header>
 
-  <!-- Error state -->
-  <div *ngIf="error" class="text-center text-red-400 bg-red-900/20 p-4 rounded-lg max-w-md mx-auto">
-    {{ error }}
-  </div>
-
-  <!-- Skeleton loader -->
-  <div *ngIf="loading" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3">
-    <div *ngFor="let _ of [].constructor(12)" class="skeleton-square rounded-lg bg-white/5 animate-pulse aspect-square"></div>
-  </div>
-
-  <!-- Dynamic Zoomable Grid -->
   <div *ngIf="!loading && allImages.length > 0"
-       #gridContainer
-       id="gallery-grid"
-       class="zoomable-grid"
-       [style.--thumb-size.px]="thumbSize">
-    <div *ngFor="let image of allImages; trackBy: trackById"
-         class="gallery-item rounded-lg bg-gray-900/50 cursor-pointer group"
-         [attr.data-pswp-src]="image.src"
-         [attr.data-pswp-width]="image.width"
-         [attr.data-pswp-height]="image.height">
-      <!-- Thumbnail (lazy loaded) -->
-      <img [src]="image.thumb"
-           [alt]="'Image ' + image.id"
-           loading="lazy"
-           class="gallery-thumb w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
-
-      <!-- Hover overlay (desktop) -->
-      <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center">
-        <svg class="w-8 h-8 text-white/90 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-        </svg>
-        <span class="text-xs font-medium text-white/90">Image {{ image.id }}</span>
-      </div>
+       #gridContainer class="zoomable-grid" [style.--thumb-size.px]="thumbSize">
+    <div *ngFor="let image of allImages; let i = index; trackBy: trackById"
+         (click)="openPreview(i)"
+         class="gallery-item cursor-pointer group">
+      <img [src]="image.thumb" [alt]="'Image ' + image.id" loading="lazy"
+           class="gallery-thumb" />
     </div>
   </div>
-
-  <!-- Empty state -->
-  <div *ngIf="!loading && allImages.length === 0" class="text-center text-gray-500 py-20">
-    No images found.
-  </div>
-
 </div>
 
-<app-footer></app-footer>
+<div *ngIf="selectedImageIndex !== null" 
+     class="fixed inset-0 w-screen h-screen z-[10000] flex items-center justify-center touch-none select-none cursor-grab active:cursor-grabbing overflow-hidden backdrop-animate"
+     [style.backgroundColor]="'rgba(0,0,0,' + bgOpacity + ')'"
+     [style.backdrop-filter]="'blur(' + (bgOpacity * 10) + 'px)'"
+     (touchstart)="onSwipeStart($event)" 
+     (touchmove)="onSwipeMove($event)" 
+     (touchend)="onSwipeEnd()"
+     (mousedown)="onSwipeStart($event)"
+     (mousemove)="onSwipeMove($event)"
+     (mouseup)="onSwipeEnd()"
+     (mouseleave)="onSwipeEnd()">
+
+    <button (click)="closePreview()" class="absolute top-6 right-6 text-white/70 hover:text-white z-[10001] p-3 bg-white/10 rounded-full transition-all md:block hidden">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+
+    <img [src]="allImages[selectedImageIndex].src" 
+         class="max-w-[95%] max-h-[95%] object-contain pointer-events-none preview-image-el"
+         [class.spring-animation]="!isDragging"
+         [style.transform]="'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + (1 - (translateY > 0 ? translateY/1500 : 0)) + ')'"
+         [style.opacity]="bgOpacity" />
+         
+    <div class="absolute bottom-8 left-0 right-0 text-center transition-opacity duration-500"
+         [style.opacity]="isDragging ? '0' : '0.5'">
+      <p class="text-white text-[10px] tracking-[0.2em] uppercase">Swipe down to close</p>
+    </div>
+</div>
+
+<app-footer *ngIf="selectedImageIndex === null"></app-footer>

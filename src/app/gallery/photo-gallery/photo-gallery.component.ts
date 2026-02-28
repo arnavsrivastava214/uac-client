@@ -1,17 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
+import {
+  Component, OnInit, OnDestroy, ChangeDetectionStrategy,
+  ChangeDetectorRef, HostListener, ViewChild, ElementRef
+} from '@angular/core';
 import { HeaderComponent } from "../../headers/header/header.component";
 import { FooterComponent } from "../../footer/footer.component";
 import { AdminPostService } from '../../services/admin-post.service';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import 'photoswipe/style.css';
 
-// Define the gallery image model
 interface GalleryImage {
   id: number;
-  src: string;        // full size for lightbox (Cloudinary w_1200)
-  thumb: string;       // thumbnail for grid (Cloudinary w_400)
-  title?: string;      // optional title
+  src: string;        // full size (w_1200)
+  thumb: string;       // thumbnail (w_400)
+  width: number;       // placeholder, will be updated after load
+  height: number;
 }
 
 @Component({
@@ -20,15 +23,25 @@ interface GalleryImage {
   imports: [CommonModule, HeaderComponent, FooterComponent],
   templateUrl: './photo-gallery.component.html',
   styleUrls: ['./photo-gallery.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush, // performance optimization
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotoGalleryComponent implements OnInit, OnDestroy {
-  allImages: GalleryImage[] = [];           // all fetched images
-  displayedImages: GalleryImage[] = [];      // subset shown in grid
-  imagesPerLoad = 12;                         // number per batch
-  currentDisplayedCount = 0;
-  loading = true;                              // show skeleton loader
+  @ViewChild('gridContainer', { static: true }) gridContainer!: ElementRef<HTMLElement>;
+
+  allImages: GalleryImage[] = [];
+  loading = true;
   error: string | null = null;
+
+  // Zoomable grid variables
+  private baseThumbSize = 150;           // base width in px
+  private minThumbSize = 80;
+  private maxThumbSize = 300;
+  zoomLevel = 1.0;
+  thumbSize = this.baseThumbSize;        // current size = base * zoomLevel (clamped)
+
+  // Touch pinch tracking
+  private touchDistanceStart = 0;
+  private zoomLevelStart = 1.0;
 
   private lightbox: PhotoSwipeLightbox | null = null;
 
@@ -45,19 +58,18 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
     this.lightbox?.destroy();
   }
 
-  // Fetch images from API and map to GalleryImage model
   private fetchImages(): void {
     this.adminPostService.getAdminGallery().subscribe({
       next: (res: any[]) => {
-        // Map API response to GalleryImage with Cloudinary optimizations
         this.allImages = res.map(item => ({
           id: item.id,
           src: this.optimizeCloudinaryUrl(item.imageUrl, 1200),
           thumb: this.optimizeCloudinaryUrl(item.imageUrl, 400),
-          title: `Image ${item.id}` // you can customize title extraction if needed
+          width: 1200,   // will be updated after load
+          height: 800,
         }));
         this.loading = false;
-        this.loadMoreImages(); // initial batch
+        this.updateGridZoom();               // set initial CSS variable
         this.initPhotoSwipe();
         this.cdr.markForCheck();
       },
@@ -70,72 +82,116 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Cloudinary optimization: insert transformation parameters after '/upload/'
   private optimizeCloudinaryUrl(url: string, width: number): string {
-    if (!url.includes('res.cloudinary.com')) return url; // fallback
+    if (!url.includes('res.cloudinary.com')) return url;
     return url.replace('/upload/', `/upload/f_auto,q_auto,w_${width}/`);
   }
 
-  // Load more images into displayedImages (for "Load More" button)
-  loadMoreImages(): void {
-    const start = this.currentDisplayedCount;
-    const end = Math.min(start + this.imagesPerLoad, this.allImages.length);
-    for (let i = start; i < end; i++) {
-      this.displayedImages.push(this.allImages[i]);
+  // --- Zoomable Grid Logic ---
+  private updateGridZoom(): void {
+    // Clamp thumbSize between min and max
+    this.thumbSize = Math.min(this.maxThumbSize, Math.max(this.minThumbSize, this.baseThumbSize * this.zoomLevel));
+    // Set CSS variable on the grid container
+    this.gridContainer.nativeElement.style.setProperty('--thumb-size', `${this.thumbSize}px`);
+  }
+
+  // Touch pinch handlers
+  @HostListener('touchstart', ['$event'])
+  onTouchStart(e: TouchEvent) {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const distance = this.getTouchDistance(e.touches);
+      this.touchDistanceStart = distance;
+      this.zoomLevelStart = this.zoomLevel;
     }
-    this.currentDisplayedCount = this.displayedImages.length;
+  }
+
+  @HostListener('touchmove', ['$event'])
+  onTouchMove(e: TouchEvent) {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const distance = this.getTouchDistance(e.touches);
+      if (this.touchDistanceStart > 0) {
+        const scale = distance / this.touchDistanceStart;
+        let newZoom = this.zoomLevelStart * scale;
+        // Clamp zoom level to reasonable limits (so thumbSize stays within min/max)
+        const minZoom = this.minThumbSize / this.baseThumbSize;
+        const maxZoom = this.maxThumbSize / this.baseThumbSize;
+        newZoom = Math.min(maxZoom, Math.max(minZoom, newZoom));
+        this.zoomLevel = newZoom;
+        this.updateGridZoom();
+        this.cdr.markForCheck();
+      }
+    }
+  }
+
+  @HostListener('touchend')
+  onTouchEnd() {
+    this.touchDistanceStart = 0;
+  }
+
+  private getTouchDistance(touches: TouchList): number {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  // Wheel zoom (desktop, with Ctrl key)
+  @HostListener('wheel', ['$event'])
+  onWheel(e: WheelEvent) {
+    if (!e.ctrlKey) return;
+    e.preventDefault();
+    const delta = -e.deltaY * 0.001;   // sensitivity
+    const minZoom = this.minThumbSize / this.baseThumbSize;
+    const maxZoom = this.maxThumbSize / this.baseThumbSize;
+    let newZoom = this.zoomLevel + delta;
+    newZoom = Math.min(maxZoom, Math.max(minZoom, newZoom));
+    this.zoomLevel = newZoom;
+    this.updateGridZoom();
     this.cdr.markForCheck();
   }
 
-  hasMoreImages(): boolean {
-    return this.currentDisplayedCount < this.allImages.length;
-  }
-
-  // Initialize PhotoSwipe lightbox
+  // --- PhotoSwipe Initialization ---
   private initPhotoSwipe(): void {
     if (this.lightbox) {
       this.lightbox.destroy();
     }
 
     this.lightbox = new PhotoSwipeLightbox({
-      gallery: '#gallery-grid',           // container selector
-      children: '.gallery-item',           // individual items
-      thumbSelector: '.gallery-thumb',     // element with thumbnail
+      gallery: '#gallery-grid',
+      children: '.gallery-item',
+      thumbSelector: '.gallery-thumb',
       pswpModule: () => import('photoswipe'),
-      bgOpacity: 0.95,
-      loop: false,
-      wheelToZoom: true,                    // pinch zoom support
-      closeOnVerticalDrag: true,             // swipe down to close
-      showHideAnimationType: 'zoom',
-      preload: [1, 2],                       // preload neighbour images
+      bgOpacity: 0.98,
+      loop: true,                       // continuous navigation
+      wheelToZoom: true,                 // pinch to zoom on trackpad
+      closeOnVerticalDrag: true,         // swipe down to close
+      pinchToClose: false,               // keep true? usually pinch to close is off, we use swipe down
+      doubleTapAction: 'zoom',
+            showHideAnimationType: 'zoom',
+      preload: [1, 2],                   // preload neighbour images
+      imageClickAction: 'close',          // optional: click to close
+      tapAction: 'toggle-controls',       // show/hide UI on tap
     });
 
-    // Map our data to PhotoSwipe item structure
+    // Map data to PhotoSwipe items
     this.lightbox.addFilter('itemData', (itemData, index) => {
       const image = this.allImages[index];
       return {
         ...itemData,
         src: image.src,
-        msrc: image.thumb,   // thumbnail shown while loading full
-        alt: image.title,
-        width: 1200,          // approximate; you could fetch real dimensions
-        height: 800,
+        msrc: image.thumb,
+        alt: `Image ${image.id}`,
+        width: image.width,
+        height: image.height,
       };
     });
 
     this.lightbox.init();
   }
 
-  // TrackBy for ngFor performance
+  // TrackBy for ngFor
   trackById(index: number, item: GalleryImage): number {
     return item.id;
-  }
-
-  // Keyboard escape – PhotoSwipe already handles it, but we keep fallback
-  @HostListener('document:keydown.escape')
-  onEscape(): void {
-    if (this.lightbox?.pswp) {
-      this.lightbox.pswp.close();
-    }
   }
 }

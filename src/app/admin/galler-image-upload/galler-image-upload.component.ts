@@ -45,7 +45,7 @@ export class GallerImageUploadComponent implements OnInit {
     this.previews = [];
     this.error = '';
 
-    if (selected.length > 10) {
+    if (selected.length > 20) {
       this.error = 'Max 10 images allowed';
       return;
     }
@@ -57,8 +57,8 @@ export class GallerImageUploadComponent implements OnInit {
         return;
       }
 
-      if (file.size > 2 * 1024 * 1024) {
-        this.error = 'Max size 2MB';
+      if (file.size > 5 * 1024 * 1024) {
+        this.error = 'Max size 5MB';
         return;
       }
 

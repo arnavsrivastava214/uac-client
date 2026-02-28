@@ -11,9 +11,9 @@ import 'photoswipe/style.css';
 
 interface GalleryImage {
   id: number;
-  src: string;        // full size (w_1200)
-  thumb: string;       // thumbnail (w_400)
-  width: number;       // placeholder, will be updated after load
+  src: string;
+  thumb: string;
+  width: number;
   height: number;
 }
 
@@ -32,14 +32,12 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
   loading = true;
   error: string | null = null;
 
-  // Zoomable grid variables
-  private baseThumbSize = 150;           // base width in px
+  private baseThumbSize = 150;
   private minThumbSize = 80;
   private maxThumbSize = 300;
   zoomLevel = 1.0;
-  thumbSize = this.baseThumbSize;        // current size = base * zoomLevel (clamped)
+  thumbSize = this.baseThumbSize;
 
-  // Touch pinch tracking
   private touchDistanceStart = 0;
   private zoomLevelStart = 1.0;
 
@@ -65,12 +63,18 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
           id: item.id,
           src: this.optimizeCloudinaryUrl(item.imageUrl, 1200),
           thumb: this.optimizeCloudinaryUrl(item.imageUrl, 400),
-          width: 1200,   // will be updated after load
+          width: 1200,
           height: 800,
         }));
         this.loading = false;
-        this.updateGridZoom();               // set initial CSS variable
-        this.initPhotoSwipe();
+        this.updateGridZoom();
+        this.cdr.detectChanges();
+
+        // Wait for DOM to be fully rendered
+        setTimeout(() => {
+          this.initPhotoSwipe();
+        });
+
         this.cdr.markForCheck();
       },
       error: (err) => {
@@ -87,15 +91,11 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
     return url.replace('/upload/', `/upload/f_auto,q_auto,w_${width}/`);
   }
 
-  // --- Zoomable Grid Logic ---
   private updateGridZoom(): void {
-    // Clamp thumbSize between min and max
     this.thumbSize = Math.min(this.maxThumbSize, Math.max(this.minThumbSize, this.baseThumbSize * this.zoomLevel));
-    // Set CSS variable on the grid container
     this.gridContainer.nativeElement.style.setProperty('--thumb-size', `${this.thumbSize}px`);
   }
 
-  // Touch pinch handlers
   @HostListener('touchstart', ['$event'])
   onTouchStart(e: TouchEvent) {
     if (e.touches.length === 2) {
@@ -113,10 +113,9 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
       const distance = this.getTouchDistance(e.touches);
       if (this.touchDistanceStart > 0) {
         const scale = distance / this.touchDistanceStart;
-        let newZoom = this.zoomLevelStart * scale;
-        // Clamp zoom level to reasonable limits (so thumbSize stays within min/max)
         const minZoom = this.minThumbSize / this.baseThumbSize;
         const maxZoom = this.maxThumbSize / this.baseThumbSize;
+        let newZoom = this.zoomLevelStart * scale;
         newZoom = Math.min(maxZoom, Math.max(minZoom, newZoom));
         this.zoomLevel = newZoom;
         this.updateGridZoom();
@@ -136,12 +135,11 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
     return Math.sqrt(dx * dx + dy * dy);
   }
 
-  // Wheel zoom (desktop, with Ctrl key)
   @HostListener('wheel', ['$event'])
   onWheel(e: WheelEvent) {
     if (!e.ctrlKey) return;
     e.preventDefault();
-    const delta = -e.deltaY * 0.001;   // sensitivity
+    const delta = -e.deltaY * 0.001;
     const minZoom = this.minThumbSize / this.baseThumbSize;
     const maxZoom = this.maxThumbSize / this.baseThumbSize;
     let newZoom = this.zoomLevel + delta;
@@ -151,7 +149,6 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
-  // --- PhotoSwipe Initialization ---
   private initPhotoSwipe(): void {
     if (this.lightbox) {
       this.lightbox.destroy();
@@ -163,18 +160,17 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
       thumbSelector: '.gallery-thumb',
       pswpModule: () => import('photoswipe'),
       bgOpacity: 0.98,
-      loop: true,                       // continuous navigation
-      wheelToZoom: true,                 // pinch to zoom on trackpad
-      closeOnVerticalDrag: true,         // swipe down to close
-      pinchToClose: false,               // keep true? usually pinch to close is off, we use swipe down
-      doubleTapAction: 'zoom',    // double tap zooms in/out
+      loop: true,
+      wheelToZoom: true,
+      closeOnVerticalDrag: true,
+      pinchToClose: false,
+      doubleTapAction: 'zoom',      // ✅ correct value
       showHideAnimationType: 'zoom',
-      preload: [1, 2],                   // preload neighbour images
-      imageClickAction: 'close',          // optional: click to close
-      tapAction: 'toggle-controls',       // show/hide UI on tap
+      preload: [1, 2],
+      imageClickAction: 'close',
+      tapAction: 'toggle-controls',
     });
 
-    // Map data to PhotoSwipe items
     this.lightbox.addFilter('itemData', (itemData, index) => {
       const image = this.allImages[index];
       return {
@@ -190,7 +186,6 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
     this.lightbox.init();
   }
 
-  // TrackBy for ngFor
   trackById(index: number, item: GalleryImage): number {
     return item.id;
   }

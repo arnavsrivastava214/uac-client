@@ -167,8 +167,8 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
       wheelToZoom: true,                 // pinch to zoom on trackpad
       closeOnVerticalDrag: true,         // swipe down to close
       pinchToClose: false,               // keep true? usually pinch to close is off, we use swipe down
-      doubleTapAction: 'zoom',
-            showHideAnimationType: 'zoom',
+      doubleTapAction: 'zoom',    // double tap zooms in/out
+      showHideAnimationType: 'zoom',
       preload: [1, 2],                   // preload neighbour images
       imageClickAction: 'close',          // optional: click to close
       tapAction: 'toggle-controls',       // show/hide UI on tap

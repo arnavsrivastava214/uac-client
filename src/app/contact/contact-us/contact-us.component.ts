@@ -40,7 +40,8 @@ export class ContactUsComponent {
   onSubmit(): void {
     if (this.isFormValid()) {
       this.service.sendRequest(this.formData, (res: any) => {
-        if(res.status==200){
+        console.log(res)
+        if(res.message== 'Contact message saved + sent successfully ✅'){
           this.formSubmitted = true;
           this.resetForm();
           this.alert.success(res.message);

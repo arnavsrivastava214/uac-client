@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApplicationServiceService } from '../../../services/application-service.service';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent {
   isLoading: boolean = false;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router, private service: ApplicationServiceService) {
+  constructor(private fb: FormBuilder, private router: Router, private service: ApplicationServiceService, private alert:AlertService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -39,18 +40,23 @@ export class LoginComponent {
           if (res.token) {
             localStorage.setItem('token', res.token);
           }
-  
+          this.alert.success(res.message)
+          
+          
           localStorage.setItem('isAdminLoggedIn', 'true');
           console.log(this.loginForm.value);
-  
+          
           setTimeout(() => {
             this.isLoading = false;
             this.router.navigate(['admin/dashboard']);
           }, 1000);
-  
+          
         } else {
           this.isLoading = false;
-          this.errorMessage = res?.error || 'Please enter valid credentials.';
+          this.alert.error(res.error.error)
+          console.log(res);
+          
+          // this.errorMessage = res?.error || 'Please enter valid credentials.';
           localStorage.removeItem('isAdminLoggedIn');
         }
       });

@@ -15,32 +15,31 @@
 
       <!-- ✅ Class Group Selection -->
       <div class="mb-10">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Select Class Group</h2>
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Select Class </h2>
 
         <!-- Loading -->
         <div *ngIf="loadingClasses" class="text-center text-gray-500 py-6">
-          ⏳ Loading class groups...
+          ⏳ Loading class...
         </div>
 
         <!-- Class Buttons -->
         <div *ngIf="!loadingClasses" class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button
             *ngFor="let group of classGroups"
-            (click)="selectClassGroup(group.class_group)"
-            [ngClass]="selectedClassGroup === group.class_group
-              ? 'bg-blue-600 text-white border-2 border-blue-600 shadow-lg scale-[1.02]'
-              : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-blue-400 hover:shadow-md'"
-            class="p-6 rounded-2xl text-center transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            (click)="selectClass(group.id)"
+            [ngClass]="selectedClassId === group.id
+            ? 'bg-blue-600 text-white border-2 border-blue-600 shadow-lg scale-[1.02]'
+            : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-blue-400 hover:shadow-md'"
           >
             <div class="text-4xl mb-2">📚</div>
             <h3 class="text-xl font-bold">{{ group.class_name }}</h3>
-            <p class="text-sm opacity-80">Classes {{ group.class_group }}</p>
+            <p class="text-sm opacity-80">Classes {{ group.class_name  }}</p>
           </button>
         </div>
       </div>
 
       <!-- ✅ Subject Selection -->
-      <div class="mb-10" *ngIf="selectedClassGroup">
+      <div class="mb-10" *ngIf="selectedClassId">
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Select Subject</h2>
 
         <!-- Loading -->
@@ -67,7 +66,7 @@
       </div>
 
       <!-- ✅ Available Tests -->
-      <div *ngIf="selectedClassGroup && selectedSubjectId">
+      <div *ngIf="selectedClassId && selectedSubjectId">
 
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-2xl font-bold text-gray-800">Available Tests</h2>

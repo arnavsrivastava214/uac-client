@@ -17,8 +17,8 @@ export class TestSelectComponent implements OnInit {
   subjects: Subject[] = [];
   availableTests: Test[] = [];
 
-  selectedClassGroup: string | null = null;
-  selectedSubjectId: number | null = null;
+  selectedClassId: number | null = null;
+    selectedSubjectId: number | null = null;
 
   loadingClasses = false;
   loadingSubjects = false;
@@ -68,37 +68,38 @@ export class TestSelectComponent implements OnInit {
     });
   }
 
-  selectClassGroup(group: string): void {
-    this.selectedClassGroup = group;
-    this.updateAvailableTests();
+  selectClass(classId: number): void {
+    this.selectedClassId = classId;
+    this.selectedSubjectId = null;
+    this.availableTests = [];
   }
-
   selectSubject(subjectId: number): void {
     this.selectedSubjectId = subjectId;
-    this.updateAvailableTests();
+    this.updateAvailableTests();   // must be here
   }
-
   // ✅ tests from DB
   updateAvailableTests(): void {
-    if (!this.selectedClassGroup || !this.selectedSubjectId) {
+    if (!this.selectedClassId || !this.selectedSubjectId) {
       this.availableTests = [];
       return;
     }
-
+  
     this.loadingTests = true;
-
-    this.testDataService.getTestsByFilters(this.selectedClassGroup, this.selectedSubjectId).subscribe({
-      next: (tests) => {
-        this.availableTests = tests;
-        this.loadingTests = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.availableTests = [];
-        this.loadingTests = false;
-        alert('Failed to load tests');
-      },
-    });
+  
+    this.testDataService
+      .getTestsByFilters(this.selectedClassId, this.selectedSubjectId)
+      .subscribe({
+        next: (tests) => {
+          this.availableTests = tests;
+          this.loadingTests = false;
+        },
+        error: (err) => {
+          console.error(err);
+          this.availableTests = [];
+          this.loadingTests = false;
+          alert('Failed to load tests');
+        },
+      });
   }
 
   startTest(test: Test): void {

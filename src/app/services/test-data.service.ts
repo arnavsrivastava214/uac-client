@@ -100,14 +100,13 @@ export class TestDataService {
     return this.http.get<Subject[]>(`${this.baseUrl}/subjects`);
   }
 
-  getTestsByFilters(classGroup: string, subjectId: number): Observable<Test[]> {
+  getTestsByFilters(classId: number, subjectId: number): Observable<Test[]> {
     let params = new HttpParams()
-      .set('class_group', classGroup)
+      .set('class_id', classId)
       .set('subject_id', subjectId);
-
+  
     return this.http.get<Test[]>(`${this.baseUrl}/tests`, { params });
   }
-
   startTestAttempt(testId: number, studentInfo?: { name?: string; phone?: any }): Observable<StartAttemptResponse> {
     return this.http.post<StartAttemptResponse>(`${this.baseUrl}/tests/${testId}/start`, {
       student_name: studentInfo?.name || null,

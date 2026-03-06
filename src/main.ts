@@ -12,4 +12,23 @@ bootstrapApplication(AppComponent, {
     ...(appConfig.providers || []),
     provideAnimations()
   ],
-}).catch(console.error);
+})
+.then(() => {
+  const loader = document.getElementById('loader-wrapper');
+
+  if (loader) {
+    const loadTime = Date.now() - (window as any).loaderStartTime;
+    const minDisplayTime = 2000;
+    const remainingTime = Math.max(0, minDisplayTime - loadTime);
+
+    setTimeout(() => {
+      loader.classList.add('fade-out');
+
+      setTimeout(() => {
+        if (loader.parentNode) loader.parentNode.removeChild(loader);
+      }, 500);
+
+    }, remainingTime);
+  }
+})
+.catch(console.error);

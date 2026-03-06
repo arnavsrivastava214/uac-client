@@ -1,5 +1,5 @@
 import { CommonModule, NgClass } from '@angular/common';
-import { ApplicationRef, Component, NgZone, type OnInit } from '@angular/core';
+import { ApplicationRef, Component, HostListener, NgZone, type OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ReviewComponent } from '../reviews/review/review.component';
@@ -112,6 +112,9 @@ export class DashboardComponent implements OnInit {
     },
   ];
 
+  scrollProgress: number = 0;
+  showBackToTop: boolean = false;
+  
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -131,6 +134,62 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     scroll(0, 0);
     this.checkGameStatus();
+    this.initScrollObserver();    // <-- new
+    this.initIntersectionObserver(); // <-- new
+  }
+
+  // HostListener to track scroll
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event) {
+    const winScroll = document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  
+    this.scrollProgress = (winScroll / height) * 100;
+    this.showBackToTop = winScroll > 300;
+  }
+
+  @HostListener('mousemove', ['$event'])
+onMouseMove(event: MouseEvent) {
+  const circles = document.querySelectorAll('.parallax-circle');
+  const x = event.clientX / window.innerWidth;
+  const y = event.clientY / window.innerHeight;
+  circles.forEach((circle: any, index) => {
+    const speed = index + 1;
+    const moveX = (x - 0.5) * speed * 20;
+    const moveY = (y - 0.5) * speed * 20;
+    circle.style.transform = `translate(${moveX}px, ${moveY}px)`;
+  });
+}
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Intersection Observer to add 'in-view' class to sections
+  initIntersectionObserver() {
+    const options = {
+      threshold: 0.2,
+      rootMargin: '0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          // Optionally unobserve after first trigger
+          observer.unobserve(entry.target);
+        }
+      });
+    }, options);
+
+    // Observe all sections you want to animate
+    const sections = document.querySelectorAll('section, .stat-item, .service-card');
+    sections.forEach(section => observer.observe(section));
+  }
+
+  // Optional: smoother initial load
+  initScrollObserver() {
+    // Already using HostListener
   }
 
   checkGameStatus(): void {

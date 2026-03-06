@@ -1,5 +1,17 @@
 <app-header></app-header>
 
+<!-- Scroll Progress Bar -->
+<div class="scroll-progress" [style.width.%]="scrollProgress"></div>
+
+<!-- Back to Top Button -->
+<button 
+  class="back-to-top" 
+  *ngIf="showBackToTop" 
+  (click)="scrollToTop()"
+  title="Back to top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
 <!-- Hero Section -->
 <section id="home" class="pt-20 min-h-screen gradient-bg flex items-center relative overflow-hidden">
     <!-- Animated Background Particles -->
@@ -9,12 +21,18 @@
         <div class="absolute bottom-20 left-1/3 w-24 h-24 bg-pink-400 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
     </div>
 
+    <!-- Parallax Background Circles -->
+    <div class="parallax-bg">
+        <div class="parallax-circle" style="top: 10%; left: 5%; width: 300px; height: 300px; background: rgba(255,215,0,0.2);"></div>
+        <div class="parallax-circle" style="bottom: 20%; right: 10%; width: 400px; height: 400px; background: rgba(138,43,226,0.2);"></div>
+    </div>
+
     <div class="container mx-auto px-6 py-16 lg:py-24 relative z-10">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="text-white animate-slide-up">
                 <h1 class="text-5xl lg:text-7xl font-bold mb-6 leading-tight">
                     Transform Your
-                    <span class="text-yellow-300 inline-block hover:scale-110 transition-transform duration-300">Life</span>
+                    <span class="text-yellow-300 inline-block hover:scale-110 transition-transform duration-300 typing-effect">Life</span>
                     Today
                 </h1>
 
@@ -95,7 +113,7 @@
 
                 <div class="flex flex-col sm:flex-row gap-4 mt-8"> 
                     <button
-                        class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                        class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105 hover:shadow-2xl ripple-btn"
                         routerLink="/contact">
                         <span class="flex items-center justify-center gap-2">
                             <i class="fas fa-rocket"></i>
@@ -104,7 +122,7 @@
                     </button>
 
                     <button
-                        class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300 hover:scale-105">
+                        class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300 hover:scale-105 ripple-btn">
                         <a href="https://www.youtube.com/@Sonusrivastava_uac" target="_blank" class="flex items-center justify-center gap-2">
                             <i class="fab fa-youtube"></i>
                             Watch Demo on Youtube
@@ -208,7 +226,7 @@
             </div>
       
             <div
-              class="relative text-4xl lg:text-5xl font-extrabold text-purple-600 mb-2
+              class="relative text-4xl lg:text-5xl font-extrabold text-purple-600 mb-2 stat-number
                      group-hover:scale-110 transition-transform duration-300">
               {{ stat.number }}
             </div>
@@ -236,9 +254,9 @@
             </p>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 services-grid">
             <div *ngFor="let service of services; let i = index"
-                class="bg-white rounded-2xl p-8 shadow-lg card-hover bounce-in"
+                class="bg-white rounded-2xl p-8 shadow-lg card-hover bounce-in service-card"
                 [style.animation-delay]="(i * 0.2) + 's'">
                 <div class="mb-6">
                     <div class="w-16 h-16 bg-gradient-to-r rounded-2xl flex items-center justify-center mb-4 service-gradient"
@@ -249,7 +267,7 @@
                     <p class="text-gray-600 leading-relaxed">{{service.description}}</p>
                 </div>
                 <button
-                    class="w-full bg-gray-100 text-gray-800 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white transition-all duration-300">
+                    class="w-full bg-gray-100 text-gray-800 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white transition-all duration-300 ripple-btn">
                     Learn More
                 </button>
             </div>
@@ -303,7 +321,7 @@
                 </div>
 
                 <button
-                    class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-lg transition-all duration-300 hover:scale-105">
+                    class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-lg transition-all duration-300 hover:scale-105 ripple-btn">
                     Schedule a Consultation
                 </button>
             </div>
@@ -334,7 +352,7 @@
                     <div class="space-y-6">
                   
                       <!-- Phone -->
-                      <div class="flex items-start space-x-4 hover:bg-purple-50 p-3 rounded-xl transition-colors duration-300">
+                      <div class="flex items-start space-x-4 hover:bg-purple-50 p-3 rounded-xl transition-colors duration-300 tooltip" data-tooltip="Call us now!">
                         <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
                           <i class="fas fa-phone text-purple-600 text-lg"></i>
                         </div>
@@ -349,7 +367,7 @@
                       </div>
                   
                       <!-- Email -->
-                      <div class="flex items-start space-x-4 hover:bg-purple-50 p-3 rounded-xl transition-colors duration-300 relative">
+                      <div class="flex items-start space-x-4 hover:bg-purple-50 p-3 rounded-xl transition-colors duration-300 relative tooltip" data-tooltip="Copy email">
                         <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
                           <i class="fas fa-envelope text-purple-600 text-lg"></i>
                         </div>
@@ -459,7 +477,7 @@
                   <button
                     type="submit"
                     [disabled]="contactForm.invalid"
-                    class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+                    class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ripple-btn">
                     <span class="flex items-center justify-center gap-2">
                         <i class="fas fa-paper-plane"></i>
                         Send Message

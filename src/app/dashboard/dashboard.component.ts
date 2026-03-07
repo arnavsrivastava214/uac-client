@@ -80,7 +80,7 @@ export class DashboardComponent implements OnInit {
     },
     {
       name: "Yuvraj Srivastava",
-      subject: "Chemistry",
+      subject: "Maths",
       experience: "4+ Years",
       bio: "Specialist in Maths with excellent teaching methodology.",
       image: "https://res.cloudinary.com/dmwn3mkzl/image/upload/f_auto,q_auto,w_400/v1772900084/uac-gallery/jloqymxgp6hq2kn2acfq.jpg"

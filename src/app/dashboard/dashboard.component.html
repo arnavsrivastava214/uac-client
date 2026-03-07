@@ -244,36 +244,80 @@
 </section>
 
 <!-- Services Section with Enhanced Cards -->
-<section id="services" class="py-20 bg-gray-50">
+<!-- Teachers Section -->
+<section id="teachers" class="py-20 bg-gray-50">
     <div class="container mx-auto px-6">
-        <div class="text-center mb-16 slide-up">
-            <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">Our Coaching Services</h2>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                Discover our comprehensive coaching programs designed to help you achieve your goals
-                and unlock your full potential.
-            </p>
-        </div>
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 services-grid">
-            <div *ngFor="let service of services; let i = index"
-                class="bg-white rounded-2xl p-8 shadow-lg card-hover bounce-in service-card"
-                [style.animation-delay]="(i * 0.2) + 's'">
-                <div class="mb-6">
-                    <div class="w-16 h-16 bg-gradient-to-r rounded-2xl flex items-center justify-center mb-4 service-gradient"
-                        [ngClass]="service.color">
-                        <i [class]="service.icon + ' text-white text-2xl'"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-3">{{service.title}}</h3>
-                    <p class="text-gray-600 leading-relaxed">{{service.description}}</p>
-                </div>
-                <button
-                    class="w-full bg-gray-100 text-gray-800 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white transition-all duration-300 ripple-btn">
-                    Learn More
-                </button>
+  
+      <!-- Heading -->
+      <div class="text-center mb-16">
+        <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
+          Meet Our Expert Teachers
+        </h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          Learn from experienced educators dedicated to guiding students toward
+          academic excellence and success.
+        </p>
+      </div>
+  
+      <!-- Teachers Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+  
+        <div *ngFor="let teacher of teachers; let i = index"
+          class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+  
+          <!-- Teacher Image -->
+          <div class="relative">
+            <img 
+            [src]="teacher.image"
+            class="w-full h-72 object-cover object-[50%_35%]">
+  
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+              <h3 class="text-white text-xl font-semibold">
+                {{teacher.name}}
+              </h3>
             </div>
+          </div>
+  
+          <!-- Teacher Details -->
+          <div class="p-6">
+  
+            <p class="text-sm text-purple-600 font-semibold mb-2">
+              {{teacher.subject}}
+            </p>
+  
+            <p class="text-gray-600 text-sm mb-4">
+              {{teacher.bio}}
+            </p>
+  
+            <!-- Experience -->
+            <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+              <span>
+                <i class="fas fa-award mr-2"></i>
+                {{teacher.experience}} Experience
+              </span>
+            </div>
+  
+            <!-- Social Icons -->
+            <div class="flex space-x-3">
+              <a href="#" class="text-gray-400 hover:text-blue-500 transition">
+                <i class="fab fa-facebook"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-blue-400 transition">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-pink-500 transition">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+  
+          </div>
+  
         </div>
+  
+      </div>
     </div>
-</section>
+  </section>
 
 <app-review></app-review>
 
@@ -282,7 +326,7 @@
     <div class="container mx-auto px-6">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div class="slide-up">
-                <img src="/placeholder.svg?height=600&width=600" alt="About Us" 
+                <img src="https://res.cloudinary.com/dmwn3mkzl/image/upload/f_auto,q_auto,w_400/v1772355675/uac-gallery/t3uuri5hbxtuxvtvpfj4.jpg" alt="About Us" 
                      class="rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-500">
             </div>
             <div class="slide-up" style="animation-delay: 0.3s;">
@@ -321,7 +365,7 @@
                 </div>
 
                 <button
-                    class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-lg transition-all duration-300 hover:scale-105 ripple-btn">
+                    class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-lg transition-all duration-300 hover:scale-105 ripple-btn" routerLink="/contact">
                     Schedule a Consultation
                 </button>
             </div>

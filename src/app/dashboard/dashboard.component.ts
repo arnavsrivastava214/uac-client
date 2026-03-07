@@ -29,10 +29,17 @@ interface Testimonial {
   content: string
   rating: number
 }
+interface Teacher {
+  name: string;
+  subject: string;
+  experience: string;
+  bio: string;
+  image: string;
+}
 
 @Component({
   selector: 'app-dashboard',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, NgClass, ReviewComponent, HeaderComponent, RouterLink, ReviewCarouselComponent, FooterComponent],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, ReviewComponent, HeaderComponent, RouterLink, ReviewCarouselComponent, FooterComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
@@ -54,31 +61,37 @@ export class DashboardComponent implements OnInit {
   hasPlayedGame: boolean = false;
 
 
-  services: Service[] = [
+
+  
+  teachers: Teacher[] = [
     {
-      icon: "fas fa-bullseye",
-      title: "Life Coaching",
-      description: "Transform your personal and professional life with personalized guidance and actionable strategies.",
-      color: "from-blue-500 to-purple-600",
+      name: "Sonu Srivastava (CEO & FOUNDER)",
+      subject: "Science",
+      experience: "9+",
+      bio: "Expert in advanced Science  helping students master concepts easily.",
+      image: "https://res.cloudinary.com/dmwn3mkzl/image/upload/f_auto,q_auto,w_400/v1772355678/uac-gallery/zprobm8lggd4rzrj1zk0.jpg"
     },
     {
-      icon: "fas fa-briefcase",
-      title: "Career Coaching",
-      description: "Accelerate your career growth and achieve your professional goals with expert mentorship.",
-      color: "from-green-500 to-teal-600",
+      name: "Narayan Mishra",
+      subject: "Maths",
+      experience: "6+ Years",
+      bio: "Passionate educator focusing on conceptual clarity.",
+      image: "https://res.cloudinary.com/dmwn3mkzl/image/upload/f_auto,q_auto,w_400/v1772900085/uac-gallery/zteeemgepcmdbcfxsao3.jpg"
     },
     {
-      icon: "fas fa-heart",
-      title: "Wellness Coaching",
-      description: "Develop healthy habits and achieve optimal well-being through holistic lifestyle changes.",
-      color: "from-pink-500 to-rose-600",
+      name: "Yuvraj Srivastava",
+      subject: "Chemistry",
+      experience: "4+ Years",
+      bio: "Specialist in Maths with excellent teaching methodology.",
+      image: "https://res.cloudinary.com/dmwn3mkzl/image/upload/f_auto,q_auto,w_400/v1772900084/uac-gallery/jloqymxgp6hq2kn2acfq.jpg"
     },
     {
-      icon: "fas fa-users",
-      title: "Team Coaching",
-      description: "Build high-performing teams and enhance collaboration in your organization.",
-      color: "from-orange-500 to-red-600",
-    },
+      name: "Prachi Tiwari",
+      subject: "Engliash",
+      experience: "11+ Years",
+      bio: "Helping students understand biology with practical examples.",
+      image: "https://res.cloudinary.com/dmwn3mkzl/image/upload/f_auto,q_auto,w_400/v1772900082/uac-gallery/w8tru843rjxmcdgrwias.jpg"
+    }
   ];
 
   stats: any = [

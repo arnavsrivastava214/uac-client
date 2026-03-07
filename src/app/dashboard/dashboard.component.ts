@@ -89,7 +89,7 @@ export class DashboardComponent implements OnInit {
       name: "Prachi Tiwari",
       subject: "English",
       experience: "11+ Years",
-      bio: "Helping students understand biology with practical examples.",
+      bio: "Helping students understand english with practical examples.",
       image: "https://res.cloudinary.com/dmwn3mkzl/image/upload/f_auto,q_auto,w_400/v1772900082/uac-gallery/w8tru843rjxmcdgrwias.jpg"
     }
   ];

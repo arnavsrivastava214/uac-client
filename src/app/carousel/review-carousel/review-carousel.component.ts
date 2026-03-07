@@ -1,23 +1,31 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { trigger, transition, style, animate } from '@angular/animations'; // Import animation modules
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { trigger, transition, style, animate } from '@angular/animations';
 import { ApplicationServiceService } from '../../services/application-service.service';
 import { AlertService } from '../../services/alert.service';
 
-interface Testimonial {
-  image: string;
+// Strongly typed interfaces
+export interface Testimonial {
+  id: number;
   name: string;
-  position: string;
-  content: string;
+  position: string;   // maps to course
+  content: string;     // maps to comment
   rating: number;
+  avatar?: string;     // optional – we generate initials
+}
+
+export interface ApiResponse {
+  status: number;
+  data?: any[];
+  message?: string;
 }
 
 @Component({
   selector: 'app-review-carousel',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './review-carousel.component.html',
-  styleUrl: './review-carousel.component.scss',
+  styleUrls: ['./review-carousel.component.scss'],
   animations: [
     trigger('slideAnimation', [
       transition(':increment', [
@@ -33,99 +41,160 @@ interface Testimonial {
         animate('500ms ease-in-out', style({ opacity: 1 }))
       ])
     ])
-  ]})
-export class ReviewCarouselComponent {
+  ]
+})
+export class ReviewCarouselComponent implements OnInit, OnDestroy {
+  // Data
+  testimonials: Testimonial[] = [];
+  currentIndex = 0;
 
+  // UI states
+  loading = false;
+  error = false;
+  autoSlideInterval: any;
+  autoSlideDelay = 5000; // 5 seconds
 
-  constructor(private service: ApplicationServiceService, private alert: AlertService) { }
+  // Pause on hover
+  hovered = false;
 
+  constructor(
+    private service: ApplicationServiceService,
+    private alert: AlertService
+  ) {}
 
-  ngOnInit() {
-    this.getAllReviews();
-    this.startAutoSlide();
-
-    
+  ngOnInit(): void {
+    this.fetchTestimonials();
   }
-
-  testimonials: Testimonial[] = []; 
-  currentTestimonialIndex: number = 0;
-  private intervalId: any;
-
-
 
   ngOnDestroy(): void {
     this.stopAutoSlide();
   }
 
-  // Helper to generate star icons based on rating
-  getStarArray(rating: number): number[] {
-    // Ensure rating is a number and within 0-5
-    const numRating = Math.max(0, Math.min(5, Math.floor(rating)));
-    return Array(numRating).fill(0);
-  }
+  // -------------------- Data fetching --------------------
+  fetchTestimonials(): void {
+    this.loading = true;
+    this.error = false;
 
-  getAllReviews(): void { // Changed to void as it handles the data internally
-    this.service.getAllReviews((res: any) => {
-      if (res.status === 200 && res.data && Array.isArray(res.data)) {
-        console.log("Fetched reviews:", res.data);
-
-        // Map the incoming data to your Testimonial interface
-        this.testimonials = res.data.map((review: any, index: number) => ({
-          image: this.generatePlaceholderImage(review.name, index), // Dynamic image based on name/index
+    this.service.getAllReviews((res: ApiResponse) => {
+      this.loading = false;
+      if (res?.status === 200 && Array.isArray(res.data)) {
+        this.testimonials = res.data.map((review: any, index) => ({
+          id: review.id || index,
           name: review.name,
-          position: review.course, // Map 'course' to 'position'
-          content: review.comment, // Map 'comment' to 'content'
-          rating: review.rating
+          position: review.course,          // map course to position
+          content: review.comment,           // map comment to content
+          rating: review.rating,
+          avatar: this.getInitialsAvatar(review.name) // generate avatar
         }));
 
-        // Start auto-slide ONLY if there are testimonials
         if (this.testimonials.length > 0) {
           this.startAutoSlide();
-        } else {
-          console.warn("No reviews found to display.");
         }
       } else {
-        console.error("Failed to fetch reviews or invalid data format:", res);
-        this.testimonials = []; // Clear testimonials on error
+        this.error = true;
+        this.alert.error('Failed to load testimonials. Please try again.');
       }
     });
   }
 
-  // Helper function to generate a placeholder image URL
-  generatePlaceholderImage(name: string, index: number): string {
-    const colors = ['FF5733', '33FF57', '3357FF', 'FF33CC', '57FF33', 'CC33FF'];
-    const initials = name.split(' ').map(n => n[0]).join('').toUpperCase();
-    const color = colors[index % colors.length];
-    return 'https://6671704.fs1.hubspotusercontent-eu1.net/hubfs/6671704/Page-001-7.jpg';
+  // Generate a simple initials‑based avatar (colored circle with initials)
+  private getInitialsAvatar(name: string): string {
+    const initials = name
+      .split(' ')
+      .map(part => part.charAt(0))
+      .join('')
+      .toUpperCase()
+      .slice(0, 2); // max 2 letters
+
+    // Use a simple data URI with SVG – no external image needed
+    const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6', '#f59e0b', '#ef4444'];
+    const colorIndex = (name.length + (this.testimonials.length || 0)) % colors.length;
+    const bgColor = colors[colorIndex];
+
+    return `data:image/svg+xml,%3Csvg xmlns='https://png.pngtree.com/png-vector/20190223/ourmid/pngtree-student-glyph-black-icon-png-image_691145.jpg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='${bgColor}'/%3E%3Ctext x='20' y='25' font-size='16' text-anchor='middle' fill='white' font-family='Arial, sans-serif' font-weight='bold'%3E${initials}%3C/text%3E%3C/svg%3E`;
   }
 
+  // -------------------- Carousel navigation --------------------
+  next(): void {
+    if (this.testimonials.length === 0) return;
+    this.currentIndex = (this.currentIndex + 1) % this.testimonials.length;
+  }
 
+  prev(): void {
+    if (this.testimonials.length === 0) return;
+    this.currentIndex = (this.currentIndex - 1 + this.testimonials.length) % this.testimonials.length;
+  }
+
+  goTo(index: number): void {
+    if (index >= 0 && index < this.testimonials.length && index !== this.currentIndex) {
+      this.currentIndex = index;
+      // Reset auto‑slide timer on manual navigation
+      this.stopAutoSlide();
+      this.startAutoSlide();
+    }
+  }
+
+  // -------------------- Auto‑slide with pause on hover --------------------
   startAutoSlide(): void {
-    // Only start if not already running and there are testimonials
-    if (!this.intervalId && this.testimonials.length > 0) {
-      this.intervalId = setInterval(() => {
-        this.nextTestimonial();
-      }, 3000); // Change every 3 seconds
+    if (this.autoSlideInterval) this.stopAutoSlide();
+    if (!this.hovered && this.testimonials.length > 1) {
+      this.autoSlideInterval = setInterval(() => this.next(), this.autoSlideDelay);
     }
   }
 
   stopAutoSlide(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-      this.intervalId = null; // Reset intervalId
+    if (this.autoSlideInterval) {
+      clearInterval(this.autoSlideInterval);
+      this.autoSlideInterval = null;
     }
   }
 
-  nextTestimonial(): void {
-    if (this.testimonials.length === 0) return; // Prevent errors if no testimonials
-    this.currentTestimonialIndex = (this.currentTestimonialIndex + 1) % this.testimonials.length;
+  @HostListener('mouseenter')
+  onMouseEnter(): void {
+    this.hovered = true;
+    this.stopAutoSlide();
   }
 
-  goToTestimonial(index: number): void {
-    if (this.currentTestimonialIndex !== index && index >= 0 && index < this.testimonials.length) {
-      this.currentTestimonialIndex = index;
-      this.stopAutoSlide();
-      this.startAutoSlide();
+  @HostListener('mouseleave')
+  onMouseLeave(): void {
+    this.hovered = false;
+    this.startAutoSlide();
+  }
+
+  // -------------------- Keyboard navigation for dots --------------------
+  onDotKeydown(event: KeyboardEvent, index: number): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.goTo(index);
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      this.next();
+      this.focusDotAfterNavigation();
+    } else if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      this.prev();
+      this.focusDotAfterNavigation();
     }
+  }
+
+  private focusDotAfterNavigation(): void {
+    // Allow the DOM to update, then focus the new active dot
+    setTimeout(() => {
+      const activeDot = document.querySelector('.dot.active') as HTMLElement;
+      activeDot?.focus();
+    }, 50);
+  }
+
+  // -------------------- Helper for star rating --------------------
+  getStarArray(rating: number): number[] {
+    const fullStars = Math.floor(Math.max(0, Math.min(5, rating)));
+    return Array(fullStars).fill(0);
+  }
+
+  // Helper for empty stars (to show gray ones)
+  getEmptyStarArray(rating: number): number[] {
+    const fullStars = Math.floor(Math.max(0, Math.min(5, rating)));
+    const emptyStars = 5 - fullStars;
+    return Array(emptyStars).fill(0);
   }
 }

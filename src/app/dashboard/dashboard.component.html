@@ -428,23 +428,49 @@
                       </div>
                   
                       <!-- Location -->
-                      <div class="flex items-start space-x-4 hover:bg-purple-50 p-3 rounded-xl transition-colors duration-300">
-                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                          <i class="fas fa-map-marker-alt text-purple-600 text-lg"></i>
+                      <div class="hover:bg-purple-50 p-4 rounded-xl transition-all duration-300">
+
+                        <div class="flex items-start space-x-4 mb-4">
+                      
+                          <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-map-marker-alt text-purple-600 text-lg"></i>
+                          </div>
+                      
+                          <div>
+                            <p class="text-sm font-semibold text-gray-700">Location</p>
+                      
+                            <p class="text-gray-800 text-sm break-words">
+                              📍 Our institute is located right <strong>behind V-Mart</strong>
+                            </p>
+                      
+                          </div>
+                      
                         </div>
-                        <div>
-                          <p class="text-sm font-semibold text-gray-700">Location</p>
-                          <p class="text-gray-800 text-sm break-words">
-                            📍 Our institute is located right <strong>behind V-Mart</strong> —<br />
-                            <a
-                              href="https://www.google.com/maps/place/UNSTOPPABLE+ACADEMIC+CLASSES/@26.2240609,81.2425932,448m"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              class="text-blue-600 font-medium underline hover:text-blue-800 transition-colors">
-                              Click here to view us on Google Maps
-                            </a>
-                          </p>
+                      
+                        <!-- Map -->
+                        <div class="rounded-xl overflow-hidden shadow-lg border">
+                          <iframe
+                            src="https://www.google.com/maps?q=26.2240609,81.2425932&z=15&output=embed"
+                            width="100%"
+                            height="250"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy">
+                          </iframe>
                         </div>
+                      
+                        <!-- Map link -->
+                        <div class="mt-3 text-sm">
+                          <a
+                            href="https://www.google.com/maps/place/UNSTOPPABLE+ACADEMIC+CLASSES/@26.2240609,81.2425932"
+                            target="_blank"
+                            class="text-blue-600 font-medium underline hover:text-blue-800 transition-colors">
+                      
+                            Open in Google Maps →
+                      
+                          </a>
+                        </div>
+                      
                       </div>
                     </div>
                 </div>

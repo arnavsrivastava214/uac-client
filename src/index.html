@@ -226,7 +226,29 @@
 <!-- ===== END LOADER ===== -->
 
 <!-- Your Angular root -->
-<app-root></app-root>
   <app-root></app-root>
+  <!-- Your Angular root -->
+<app-root></app-root>
+
+<script>
+  document.addEventListener('dblclick', function(e) {
+    e.preventDefault();
+  });
+
+  document.addEventListener('wheel', function(e) {
+    if (e.ctrlKey) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].includes(e.key)) {
+      e.preventDefault();
+    }
+  });
+</script>
+
+</body>
+</html>
 </body>
 </html>

@@ -280,17 +280,16 @@ export class TestScreenComponent implements OnInit, OnDestroy {
     };
 
     this.testDataService.submitTestAttempt(payload).subscribe({
-      next: (attempt: TestAttempt) => {
-        this.testDataService.setCurrentAttempt(attempt);
-        localStorage.removeItem(this.storageKey); 
+      next: (res: any) => {
+        this.testDataService.setCurrentAttempt(res.result);
+      
+        localStorage.removeItem(this.storageKey);
+      
         this.submitting = false;
+      
         window.onbeforeunload = null;
-        this.router.navigate(['/result', attempt.id]);
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Failed to submit test');
-        this.submitting = false;
+      
+        this.router.navigate(['/result', res.result.id]);
       },
     });
   }

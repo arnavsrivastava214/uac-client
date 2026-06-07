@@ -50,10 +50,9 @@ export class ResultScreenComponent implements OnInit {
 
     // ✅ 1) get result summary
     this.testDataService.getAttemptResult(this.attemptId).subscribe({
-      next: (res) => {
-        this.result = res;
-
-        // ✅ 2) get review (question + user answer + correct answer)
+      next: (res: any) => {
+        this.result = res.result;
+    
         this.loadReview();
       },
       error: (err) => {

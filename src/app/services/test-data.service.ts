@@ -122,10 +122,11 @@ export class TestDataService {
     return this.http.post<TestAttempt>(`${this.baseUrl}/attempts/${payload.attemptId}/submit`, payload);
   }
 
-  getAttemptResult(attemptId: number): Observable<TestAttempt> {
-    return this.http.get<TestAttempt>(`${this.baseUrl}/attempts/${attemptId}/result`);
+  getAttemptResult(attemptId: number): Observable<any> {
+    return this.http.get<any>(
+      `${this.baseUrl}/attempts/${attemptId}/result`
+    );
   }
-
   setSelectedTest(test: Test): void {
     this.selectedTest.next(test);
   }

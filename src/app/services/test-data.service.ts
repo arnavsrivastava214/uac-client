@@ -104,28 +104,37 @@ export class TestDataService {
     let params = new HttpParams()
       .set('class_id', classId)
       .set('subject_id', subjectId);
-  
+
     return this.http.get<Test[]>(`${this.baseUrl}/tests`, { params });
   }
-  startTestAttempt(testId: number, studentInfo?: { name?: string; phone?: any }): Observable<StartAttemptResponse> {
-    return this.http.post<StartAttemptResponse>(`${this.baseUrl}/tests/${testId}/start`, {
-      student_name: studentInfo?.name || null,
-      student_phone: studentInfo?.phone || null,
-    });
+  startTestAttempt(
+    testId: number,
+    studentInfo?: { name?: string; phone?: any }
+  ): Observable<StartAttemptResponse> {
+    return this.http.post<StartAttemptResponse>(
+      `${this.baseUrl}/tests/${testId}/start`,
+      {
+        student_name: studentInfo?.name || null,
+        student_phone: studentInfo?.phone || null,
+      }
+    );
   }
 
   getQuestionsForAttempt(attemptId: number): Observable<Question[]> {
-    return this.http.get<Question[]>(`${this.baseUrl}/attempts/${attemptId}/questions`);
+    return this.http.get<Question[]>(
+      `${this.baseUrl}/attempts/${attemptId}/questions`
+    );
   }
 
   submitTestAttempt(payload: SubmitPayload): Observable<TestAttempt> {
-    return this.http.post<TestAttempt>(`${this.baseUrl}/attempts/${payload.attemptId}/submit`, payload);
+    return this.http.post<TestAttempt>(
+      `${this.baseUrl}/attempts/${payload.attemptId}/submit`,
+      payload
+    );
   }
 
   getAttemptResult(attemptId: number): Observable<any> {
-    return this.http.get<any>(
-      `${this.baseUrl}/attempts/${attemptId}/result`
-    );
+    return this.http.get<any>(`${this.baseUrl}/attempts/${attemptId}/result`);
   }
   setSelectedTest(test: Test): void {
     this.selectedTest.next(test);
@@ -139,4 +148,3 @@ export class TestDataService {
     return this.http.get<any[]>(`${this.baseUrl}/attempts/${attemptId}/review`);
   }
 }
-

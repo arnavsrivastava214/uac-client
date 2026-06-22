@@ -39,6 +39,11 @@ export class BaseServiceService {
 'getLeaderboard': '/api/uac/memory-game/leaderboard',
 'uploadWinnerPhoto': '/api/uac/memory-game/winner/upload-photo',
 
+//battle routes
+'createBattleRoom': '/api/uac/battle/create-room',
+'generateBattleQuestions': '/api/uac/battle/generate-questions',
+
+
 
 
 

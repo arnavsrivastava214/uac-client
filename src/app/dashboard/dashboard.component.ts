@@ -142,6 +142,7 @@ export class DashboardComponent implements OnInit {
       subject: ["", [Validators.required]],
       message: ["", [Validators.required, Validators.minLength(10)]],
     });
+
   }
 
   ngOnInit() {

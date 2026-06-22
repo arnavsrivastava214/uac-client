@@ -1,66 +1,389 @@
+<!-- result-carousel.component.html -->
 <app-header></app-header>
 
-<section class="py-12 bg-gray-50" style="padding-top: 150px;">
-    <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-extrabold text-gray-900 text-center mb-10">Our Success Stories with Sonu Sir</h2>
+<!-- ========== HERO SECTION ========== -->
+<section class="relative overflow-hidden bg-gradient-to-br from-purple-900 via-indigo-800 to-blue-900 pt-32 pb-20 md:pt-40 md:pb-28">
+  <!-- Animated particles / blur effects -->
+  <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
+  <div class="absolute top-20 left-10 w-64 h-64 bg-purple-500 rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
+  <div class="absolute bottom-10 right-10 w-80 h-80 bg-blue-500 rounded-full filter blur-3xl opacity-20 animate-pulse delay-1000"></div>
   
-      <div class="relative w-full max-w-4xl mx-auto overflow-hidden rounded-lg shadow-xl h-96">
-        <div class="flex h-full transition-transform duration-500 ease-in-out"
+  <div class="container mx-auto px-4 relative z-10 text-center">
+    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 mb-6 border border-white/20">
+      <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+      <span class="text-white text-sm font-medium">500+ Students Selected in 2025</span>
+    </div>
+    <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4 tracking-tight animate-fade-in-up">
+      UAC Results <span class="bg-gradient-to-r from-yellow-400 to-pink-500 bg-clip-text text-transparent">2026</span>
+    </h1>
+    <p class="text-xl md:text-2xl text-purple-100 max-w-3xl mx-auto mb-8 animate-fade-in-up animation-delay-200">
+      Unstoppable Academic Classes – Where Dreams Become Selections
+    </p>
+    <div class="flex flex-wrap justify-center gap-4 animate-fade-in-up animation-delay-400">
+      <div class="bg-white/10 backdrop-blur-md rounded-2xl px-6 py-3 border border-white/20">
+        <div class="text-2xl font-bold text-white">95%</div>
+        <div class="text-sm text-purple-200">Success Rate</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-md rounded-2xl px-6 py-3 border border-white/20">
+        <div class="text-2xl font-bold text-white">1200+</div>
+        <div class="text-sm text-purple-200">Students Trained</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-md rounded-2xl px-6 py-3 border border-white/20">
+        <div class="text-2xl font-bold text-white">5+</div>
+        <div class="text-sm text-purple-200">Years Excellence</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Floating wave -->
+  <div class="absolute bottom-0 left-0 right-0">
+    <svg viewBox="0 0 1440 120" class="w-full h-auto text-gray-50 dark:text-gray-900" preserveAspectRatio="none">
+      <path fill="currentColor" d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,80C1120,85,1280,75,1360,69.3L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+    </svg>
+  </div>
+</section>
+
+<!-- ========== TOPPER CARDS SECTION ========== -->
+<section class="py-16 bg-gray-50 dark:bg-gray-900">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">🏆 Meet Our Toppers</h2>
+      <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Inspiring success stories from UAC's brightest stars</p>
+    </div>
+    
+    <!-- Horizontal scroll on mobile, grid on desktop -->
+    <div class="flex overflow-x-auto gap-6 pb-6 md:grid md:grid-cols-2 lg:grid-cols-4 md:overflow-visible snap-x snap-mandatory">
+      <div class="w-72 md:w-auto flex-shrink-0 snap-start bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 dark:border-gray-700">
+        <div class="relative h-48 bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+          <div class="absolute top-3 left-3 bg-yellow-400 text-gray-900 text-xs font-bold px-2 py-1 rounded-full">AIR 125</div>
+          <i class="fas fa-user-graduate text-6xl text-white opacity-80"></i>
+        </div>
+        <div class="p-5 text-center">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white">Rahul Sharma</h3>
+          <p class="text-purple-600 font-semibold mt-1">UP Police Constable</p>
+          <div class="mt-3 inline-block bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-semibold">Selected</div>
+        </div>
+      </div>
+      
+      <div class="w-72 md:w-auto flex-shrink-0 snap-start bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+        <div class="relative h-48 bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+          <div class="absolute top-3 left-3 bg-yellow-400 text-gray-900 text-xs font-bold px-2 py-1 rounded-full">AIR 89</div>
+          <i class="fas fa-chalkboard-user text-6xl text-white opacity-80"></i>
+        </div>
+        <div class="p-5 text-center">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white">Priya Verma</h3>
+          <p class="text-purple-600 font-semibold mt-1">SSC CGL</p>
+          <div class="mt-3 inline-block bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-semibold">Selected</div>
+        </div>
+      </div>
+      
+      <div class="w-72 md:w-auto flex-shrink-0 snap-start bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+        <div class="relative h-48 bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+          <div class="absolute top-3 left-3 bg-yellow-400 text-gray-900 text-xs font-bold px-2 py-1 rounded-full">AIR 210</div>
+          <i class="fas fa-train text-6xl text-white opacity-80"></i>
+        </div>
+        <div class="p-5 text-center">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white">Amit Singh</h3>
+          <p class="text-purple-600 font-semibold mt-1">Railway NTPC</p>
+          <div class="mt-3 inline-block bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-semibold">Selected</div>
+        </div>
+      </div>
+      
+      <div class="w-72 md:w-auto flex-shrink-0 snap-start bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+        <div class="relative h-48 bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+          <div class="absolute top-3 left-3 bg-yellow-400 text-gray-900 text-xs font-bold px-2 py-1 rounded-full">AIR 67</div>
+          <i class="fas fa-school text-6xl text-white opacity-80"></i>
+        </div>
+        <div class="p-5 text-center">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white">Neha Gupta</h3>
+          <p class="text-purple-600 font-semibold mt-1">UP Board Exam</p>
+          <div class="mt-3 inline-block bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-semibold">Selected</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SEARCH & FILTER SYSTEM ========== -->
+<section class="py-12 bg-white dark:bg-gray-900 sticky top-16 z-20 shadow-md backdrop-blur-md bg-white/90 dark:bg-gray-900/90">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <!-- Search Box -->
+      <div class="relative mb-6">
+        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        <input type="text" [(ngModel)]="searchQuery" (input)="filterResults()" placeholder="Search by name, roll no, course or year..." 
+               class="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-gray-800 dark:text-white">
+      </div>
+      
+      <!-- Filter Pills -->
+      <div class="flex flex-wrap gap-3 justify-center">
+        <button *ngFor="let filter of filters" (click)="setFilter(filter.value)" 
+                class="px-6 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105"
+                [class.bg-purple-600]="selectedFilter === filter.value"
+                [class.text-white]="selectedFilter === filter.value"
+                [class.bg-gray-200]="selectedFilter !== filter.value"
+                [class.text-gray-700]="selectedFilter !== filter.value"
+                [class.dark:bg-gray-700]="selectedFilter !== filter.value"
+                [class.dark:text-gray-200]="selectedFilter !== filter.value">
+          {{ filter.label }}
+        </button>
+      </div>
+    </div>
+    
+    <!-- Filtered Results Display -->
+    <div *ngIf="filteredStudents.length > 0" class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let student of filteredStudents" class="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 rounded-xl p-4 shadow-md border border-purple-100 dark:border-gray-700">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center">
+            <i class="fas fa-user-graduate text-purple-700"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-800 dark:text-white">{{ student.name }}</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">Roll: {{ student.rollNo }} | {{ student.course }}</p>
+            <p class="text-xs text-purple-600">{{ student.year }} • {{ student.exam }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="filteredStudents.length === 0 && searchQuery" class="text-center py-8 text-gray-500">No results found</div>
+  </div>
+</section>
+
+<!-- ========== RESULT GALLERY SECTION (Existing Carousel - Redesigned UI) ========== -->
+<section class="py-16 bg-gray-50 dark:bg-gray-800">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-4">📸 Selection Moments</h2>
+    <p class="text-center text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto">Glimpses of our students' success celebrations and achievements</p>
+    
+    <!-- Modern Carousel Container -->
+    <div class="relative w-full max-w-5xl mx-auto overflow-hidden rounded-2xl shadow-2xl bg-black/5 backdrop-blur-sm">
+      <div class="relative h-96 md:h-[500px]">
+        <div class="flex h-full transition-transform duration-500 ease-out"
              [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
           <ng-container *ngFor="let image of images; let i = index">
-            <div class="w-full flex-shrink-0 relative h-full bg-gray-200 flex items-center justify-center" (click)="openPreview(i)">
+            <div class="w-full flex-shrink-0 relative h-full bg-gradient-to-br from-gray-900 to-gray-700 flex items-center justify-center cursor-pointer group" (click)="openPreview(i)">
               <img [src]="image.src" [alt]="image.alt"
-                   class="max-w-full max-h-full object-contain cursor-pointer transform transition-transform duration-300 hover:scale-105"
-                   [ngClass]="{'animate-carousel-slide-next': i === currentIndex && !isPrev, 'animate-carousel-slide-prev': i === currentIndex && isPrev}">
-              <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 text-white text-lg font-semibold rounded-b-lg opacity-80">
-                {{ image.alt }}
+                   class="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-105 group-hover:brightness-110">
+              <!-- Premium Overlay Caption -->
+              <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/70 to-transparent p-5 text-white transform translate-y-0 transition-all">
+                <p class="text-lg font-semibold backdrop-blur-sm inline-block px-3 py-1 rounded-full bg-white/20">{{ image.alt }}</p>
               </div>
             </div>
           </ng-container>
         </div>
-  
-        <button (click)="prevImage()"
-                 class="absolute top-1/2 left-4 -translate-y-1/2 bg-white bg-opacity-70 text-gray-800 p-3 rounded-full shadow-lg hover:bg-opacity-90 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 z-10">
+        
+        <!-- Navigation Arrows (Modern) -->
+        <button (click)="prevImage()" class="absolute top-1/2 left-4 -translate-y-1/2 bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-white/40 transition-all duration-300 focus:outline-none z-10 w-12 h-12 flex items-center justify-center">
           <i class="fas fa-chevron-left text-xl"></i>
         </button>
-        <button (click)="nextImage()"
-                 class="absolute top-1/2 right-4 -translate-y-1/2 bg-white bg-opacity-70 text-gray-800 p-3 rounded-full shadow-lg hover:bg-opacity-90 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 z-10">
+        <button (click)="nextImage()" class="absolute top-1/2 right-4 -translate-y-1/2 bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-white/40 transition-all duration-300 focus:outline-none z-10 w-12 h-12 flex items-center justify-center">
           <i class="fas fa-chevron-right text-xl"></i>
         </button>
-  
-        <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2 z-10">
+        
+        <!-- Dot Indicators (Enhanced) -->
+        <div class="absolute bottom-5 left-0 right-0 flex justify-center gap-3 z-10">
           <span *ngFor="let image of images; let i = index"
-                class="w-3 h-3 rounded-full bg-white cursor-pointer transition-colors duration-300"
-                [ngClass]="{'bg-opacity-90': i === currentIndex, 'bg-opacity-50 hover:bg-opacity-70': i !== currentIndex}"
+                class="w-2 h-2 rounded-full transition-all duration-300 cursor-pointer"
+                [class.bg-white]="i === currentIndex"
+                [class.bg-white/50]="i !== currentIndex"
+                [class.w-6]="i === currentIndex"
                 (click)="goToImage(i)">
           </span>
         </div>
       </div>
     </div>
+  </div>
 </section>
-  
-<div *ngIf="showPreview"
-     class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4 animate-fade-in-scale">
-  <div class="relative max-w-5xl max-h-full mx-auto p-4 bg-gray-900 rounded-lg shadow-2xl flex flex-col items-center justify-center">
-  
-    <button (click)="closePreview()"
-             class="absolute top-4 right-4 bg-red-600 text-white p-2 rounded-full text-lg hover:bg-red-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 z-20">
+
+<!-- ========== STATISTICS SECTION (Animated Counters) ========== -->
+<section class="py-16 bg-gradient-to-r from-purple-700 to-indigo-800 text-white">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div class="stat-card" #statCard>
+        <i class="fas fa-users text-4xl mb-3 text-yellow-300"></i>
+        <div class="text-4xl md:text-5xl font-bold">{{ animatedStats.students }}</div>
+        <p class="text-purple-200 mt-2">Students Trained</p>
+      </div>
+      <div>
+        <i class="fas fa-chart-line text-4xl mb-3 text-yellow-300"></i>
+        <div class="text-4xl md:text-5xl font-bold">{{ animatedStats.successRate }}%</div>
+        <p class="text-purple-200 mt-2">Success Rate</p>
+      </div>
+      <div>
+        <i class="fas fa-calendar-alt text-4xl mb-3 text-yellow-300"></i>
+        <div class="text-4xl md:text-5xl font-bold">{{ animatedStats.experience }}+</div>
+        <p class="text-purple-200 mt-2">Years of Excellence</p>
+      </div>
+      <div>
+        <i class="fas fa-trophy text-4xl mb-3 text-yellow-300"></i>
+        <div class="text-4xl md:text-5xl font-bold">{{ animatedStats.selections }}+</div>
+        <p class="text-purple-200 mt-2">Selections</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TESTIMONIAL SECTION (Swipeable) ========== -->
+<section class="py-16 bg-gray-50 dark:bg-gray-900">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-12">💬 What Our Students Say</h2>
+    <div class="overflow-x-auto pb-6">
+      <div class="flex gap-6 snap-x snap-mandatory md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-visible">
+        <div class="w-80 md:w-auto flex-shrink-0 snap-start bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 transform transition-all hover:-translate-y-2">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center">
+              <i class="fas fa-user-circle text-3xl text-purple-600"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-800 dark:text-white">Anjali Mehta</h4>
+              <div class="flex text-yellow-400 text-sm">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-600 dark:text-gray-300 italic">"UAC changed my preparation strategy completely. Sonu Sir's guidance helped me crack SSC CGL in first attempt!"</p>
+          <p class="text-sm text-purple-600 mt-3 font-semibold">Selected - SSC CGL 2025</p>
+        </div>
+        <div class="w-80 md:w-auto flex-shrink-0 snap-start bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 transform transition-all hover:-translate-y-2">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center">
+              <i class="fas fa-user-circle text-3xl text-purple-600"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-800 dark:text-white">Vikash Yadav</h4>
+              <div class="flex text-yellow-400 text-sm"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            </div>
+          </div>
+          <p class="text-gray-600 dark:text-gray-300 italic">"The mock tests and personal mentorship at UAC are unmatched. I secured AIR 125 in UP Police."</p>
+          <p class="text-sm text-purple-600 mt-3 font-semibold">UP Police Constable</p>
+        </div>
+        <div class="w-80 md:w-auto flex-shrink-0 snap-start bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 transform transition-all hover:-translate-y-2">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center">
+              <i class="fas fa-user-circle text-3xl text-purple-600"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-800 dark:text-white">Komal Singh</h4>
+              <div class="flex text-yellow-400 text-sm"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+            </div>
+          </div>
+          <p class="text-gray-600 dark:text-gray-300 italic">"From failing to top 200 in Railway NTPC – UAC made it possible. Thank you Sonu Sir!"</p>
+          <p class="text-sm text-purple-600 mt-3 font-semibold">Railway NTPC Selected</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== VIDEO GALLERY SECTION (Responsive + Aspect Ratio Fix) ========== -->
+<section class="py-16 bg-white dark:bg-gray-800">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-4">🎥 Success Videos</h2>
+    <p class="text-center text-gray-600 dark:text-gray-300 mb-12">Watch inspiring journeys and preparation tips</p>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let video of videoGallery; let idx = index" 
+           class="group relative rounded-xl overflow-hidden shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+           (click)="openVideoModal(idx)">
+        <div class="relative aspect-video bg-black">
+          <img [src]="video.thumbnail" [alt]="video.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+          <div class="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-all">
+            <div class="w-16 h-16 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center">
+              <i class="fas fa-play text-white text-2xl ml-1"></i>
+            </div>
+          </div>
+          <div class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">{{ video.duration }}</div>
+        </div>
+        <div class="p-4 bg-gray-50 dark:bg-gray-900">
+          <h3 class="font-bold text-gray-800 dark:text-white">{{ video.title }}</h3>
+          <p class="text-sm text-gray-500">{{ video.studentName }} • {{ video.exam }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TIMELINE SECTION ========== -->
+<section class="py-16 bg-gray-50 dark:bg-gray-900">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-12">📅 Our Journey of Success</h2>
+    <div class="relative">
+      <!-- Desktop Vertical Line (hidden on mobile) -->
+      <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-purple-500 to-blue-500 hidden md:block"></div>
+      
+      <div class="flex flex-col md:grid md:grid-cols-2 gap-8">
+        <div class="text-right md:text-right p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg relative md:mr-8 transform transition-all hover:scale-105">
+          <div class="absolute right-0 top-1/2 w-4 h-4 bg-purple-600 rounded-full hidden md:block" style="right: -34px;"></div>
+          <h3 class="text-2xl font-bold text-purple-600">2023</h3>
+          <p class="text-gray-600 dark:text-gray-300">80+ Selections • Foundation year with outstanding results in UP Police & SSC</p>
+        </div>
+        <div class="text-left md:text-left p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg relative md:ml-8 transform transition-all hover:scale-105">
+          <div class="absolute left-0 top-1/2 w-4 h-4 bg-purple-600 rounded-full hidden md:block" style="left: -34px;"></div>
+          <h3 class="text-2xl font-bold text-purple-600">2024</h3>
+          <p class="text-gray-600 dark:text-gray-300">150+ Selections • Expanded courses, launched Railway & Banking batches</p>
+        </div>
+        <div class="text-right md:text-right p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg relative md:mr-8 transform transition-all hover:scale-105">
+          <div class="absolute right-0 top-1/2 w-4 h-4 bg-purple-600 rounded-full hidden md:block" style="right: -34px;"></div>
+          <h3 class="text-2xl font-bold text-purple-600">2025</h3>
+          <p class="text-gray-600 dark:text-gray-300">300+ Selections • 500+ students trained, 95% success rate milestone</p>
+        </div>
+        <div class="text-left md:text-left p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg relative md:ml-8 transform transition-all hover:scale-105">
+          <div class="absolute left-0 top-1/2 w-4 h-4 bg-purple-600 rounded-full hidden md:block" style="left: -34px;"></div>
+          <h3 class="text-2xl font-bold text-purple-600">2026</h3>
+          <p class="text-gray-600 dark:text-gray-300">Target 500+ Selections • Launching online live courses & all-India test series</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== DOWNLOAD & SHARE BUTTONS ========== -->
+<section class="py-12 bg-white dark:bg-gray-800">
+  <div class="container mx-auto px-4 text-center">
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <button (click)="downloadMeritList()" class="inline-flex items-center gap-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+        <i class="fas fa-download"></i> Download Merit List 2026
+      </button>
+      <button (click)="shareOnWhatsApp()" class="inline-flex items-center gap-3 bg-green-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+        <i class="fab fa-whatsapp"></i> Share Result on WhatsApp
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ========== IMAGE PREVIEW MODAL (Cinematic Upgrade) ========== -->
+<div *ngIf="showPreview" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fade-in-scale" (click)="closePreview()">
+  <div class="relative max-w-6xl max-h-full mx-auto bg-transparent" (click)="$event.stopPropagation()">
+    <button (click)="closePreview()" class="absolute -top-12 right-0 bg-red-600 text-white p-2 rounded-full text-lg hover:bg-red-700 transition z-20">
       <i class="fas fa-times"></i>
     </button>
-  
-    <img [src]="previewImageUrl" [alt]="images[previewImageIndex]?.alt"
-         class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-lg">
-    
+    <img [src]="previewImageUrl" [alt]="images[previewImageIndex]?.alt" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl">
     <p class="text-white text-center mt-4 text-xl font-semibold">{{ images[previewImageIndex]?.alt }}</p>
-  
-    <button (click)="prevPreviewImage()"
-             class="absolute top-1/2 left-4 -translate-y-1/2 bg-white bg-opacity-20 text-white p-3 rounded-full text-xl hover:bg-opacity-40 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white z-10">
+    <button (click)="prevPreviewImage()" class="absolute top-1/2 left-4 -translate-y-1/2 bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-white/40 transition">
       <i class="fas fa-chevron-left"></i>
     </button>
-    <button (click)="nextPreviewImage()"
-             class="absolute top-1/2 right-4 -translate-y-1/2 bg-white bg-opacity-20 text-white p-3 rounded-full text-xl hover:bg-opacity-40 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white z-10">
+    <button (click)="nextPreviewImage()" class="absolute top-1/2 right-4 -translate-y-1/2 bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-white/40 transition">
       <i class="fas fa-chevron-right"></i>
     </button>
+  </div>
+</div>
+
+<!-- ========== VIDEO MODAL (Responsive Aspect Ratio Fix) ========== -->
+<div *ngIf="showVideoModal" class="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fade-in-scale" (click)="closeVideoModal()">
+  <div class="relative w-full max-w-6xl mx-auto flex flex-col items-center justify-center" (click)="$event.stopPropagation()">
+    <button (click)="closeVideoModal()" class="absolute -top-12 right-0 bg-red-600 text-white p-2 rounded-full text-lg hover:bg-red-700 transition z-20">
+      <i class="fas fa-times"></i>
+    </button>
+    
+    <!-- Dynamic container that adapts to video aspect ratio -->
+    <div class="relative flex items-center justify-center w-full">
+      <video #videoPlayer [src]="currentVideoUrl" controls autoplay class="max-w-full max-h-[85vh] w-auto h-auto rounded-xl shadow-2xl" style="object-fit: contain;"></video>
+    </div>
+    
+    <div class="flex justify-center gap-4 mt-6">
+      <button (click)="prevVideo()" class="bg-white/20 backdrop-blur-md text-white px-5 py-2 rounded-full hover:bg-white/40 transition">Previous</button>
+      <button (click)="nextVideo()" class="bg-white/20 backdrop-blur-md text-white px-5 py-2 rounded-full hover:bg-white/40 transition">Next</button>
+    </div>
   </div>
 </div>
 

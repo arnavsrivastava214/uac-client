@@ -26,9 +26,7 @@ export const routes: Routes = [
   {
     path: 'result',
     loadComponent: () =>
-      import('./app-uac-results.component').then(
-        (m) => m.UacResultsComponent
-      ),
+      import('./app-uac-results.component').then((m) => m.UacResultsComponent),
   },
   {
     path: 'gallery',
@@ -75,17 +73,56 @@ export const routes: Routes = [
   {
     path: 'about',
     loadComponent: () =>
-      import('./about/about.component').then(
-        (m) => m.AboutComponent
-      ),
+      import('./about/about.component').then((m) => m.AboutComponent),
   },
   {
     path: 'posts',
     loadComponent: () =>
-      import('./post-feed.component').then(
-        (m) => m.PostFeedComponent
+      import('./post-feed.component').then((m) => m.PostFeedComponent),
+  },
+  {
+    path: 'battle/create',
+    loadComponent: () =>
+      import('./pages/create-room/create-room.component').then(
+        (m) => m.CreateRoomComponent
       ),
   },
+  {
+    path: 'battle/join',
+    loadComponent: () =>
+      import('./pages/join-room/join-room.component').then(
+        (m) => m.JoinRoomComponent
+      ),
+  },
+  {
+    path: 'battle/lobby/:roomCode',
+    loadComponent: () =>
+      import('./pages/waiting-lobby/waiting-lobby.component').then(
+        (m) => m.WaitingLobbyComponent
+      ),
+  },
+  {
+    path: 'battle/play/:roomCode',
+    loadComponent: () =>
+      import('./pages/battle-screen/battle-screen.component').then(
+        (m) => m.BattleScreenComponent
+      ),
+  },
+  {
+    path: 'battle/result/:roomCode',
+    loadComponent: () =>
+      import('./pages/result-screen/result-screen.component').then(
+        (m) => m.ResultScreenComponent
+      ),
+  },
+  {
+    path: 'battle/leaderboard',
+    loadComponent: () =>
+      import('./pages/leaderboard/leaderboard.component').then(
+        (m) => m.LeaderboardComponent
+      ),
+  },
+
   {
     path: 'admin',
     loadComponent: () =>
@@ -143,9 +180,9 @@ export const routes: Routes = [
         path: 'image-upload',
         canActivate: [adminGuard],
         loadComponent: () =>
-          import('./admin/result-images-upload/result-images-upload.component').then(
-            (m) => m.ResultImagesUploadComponent
-          ),
+          import(
+            './admin/result-images-upload/result-images-upload.component'
+          ).then((m) => m.ResultImagesUploadComponent),
       },
       {
         path: 'add-notes',
@@ -167,9 +204,9 @@ export const routes: Routes = [
         path: 'gallery-images',
         canActivate: [adminGuard],
         loadComponent: () =>
-          import('./admin/galler-image-upload/galler-image-upload.component').then(
-            (m) => m.GallerImageUploadComponent
-          ),
+          import(
+            './admin/galler-image-upload/galler-image-upload.component'
+          ).then((m) => m.GallerImageUploadComponent),
       },
     ],
   },

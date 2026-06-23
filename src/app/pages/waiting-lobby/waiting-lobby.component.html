@@ -1,1 +1,205 @@
-<p>waiting-lobby works!</p>
+<div class="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+
+    <div
+      class="w-full max-w-4xl bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-3xl shadow-2xl p-6 md:p-10">
+  
+      <!-- Header -->
+      <div class="text-center mb-10">
+  
+        <div
+          class="w-20 h-20 mx-auto rounded-full bg-indigo-600 flex items-center justify-center text-4xl mb-4 animate-pulse">
+  
+          ⚔️
+  
+        </div>
+  
+        <h1 class="text-3xl md:text-4xl font-bold text-white">
+          Battle Lobby UAC
+        </h1>
+  
+        <p class="text-slate-400 mt-2">
+          Waiting for players to join...
+        </p>
+  
+      </div>
+  
+      <!-- Room Code -->
+<div
+class="bg-slate-800 border border-slate-700 rounded-2xl p-5 mb-8">
+
+<p class="text-slate-400 text-sm mb-2">
+  ROOM CODE
+</p>
+
+<div class="flex items-center justify-between gap-3">
+
+  <h2
+    class="text-2xl md:text-4xl font-bold text-indigo-400 tracking-widest">
+
+    {{ roomCode }}
+
+  </h2>
+
+  <button
+    (click)="copyRoomCode()"
+    class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white transition">
+
+    Copy
+
+  </button>
+
+</div>
+
+<!-- Instruction -->
+<div
+  class="mt-4 p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
+
+  <p class="text-sm text-slate-300">
+    📢 Share this room code with your friend. Once they join the room,
+    the battle will start automatically.
+  </p>
+
+</div>
+
+</div>
+  
+      <!-- Players -->
+      <div
+        class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+  
+        <!-- You -->
+        <div
+          class="bg-slate-800 border border-green-500/30 rounded-2xl p-6 text-center">
+  
+          <div
+            class="w-20 h-20 rounded-full bg-green-600 flex items-center justify-center text-3xl mx-auto mb-4">
+  
+            👤
+  
+          </div>
+  
+          <h3 class="text-white font-semibold text-lg">
+            You
+          </h3>
+  
+          <span
+            class="inline-block mt-3 px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-sm">
+  
+            Connected
+  
+          </span>
+  
+        </div>
+  
+        <!-- VS -->
+        <div class="text-center">
+  
+          <div
+            class="text-4xl md:text-6xl font-extrabold text-red-500 animate-pulse">
+  
+            VS
+  
+          </div>
+  
+        </div>
+  
+        <!-- Opponent -->
+        <div
+          class="bg-slate-800 border border-slate-700 rounded-2xl p-6 text-center">
+  
+          <div
+            class="w-20 h-20 rounded-full flex items-center justify-center text-3xl mx-auto mb-4"
+            [ngClass]="playerJoined ? 'bg-red-600' : 'bg-slate-700'">
+  
+            {{ playerJoined ? '🔥' : '?' }}
+  
+          </div>
+  
+          <h3 class="text-white font-semibold text-lg">
+  
+            {{ opponent?.name || 'Waiting...' }}
+  
+          </h3>
+  
+          <span
+            class="inline-block mt-3 px-3 py-1 rounded-full text-sm"
+            [ngClass]="
+              playerJoined
+                ? 'bg-green-500/20 text-green-400'
+                : 'bg-yellow-500/20 text-yellow-400'
+            ">
+  
+            {{
+              playerJoined
+                ? 'Connected'
+                : 'Waiting'
+            }}
+  
+          </span>
+  
+        </div>
+  
+      </div>
+  
+      <!-- Waiting Section -->
+      <div
+        *ngIf="!playerJoined"
+        class="mt-10 text-center">
+  
+        <div
+          class="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-4">
+        </div>
+  
+        <h3 class="text-xl font-semibold text-white">
+          Waiting For Opponent...
+        </h3>
+  
+        <p class="text-slate-400 mt-2">
+          Share the room code with your friend.
+        </p>
+  
+      </div>
+  
+      <!-- Opponent Joined -->
+      <div
+        *ngIf="playerJoined && !battleStarting"
+        class="mt-10 text-center">
+  
+        <div class="text-6xl mb-3">
+          ✅
+        </div>
+  
+        <h3 class="text-2xl font-bold text-green-400">
+          Opponent Joined
+        </h3>
+  
+        <p class="text-slate-400 mt-2">
+          Battle starting shortly...
+        </p>
+  
+      </div>
+  
+      <!-- Countdown -->
+      <div
+        *ngIf="battleStarting"
+        class="mt-10 flex flex-col items-center">
+  
+        <h2
+          class="text-white text-2xl md:text-3xl font-bold mb-5">
+  
+          Battle Starts In
+  
+        </h2>
+  
+        <div
+          class="w-32 h-32 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center text-5xl font-bold text-white animate-pulse shadow-lg">
+  
+          {{ countdown }}
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  </div>

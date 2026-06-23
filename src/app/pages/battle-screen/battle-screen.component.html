@@ -1,1 +1,278 @@
-<p>battle-screen works!</p>
+<div class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-black p-4">
+
+    <div class="max-w-7xl mx-auto">
+  
+      <!-- Top Header -->
+      <div
+        class="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-3xl p-4 md:p-6 mb-6">
+  
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+  
+          <div>
+            <h1 class="text-white text-2xl md:text-3xl font-bold">
+              ⚔️ Battle Arena
+            </h1>
+  
+            <p class="text-slate-400 text-sm">
+                Room: {{ roomCode }}
+              </p>
+          </div>
+  
+          <div class="flex items-center gap-4">
+  
+            <div
+            class="w-16 h-16 rounded-full border-4 border-cyan-500 flex items-center justify-center text-white font-bold text-xl animate-pulse">
+          
+            {{ timer }}
+          
+          </div>
+  
+          <div
+          class="px-4 py-2 rounded-xl bg-cyan-500/20 text-cyan-400 font-semibold">
+        
+          Question {{ currentQuestionIndex + 1 }}
+          / {{ totalQuestions }}
+        
+        </div>
+  
+          </div>
+  
+        </div>
+  
+      </div>
+  
+      <!-- Players Section -->
+      <div class="grid md:grid-cols-3 gap-5 mb-6">
+  
+        <!-- Player -->
+        <div
+          class="bg-slate-900/80 backdrop-blur-xl border border-green-500/20 rounded-3xl p-6">
+  
+          <div class="flex items-center gap-4">
+  
+            <div
+              class="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center text-2xl">
+  
+              👤
+  
+            </div>
+  
+            <div>
+  
+              <h3 class="text-white font-bold">
+                You
+              </h3>
+  
+              <p class="text-green-400 text-sm">
+                Online
+              </p>
+  
+            </div>
+  
+          </div>
+  
+          <div class="mt-6">
+  
+            <div class="flex justify-between text-sm mb-2">
+                <div
+                class="h-full bg-green-500 rounded-full transition-all duration-500"
+                [style.width.%]="myHealth">
+              </div>
+  
+              <span class="text-white">
+                {{ myHealth }}%
+              </span>
+            </div>
+  
+            <div
+              class="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
+  
+              <div
+                class="h-full w-full bg-green-500 rounded-full">
+              </div>
+  
+            </div>
+  
+          </div>
+  
+          <div class="mt-5">
+  
+            <h2
+            class="text-4xl font-extrabold text-cyan-400">
+          
+            {{ myScore }}
+          
+          </h2>
+            <p class="text-slate-400">
+              Score
+            </p>
+  
+          </div>
+  
+        </div>
+  
+        <!-- VS -->
+        <div
+          class="flex items-center justify-center">
+  
+          <div
+            class="text-6xl md:text-8xl font-black text-red-500 animate-pulse">
+  
+            VS
+  
+          </div>
+  
+        </div>
+  
+        <!-- Opponent -->
+        <div
+          class="bg-slate-900/80 backdrop-blur-xl border border-red-500/20 rounded-3xl p-6">
+  
+          <div class="flex items-center gap-4">
+  
+            <div
+              class="w-16 h-16 rounded-full bg-red-500 flex items-center justify-center text-2xl">
+  
+              🔥
+  
+            </div>
+  
+            <div>
+  
+                <h3 class="text-white font-bold">
+                    {{ opponentName }}
+                  </h3>
+  
+              <p class="text-red-400 text-sm">
+                Online
+              </p>
+  
+            </div>
+  
+          </div>
+  
+          <div class="mt-6">
+  
+            <div class="flex justify-between text-sm mb-2">
+              <span class="text-slate-400">
+                Health
+              </span>
+  
+              <span class="text-white">
+                {{ opponentHealth }}%
+              </span>
+            </div>
+  
+            <div
+              class="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
+  
+              <div
+                class="h-full w-full bg-red-500 rounded-full">
+              </div>
+  
+            </div>
+  
+          </div>
+  
+          <div class="mt-5">
+  
+            <h2
+            class="text-4xl font-extrabold text-orange-400">
+          
+            {{ opponentScore }}
+          
+          </h2>
+            <p class="text-slate-400">
+              Score
+            </p>
+  
+          </div>
+  
+        </div>
+  
+      </div>
+  
+   <!-- Question Card -->
+<div
+class="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 md:p-8">
+
+<div
+  class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/20 text-cyan-400 text-sm font-medium mb-6">
+
+  📚 Current Question
+
+</div>
+
+<h2
+  class="text-white text-2xl md:text-3xl font-bold leading-relaxed mb-8">
+
+  {{ question?.question || 'Loading Question...' }}
+
+</h2>
+
+<div class="grid md:grid-cols-2 gap-4">
+
+  <button
+    *ngFor="
+      let option of question?.options;
+      let i = index
+    "
+    (click)="selectAnswer(option)"
+    class="group text-left p-5 rounded-2xl border transition-all duration-300"
+    [ngClass]="
+      selectedAnswer === option
+        ? 'border-cyan-500 bg-cyan-500/20 shadow-lg shadow-cyan-500/20'
+        : 'border-slate-700 bg-slate-800 hover:border-cyan-500 hover:bg-cyan-500/10'
+    ">
+
+    <div class="flex items-center gap-3">
+
+      <div
+        class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-cyan-400 font-bold">
+
+        {{ ['A','B','C','D'][i] }}
+
+      </div>
+
+      <span class="text-white text-lg">
+
+        {{ option }}
+
+      </span>
+
+    </div>
+
+  </button>
+
+</div>
+
+<div
+  class="mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+
+  <div
+    class="px-4 py-2 rounded-xl bg-yellow-500/10 text-yellow-400">
+
+    {{
+      selectedAnswer
+        ? '✅ Answer Selected'
+        : '⏳ Select Your Answer'
+    }}
+
+  </div>
+
+  <button
+    (click)="submitAnswer()"
+    [disabled]="!selectedAnswer"
+    class="px-8 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold transition-all duration-300">
+
+    🚀 Submit Answer
+
+  </button>
+
+</div>
+
+</div>
+  
+    </div>
+  
+  </div>

@@ -10,12 +10,18 @@ private socket!: Socket;
 
 connect() {
 
-this.socket = io(
-  'https://uac-server.onrender.com',
-  {
-    transports: ['websocket']
+  if (this.socket?.connected) {
+    return;
   }
-);
+  this.socket = io(
+    'https://uac-server.onrender.com'
+  );
+  this.socket.on('connect', () => {
+    console.log(
+      'SOCKET CONNECTED',
+      this.socket.id
+    );
+  });
 
 }
 
@@ -28,6 +34,7 @@ if (this.socket) {
 }
 
 createRoom(data: any) {
+  console.log('CREATE ROOM EMIT', data);
 
 this.socket.emit(
   'create-room',
@@ -37,6 +44,7 @@ this.socket.emit(
 }
 
 joinRoom(data: any) {
+  console.log('JOIN ROOM EMIT', data);
 
 this.socket.emit(
   'join-room',
@@ -64,19 +72,27 @@ this.socket.on(
 
 onPlayerJoined(callback: any) {
 
-this.socket.on(
-  'player-joined',
-  callback
-);
+  if (!this.socket) {
+    return;
+  }
+
+  this.socket.on(
+    'player-joined',
+    callback
+  );
 
 }
 
 onBattleStart(callback: any) {
 
-this.socket.on(
-  'battle-start',
-  callback
-);
+  if (!this.socket) {
+    return;
+  }
+
+  this.socket.on(
+    'battle-start',
+    callback
+  );
 
 }
 
@@ -91,10 +107,14 @@ this.socket.on(
 
 onError(callback: any) {
 
-this.socket.on(
-  'error-message',
-  callback
-);
+  if (!this.socket) {
+    return;
+  }
+
+  this.socket.on(
+    'error-message',
+    callback
+  );
 
 }
 

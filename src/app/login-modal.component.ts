@@ -14,10 +14,15 @@ import {
   FormGroup,
   FormsModule,
 } from '@angular/forms';
+import {
+  AfterViewInit,
+  } from '@angular/core';
+  
 import { finalize } from 'rxjs/operators';
 import { AdminPostService } from './services/admin-post.service';
 import { AuthService } from './services/auth.service';
 import { AlertService } from './services/alert.service';
+declare const google: any;
 
 @Component({
   selector: 'app-login-modal',
@@ -281,6 +286,7 @@ import { AlertService } from './services/alert.service';
                 >
                   Forgot password?
                 </button>
+                
               </div>
 
               <!-- Error Message -->
@@ -324,6 +330,8 @@ import { AlertService } from './services/alert.service';
                   }}
                 </span>
               </button>
+
+              <div id="googleSignInButton" class="w-full flex justify-center my-4"></div>
 
               <!-- Divider -->
               <div class="relative py-4">
@@ -593,6 +601,8 @@ import { AlertService } from './services/alert.service';
           </div>
         </div>
       </div>
+
+
     </div>
   `,
   styles: [
@@ -616,7 +626,7 @@ import { AlertService } from './services/alert.service';
     `,
   ],
 })
-export class LoginModalComponent implements OnInit {
+export class LoginModalComponent implements OnInit , AfterViewInit {
   private fb = inject(FormBuilder);
   private adminPostService = inject(AdminPostService);
   private authService = inject(AuthService);
@@ -656,6 +666,55 @@ export class LoginModalComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => this.isVisible.set(true), 10);
   }
+
+
+  ngAfterViewInit(): void {
+  
+  google.accounts.id.initialize({
+  client_id: '1007025228420-ec07pks65trcl12g4tcdtetkdlnkj1br.apps.googleusercontent.com',
+  callback: (response: any) => {
+
+    this.adminPostService.googleLogin({
+      idToken: response.credential
+    }).subscribe({
+  
+      next: (res) => {
+  
+        console.log(res);
+  
+        this.authService.login(res, true);
+  
+        this.alert.success("Google Login Success");
+  
+        this.success.emit();
+  
+        this.close();
+  
+      },
+  
+      error: (err) => {
+  
+        console.log(err);
+  
+        this.alert.error("Google Login Failed");
+  
+      }
+  
+    });
+  
+  }
+  });
+  
+  google.accounts.id.renderButton(
+  document.getElementById('googleSignInButton'),
+  {
+  theme: 'outline',
+  size: 'large',
+  width: 350
+  }
+  );
+  }
+  
 
   open(mode: 'login' | 'register' = 'login'): void {
     this.isLoginMode.set(mode === 'login');

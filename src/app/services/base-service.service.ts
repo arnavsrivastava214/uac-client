@@ -43,6 +43,9 @@ export class BaseServiceService {
 'createBattleRoom': '/api/uac/battle/create-room',
 'generateBattleQuestions': '/api/uac/battle/generate-questions',
 
+//google Login
+'googleLogin': '/api/uac/auth/students/google-login',
+
 
 
 

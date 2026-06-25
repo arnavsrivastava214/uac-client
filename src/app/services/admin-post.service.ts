@@ -213,4 +213,11 @@ deleteGalleryImage(id: string): Observable<void> {
     `${this.API_BASE}/api/admin/gallery/${id}`
   );
 }
+
+googleLogin(payload: { idToken: string }): Observable<AuthResponse> {
+  return this.http.post<AuthResponse>(
+    `${this.authBase}/students/google-login`,
+    payload
+  );
+}
 }

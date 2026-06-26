@@ -9,6 +9,7 @@ import { ApplicationServiceService } from '../services/application-service.servi
 import { AlertService } from '../services/alert.service';
 import { Subject } from 'rxjs';
 import { FooterComponent } from "../footer/footer.component";
+import { Meta, Title } from '@angular/platform-browser';
 
 interface Stat {
   number: any
@@ -130,11 +131,11 @@ export class DashboardComponent implements OnInit {
   
   constructor(
     private fb: FormBuilder,
-    private router: Router,
     private service: ApplicationServiceService,
     private alert: AlertService,
-    private appRef: ApplicationRef,
-    private ngZone: NgZone
+    private title1:Title,
+    private meta:Meta
+
   ) {
     this.contactForm = this.fb.group({
       name: ["", [Validators.required, Validators.minLength(2)]],
@@ -150,6 +151,15 @@ export class DashboardComponent implements OnInit {
     this.checkGameStatus();
     this.initScrollObserver();    // <-- new
     this.initIntersectionObserver(); // <-- new
+
+    this.title1.setTitle(
+      'Best Coaching in Raebareli | UAC Classes'
+    );
+    this.meta.updateTag({
+      name: 'description',
+      content:
+        'UAC Classes is one of the best coaching institutes in Raebareli for Class 1-12, JEE, NEET and competitive exam preparation with experienced teachers and quality education.'
+    });
   }
 
   // HostListener to track scroll

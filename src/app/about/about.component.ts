@@ -3,6 +3,7 @@ import { Component, HostListener } from '@angular/core';
 import { FooterComponent } from "../footer/footer.component";
 import { HeaderComponent } from '../headers/header/header.component';
 import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-about',
@@ -11,6 +12,8 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
   styleUrl: './about.component.scss'
 })
 export class AboutComponent {
+
+  
   features = [
     {
       id: 1,
@@ -77,13 +80,19 @@ export class AboutComponent {
   private isCounting = false;
   private animationCounters: { [key: number]: { startValue: number, targetValue: number, duration: number, startTime: number, isPercentage: boolean } } = {};
 
-  constructor(private router:Router) {}
+  constructor(private router:Router,private title:Title, private meta:Meta) {
+  }
 
   ngOnInit(): void {
     // Initial page load animation
     document.body.style.opacity = '0';
     document.body.style.transition = 'opacity 0.3s ease';
+      this.title.setTitle('About Us | UAC Classes');
     
+      this.meta.updateTag({
+        name: 'description',
+        content: 'Learn about UAC Classes, our mission, experienced teachers, and our commitment to helping students achieve academic success.'
+      });
     setTimeout(() => {
       document.body.style.opacity = '1';
     }, 100);

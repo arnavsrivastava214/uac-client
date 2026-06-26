@@ -1,5 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router';4
+
 export interface StudentAuthUser {
   id: number;
   name: string;
@@ -30,6 +31,9 @@ export class AuthService {
   private readonly TOKEN_KEY = 'coaching_auth';
   private readonly TOKEN_EXPIRY_DAYS = 7;
 
+
+
+showLoginModal = signal(false);
   // Public signals
   currentUser = computed(() => this.authData()?.user || null);
   isLoggedIn = computed(() => !!this.authData()?.access_token);

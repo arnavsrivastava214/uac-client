@@ -11,8 +11,10 @@ import {
   query, 
   stagger, 
   keyframes,
-  state 
 } from '@angular/animations';
+import { AuthService } from "../../services/auth.service";
+import { EventEmitter, Output } from '@angular/core';
+
 
 interface Breadcrumb {
   label: string;
@@ -75,9 +77,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   breadcrumbs: Breadcrumb[] = [];
   currentYear = new Date().getFullYear();
   
+  
   navItems: NavItem[] = [
     { id: 'home-link', route: '/', label: 'Home' },
-    { id: 'home-link', route: '/about', label: 'About' },
+    { id: 'about-link', route: '/about', label: 'About' },
     { id: 'blog-link', route: '/posts', label: 'Posts' },
     { id: 'notes-link', route: '/notes', label: 'Notes' },
     { id: 'gallery-link', route: '/gallery', label: 'Gallery' },
@@ -89,9 +92,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     { id: 'battle-link', route: '/battle/create', label: 'battle' },
   ];
   
+
+  
   private destroy$ = new Subject<void>();
 
-  constructor(private router: Router) {
+  constructor(private router: Router,   public authService: AuthService
+  ) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       takeUntil(this.destroy$)
@@ -113,6 +119,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isScrolled = window.scrollY > 10;
+  }
+
+
+  showLoginModal() {
+    this.authService.showLoginModal.set(true);
   }
 
   ngOnDestroy() {

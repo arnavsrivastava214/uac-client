@@ -48,6 +48,36 @@
           ></span>
         </a>
       </nav>
+      <div class="hidden md:flex items-center gap-3">
+
+        <ng-container *ngIf="authService.isLoggedIn(); else login">
+      
+          <div class="text-right">
+            <p class="font-semibold text-gray-900">
+              {{ authService.getUser()?.name }}
+            </p>
+            <p class="text-xs text-gray-500">Student</p>
+          </div>
+      
+          <button
+            (click)="authService.logout()"
+            class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100">
+            Logout
+          </button>
+      
+        </ng-container>
+      
+        <ng-template #login>
+      
+          <button
+            (click)="showLoginModal()"
+            class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Sign In
+          </button>
+      
+        </ng-template>
+      
+      </div>
 
       <!-- Mobile Menu Toggle with Animation -->
       <button 
@@ -151,7 +181,23 @@
             </div>
           </a>
         </div>
+        <div class="mt-4 border-t pt-4">
+
+          <button
+            *ngIf="!authService.isLoggedIn()"
+            (click)="showLoginModal(); closeMobileMenu()"
+            class="w-full py-3 bg-blue-600 text-white rounded-lg">
+            Sign In
+          </button>
         
+          <button
+            *ngIf="authService.isLoggedIn()"
+            (click)="authService.logout(); closeMobileMenu()"
+            class="w-full py-3 border rounded-lg">
+            Logout
+          </button>
+        
+        </div>
         <!-- Mobile Menu Footer -->
         <div class="mt-4 pt-4 border-t border-gray-100 animate-fadeIn delay-500">
           <div class="text-center text-sm text-gray-500">

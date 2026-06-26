@@ -8,18 +8,21 @@ import { PostCardComponent } from './post-card.component';
 import { PostCommentsSheetComponent } from './post-comments-sheet.component';
 import { LoginModalComponent } from './login-modal.component';
 import { FooterComponent } from "./footer/footer.component";
+import { HeaderComponent } from "./headers/header/header.component";
 
 @Component({
   selector: 'app-post-feed',
   standalone: true,
-  imports: [CommonModule, PostCardComponent, PostCommentsSheetComponent, LoginModalComponent, FooterComponent],
+  imports: [CommonModule, PostCardComponent, PostCommentsSheetComponent, LoginModalComponent, FooterComponent, HeaderComponent],
   template: `
     <!-- Main Container -->
- <!-- Main Container -->
-<!-- Main Container -->
 <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-  <!-- Header -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
+
+
+<app-header
+  (loginClicked)="showLoginModal()">
+</app-header>
+  <!-- <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
     <div class="container mx-auto px-4 sm:px-6 py-4">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
@@ -27,17 +30,17 @@ import { FooterComponent } from "./footer/footer.component";
             <span class="text-white font-bold text-2xl">C</span>
           </div>
           <div class="hidden sm:block">
-            <h1 class="text-2xl font-bold text-gray-900 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">UAC Hub</h1>
+            <h1 class="text-2xl font-bold text-gray-900 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">UAC Posts</h1>
             <p class="text-sm text-gray-600 mt-1">Learn, Grow, Succeed Together</p>
           </div>
           <div class="sm:hidden">
             <h1 class="text-xl font-bold text-gray-900">Coaching</h1>
-            <p class="text-xs text-gray-600">Hub</p>
+            <p class="text-xs text-gray-600">Institute</p>
           </div>
         </div>
         
-        <!-- Auth Section -->
-        <div class="flex items-center gap-3">
+        Auth Section -->
+        <!-- <div class="flex items-center gap-3">
           <div *ngIf="authService.isLoggedIn()" class="flex items-center gap-3">
             <div class="hidden sm:block text-right">
               <p class="font-semibold text-gray-900">{{ authService.getUser()?.name }}</p>
@@ -61,7 +64,7 @@ import { FooterComponent } from "./footer/footer.component";
         </div>
       </div>
     </div>
-  </header>
+  </header> --> 
 
   <!-- Main Content -->
   <main class="container mx-auto px-4 sm:px-6 py-8 md:py-12">
@@ -168,6 +171,9 @@ import { FooterComponent } from "./footer/footer.component";
     (triggerAuth)="showLoginModalForAction('comment')"
   ></app-post-comments-sheet>
 
+
+
+
   <app-login-modal
   *ngIf="showLoginModalFlag()"
   (closed)="hideLoginModal()"
@@ -222,6 +228,7 @@ export class PostFeedComponent implements OnInit, OnDestroy {
     postId?: number;
     callback?: () => void;
   } | null>(null);
+  
 
   constructor() {
     // Effect to handle auth success and retry pending actions
@@ -356,6 +363,8 @@ export class PostFeedComponent implements OnInit, OnDestroy {
   }
 
   showLoginModal(): void {
+    console.log('Parent Called');
+
     this.showLoginModalFlag.set(true);
   }
 
